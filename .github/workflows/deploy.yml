@@ -44,10 +44,10 @@ jobs:
     - name: add heroku as git remote
       run: heroku git:remote -a $HEROKU_APP_NAME
 
-    #- name: deploy project to heroku
-     # run: git push heroku HEAD:refs/heads/master
+    - name: deploy project to heroku
+      run: git push heroku HEAD:refs/heads/master
       
       # test
       
-    - name: test the project and upload test report -> sonarqube
-      run: ./gradlew test jacocoTestReport sonarqube --info
+    #- name: test the project and upload test report -> sonarqube
+      #run: ./gradlew test jacocoTestReport sonarqube --info
