@@ -44,8 +44,8 @@ jobs:
     - name: add heroku as git remote
       run: heroku git:remote -a $HEROKU_APP_NAME
 
-    - name: deploy project to heroku
-      run: git push heroku HEAD:refs/heads/master
+    #- name: deploy project to heroku
+     # run: git push heroku HEAD:refs/heads/master
       
       # test
       
