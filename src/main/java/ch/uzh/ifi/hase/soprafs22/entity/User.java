@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -36,9 +37,11 @@ public class User implements Serializable {
   @Column(nullable = false, unique = true)
   private String token;
 
+  @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
   @Column(nullable = true)
   private Date birthday;
 
+  @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
   @Column(nullable = true)
   private Date creationDate;
 

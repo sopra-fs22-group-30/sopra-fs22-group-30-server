@@ -74,7 +74,15 @@ public class UserController {
     }
 
     // logout
-
+    @PutMapping("/users/checking")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public UserGetDTO logoutUser(@PathVariable Long userId) {
+        User user = userService.getUserById(userId);
+        User logoutUser = userService.logoutUser(user);
+        UserGetDTO userDTO = DTOMapper.INSTANCE.convertEntityToUserGetDTO(logoutUser);
+        return userDTO;
+    }
 
 
 

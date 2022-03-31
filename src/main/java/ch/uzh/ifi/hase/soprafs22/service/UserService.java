@@ -99,7 +99,20 @@ public class UserService {
 
 
   // logout
+  public User getUserById(Long id) {
+      Optional<User> checkUser = userRepository.findById(id);
+      if (checkUser.isPresent()) {
+          return checkUser.get();
+      }
+      else {
+          throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user was not found");
+      }
+  }
 
+    public User logoutUser(User user) {
+        user.setToken(null);
+        return user;
+    }
 
 
 }
