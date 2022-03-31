@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -39,10 +40,9 @@ public class UserService {
     return this.userRepository.findAll();
   }
 
+  // register
   public User createUser(User newUser) {
     newUser.setToken(UUID.randomUUID().toString());
-    newUser.setStatus(UserStatus.OFFLINE);
-
     checkIfUserExists(newUser);
 
     // saves the given entity but data is only persisted in the database once
@@ -66,16 +66,43 @@ public class UserService {
    */
   private void checkIfUserExists(User userToBeCreated) {
     User userByUsername = userRepository.findByUsername(userToBeCreated.getUsername());
-    User userByName = userRepository.findByName(userToBeCreated.getName());
 
     String baseErrorMessage = "The %s provided %s not unique. Therefore, the user could not be created!";
-    if (userByUsername != null && userByName != null) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          String.format(baseErrorMessage, "username and the name", "are"));
-    } else if (userByUsername != null) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "username", "is"));
-    } else if (userByName != null) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "name", "is"));
+    if (userByUsername != null) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT,
+          String.format(baseErrorMessage, "username", "is"));
     }
   }
+
+  // login
+  public User loginUser(User user) {
+        user = checkIfPasswordWrong(user);
+        user.setToken(UUID.randomUUID().toString());
+
+        return user;
+  }
+
+  private User checkIfPasswordWrong(User userToBeLoggedIn) {
+
+      User userByUsername = userRepository.findByUsername(userToBeLoggedIn.getUsername());
+
+      if (userByUsername == null) {
+          throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Username may not exist!!");
+      }
+      else if (!userByUsername.getPassword().equals(userToBeLoggedIn.getPassword())) {
+          throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Password Incorrect!");
+      }
+      else {
+          return userByUsername;
+      }
+  }
+
+
+  // logout
+
+
+
 }
+
+
+

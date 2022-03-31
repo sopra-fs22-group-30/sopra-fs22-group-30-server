@@ -4,6 +4,8 @@ import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Internal User Representation
@@ -25,55 +27,77 @@ public class User implements Serializable {
   @GeneratedValue
   private Long id;
 
-  @Column(nullable = false)
-  private String name;
-
   @Column(nullable = false, unique = true)
   private String username;
+
+  @Column(nullable = false, unique = false)
+  private String password;
 
   @Column(nullable = false, unique = true)
   private String token;
 
-  @Column(nullable = false)
-  private UserStatus status;
+  @Column(nullable = true)
+  private Date birthday;
 
-  public Long getId() {
-    return id;
-  }
+  @Column(nullable = true)
+  private Date creationDate;
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+  @Column(nullable = true)
+  private String intro;
 
-  public String getName() {
-    return name;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-  public String getUsername() {
-    return username;
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-  public String getToken() {
-    return token;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public void setToken(String token) {
-    this.token = token;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public UserStatus getStatus() {
-    return status;
-  }
+    public String getToken() {
+        return token;
+    }
 
-  public void setStatus(UserStatus status) {
-    this.status = status;
-  }
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
+    }
 }
