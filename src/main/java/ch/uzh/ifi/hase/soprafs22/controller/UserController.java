@@ -28,6 +28,7 @@ public class UserController {
         this.userService = userService;
     }
 
+
     // test method (delete when complete)
     @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
@@ -36,6 +37,7 @@ public class UserController {
         // fetch all users in the internal representation
         List<User> users = userService.getUsers();
         List<UserGetDTO> userGetDTOs = new ArrayList<>();
+
 
         // convert each user to the API representation
         for (User user : users) {

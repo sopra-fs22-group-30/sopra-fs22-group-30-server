@@ -1,13 +1,22 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto;
 
+import ch.uzh.ifi.hase.soprafs22.constant.Gender;
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
 
 public class UserGetDTO {
 
   private Long id;
-  private String name;
   private String username;
-  private UserStatus status;
+  private String token;
+  @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
+  private Date birthday;
+  @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
+  private Date creationDate;
+  private String intro;
+  private Gender gender;
 
   public Long getId() {
     return id;
@@ -15,14 +24,6 @@ public class UserGetDTO {
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 
   public String getUsername() {
@@ -33,11 +34,43 @@ public class UserGetDTO {
     this.username = username;
   }
 
-  public UserStatus getStatus() {
-    return status;
-  }
+    public String getToken() {
+        return token;
+    }
 
-  public void setStatus(UserStatus status) {
-    this.status = status;
-  }
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 }
