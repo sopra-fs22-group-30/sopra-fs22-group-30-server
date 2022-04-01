@@ -49,7 +49,7 @@ public class User implements Serializable {
     @Column(nullable = true)
     private String intro;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Gender gender;
 
     public Long getId() {
