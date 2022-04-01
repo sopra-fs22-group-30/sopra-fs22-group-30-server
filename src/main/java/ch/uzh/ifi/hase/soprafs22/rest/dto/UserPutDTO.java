@@ -7,13 +7,14 @@ import java.util.Date;
 
 public class UserPutDTO {
     private Long id;
+
     private String username;
+    private String intro;
     private String token;
     @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
     private Date birthday;
     @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
     private Date creationDate;
-    private String intro;
     private Gender gender;
 
     public Long getId() {
@@ -30,6 +31,7 @@ public class UserPutDTO {
 
     public void setUsername(String username) {
         this.username = username;
+
     }
 
     public String getToken() {
