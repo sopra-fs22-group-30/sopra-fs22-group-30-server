@@ -1,18 +1,20 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto;
 
+import ch.uzh.ifi.hase.soprafs22.constant.Gender;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
 public class UserPutDTO {
     private Long id;
-
-    private String userName;
-
-    private String intro;
-
+    private String username;
+    private String token;
     @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
     private Date birthday;
+    @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
+    private Date creationDate;
+    private String intro;
+    private Gender gender;
 
     public Long getId() {
         return id;
@@ -22,12 +24,36 @@ public class UserPutDTO {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getIntro() {
@@ -38,12 +64,12 @@ public class UserPutDTO {
         this.intro = intro;
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public Gender getGender() {
+        return gender;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }
 

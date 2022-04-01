@@ -41,6 +41,7 @@ public class UserServiceIntegrationTest {
 
     User testUser = new User();
     testUser.setUsername("testUsername");
+    testUser.setPassword("testPassword");
 
     // when
     User createdUser = userService.createUser(testUser);
@@ -71,3 +72,5 @@ public class UserServiceIntegrationTest {
     assertThrows(ResponseStatusException.class, () -> userService.createUser(testUser2));
   }
 }
+
+
