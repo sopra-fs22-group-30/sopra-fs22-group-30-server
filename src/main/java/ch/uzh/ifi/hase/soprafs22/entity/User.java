@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
+import ch.uzh.ifi.hase.soprafs22.constant.Gender;
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -22,31 +23,34 @@ import java.util.List;
 @Table(name = "USER")
 public class User implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  @Id
-  @GeneratedValue
-  private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-  @Column(nullable = false, unique = true)
-  private String username;
+    @Column(nullable = false, unique = true)
+    private String username;
 
-  @Column(nullable = false, unique = false)
-  private String password;
+    @Column(nullable = false, unique = false)
+    private String password;
 
-  @Column(nullable = false, unique = true)
-  private String token;
+    @Column(nullable = false, unique = true)
+    private String token;
 
-  @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
-  @Column(nullable = true)
-  private Date birthday;
+    @JsonFormat(pattern = "yyyy-MM-dd", locale = "de_CH")
+    @Column(nullable = true)
+    private Date birthday;
 
-  @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
-  @Column(nullable = true)
-  private Date creationDate;
+    @JsonFormat(pattern = "yyyy-MM-dd", locale = "de_CH")
+    @Column(nullable = true)
+    private Date creationDate;
 
-  @Column(nullable = true)
-  private String intro;
+    @Column(nullable = true)
+    private String intro;
+
+    @Column(nullable = false)
+    private Gender gender;
 
     public Long getId() {
         return id;
@@ -102,5 +106,13 @@ public class User implements Serializable {
 
     public void setIntro(String intro) {
         this.intro = intro;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender){
+        this.gender = gender;
     }
 }
