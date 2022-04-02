@@ -10,10 +10,10 @@ public class UserPostDTO {
 
     private String password;
 
-    @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
+    @JsonFormat(pattern="dd.MM.yyyy", locale = "de_CH")
     private Date createDate;
 
-    @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
+    @JsonFormat(pattern="dd.MM.yyyy", locale = "de_CH")
     private Date birthday;
 
     public UserPostDTO() {

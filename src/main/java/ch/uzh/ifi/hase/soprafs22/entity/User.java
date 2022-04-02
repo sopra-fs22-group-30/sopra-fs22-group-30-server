@@ -38,11 +38,11 @@ public class User implements Serializable {
     @Column(nullable = false, unique = true)
     private String token;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", locale = "de_CH")
+    @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
     @Column(nullable = true)
     private Date birthday;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", locale = "de_CH")
+    @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
     @Column(nullable = true)
     private Date creationDate;
 

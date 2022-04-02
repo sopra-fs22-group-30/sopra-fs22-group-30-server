@@ -11,9 +11,9 @@ public class UserGetDTO {
     private Long id;
     private String username;
     private String token;
-    @JsonFormat(pattern = "yyyy-MM-dd", locale = "de_CH")
+    @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
     private Date birthday;
-    @JsonFormat(pattern = "yyyy-MM-dd", locale = "de_CH")
+    @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
     private Date creationDate;
     private String intro;
     private Gender gender;
