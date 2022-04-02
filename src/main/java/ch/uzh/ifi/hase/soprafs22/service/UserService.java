@@ -114,9 +114,8 @@ public class UserService {
         }
     }
 
-    public User logoutUser(User user) {
-        user.setToken(null);
-        return user;
+    public void logoutUser(User user) {
+        user.setToken("");
     }
 
 
