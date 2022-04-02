@@ -93,7 +93,8 @@ public class UserController {
     public void editUser(@PathVariable("userId") Long userId, @RequestBody UserPutDTO userPutDTO) {
 
         // updates the user identified by the given ID with the given data by the client
-        userService.editUser(userId, userPutDTO);
+        User userInput = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(userPutDTO);
+        userService.editUser(userInput);
 
     }
 

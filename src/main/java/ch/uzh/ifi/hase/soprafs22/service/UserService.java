@@ -129,36 +129,27 @@ public class UserService {
         }
     }
 
-    public void editUser(Long id, UserPutDTO userWithNewData) {
-        Optional<User> foundUser = userRepository.findById(id);
-        String baseErrorMessage = "User does not exit!";
-        if (foundUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, baseErrorMessage);
+    public void editUser(User userInput) {
+        if(!userRepository.existsById(userInput.getId())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user ID was not found");
         }
-        User user = foundUser.get();
+        User user = getUserById(userInput.getId());
 
         // edit username
-        if (userWithNewData.getUsername() != null) {
-            if (userRepository.findByUsername(userWithNewData.getUsername()) != null) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "The provided username is already taken. Please try a new one.");
-            }
-            user.setUsername(userWithNewData.getUsername());
+        User userToBeUpdated = getUserById(userInput.getId());
+        if (userInput.getUsername().equals(userToBeUpdated.getUsername())) {
+            userToBeUpdated.setBirthday(userInput.getBirthday());
+            user.setGender(userInput.getGender());
+            user.setIntro(userInput.getIntro());
+        } else if (userRepository.findByUsername(userInput.getUsername()) == null) {
+            userToBeUpdated.setUsername(userInput.getUsername());
+            userToBeUpdated.setBirthday(userInput.getBirthday());
+            user.setGender(userInput.getGender());
+            user.setIntro(userInput.getIntro());
+        } else {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "new username already exists");
         }
 
-        // edit birthday
-        if (userWithNewData.getBirthday() != null) {
-            user.setBirthday(userWithNewData.getBirthday());
-        }
-
-        //edit gender
-        if (userWithNewData.getGender() != null) {
-            user.setGender(transferGender(userWithNewData.getGender()));
-        }
-
-        //edit intro
-        if (userWithNewData.getIntro() != null) {
-            user.setIntro(userWithNewData.getIntro());
-        }
 
         userRepository.save(user);
         userRepository.flush();
