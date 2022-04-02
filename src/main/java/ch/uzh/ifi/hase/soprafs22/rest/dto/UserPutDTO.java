@@ -15,7 +15,7 @@ public class UserPutDTO {
     private Date birthday;
     @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
     private Date creationDate;
-    private Gender gender;
+    private String gender;
 
     public Long getId() {
         return id;
@@ -66,12 +66,9 @@ public class UserPutDTO {
         this.intro = intro;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
 }
 

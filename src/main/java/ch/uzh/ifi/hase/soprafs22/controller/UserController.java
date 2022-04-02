@@ -97,6 +97,15 @@ public class UserController {
 
     }
 
+    // fetch user profile
+    @GetMapping("/users/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public UserGetDTO userGetDTO (@PathVariable("userId") Long userId) {
+        User user = userService.getUserById(userId);
+        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
+    }
+
 }
 
 

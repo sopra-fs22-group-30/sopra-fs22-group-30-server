@@ -8,31 +8,31 @@ import java.util.Date;
 
 public class UserGetDTO {
 
-  private Long id;
-  private String username;
-  private String token;
-  @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
-  private Date birthday;
-  @JsonFormat(pattern="yyyy-MM-dd", locale = "de_CH")
-  private Date creationDate;
-  private String intro;
-  private Gender gender;
+    private Long id;
+    private String username;
+    private String token;
+    @JsonFormat(pattern = "yyyy-MM-dd", locale = "de_CH")
+    private Date birthday;
+    @JsonFormat(pattern = "yyyy-MM-dd", locale = "de_CH")
+    private Date creationDate;
+    private String intro;
+    private Gender gender;
 
-  public Long getId() {
-    return id;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-  public String getUsername() {
-    return username;
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getToken() {
         return token;

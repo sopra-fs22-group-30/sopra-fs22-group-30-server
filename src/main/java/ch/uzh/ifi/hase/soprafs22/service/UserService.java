@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
+import ch.uzh.ifi.hase.soprafs22.constant.Gender;
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
@@ -118,6 +119,15 @@ public class UserService {
         user.setToken("");
     }
 
+    public Gender transferGender(String gender) {
+        if (gender.equals("Male")) {
+            return Gender.Male;
+        } else if (gender.equals("Female")){
+            return Gender.Female;
+        } else {
+            return Gender.Others;
+        }
+    }
 
     public void editUser(Long id, UserPutDTO userWithNewData) {
         Optional<User> foundUser = userRepository.findById(id);
@@ -141,6 +151,9 @@ public class UserService {
         }
 
         //edit gender
+        if (userWithNewData.getGender() != null) {
+            user.setGender(transferGender(userWithNewData.getGender()));
+        }
 
         //edit intro
         if (userWithNewData.getIntro() != null) {
