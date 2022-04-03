@@ -3,14 +3,9 @@ package ch.uzh.ifi.hase.soprafs22.rest.dto.recipe;
 import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.util.Date;
 
 public class RecipePostDTO {
-
-    private Long recipeId;
 
     private String recipeName;
 
@@ -24,18 +19,9 @@ public class RecipePostDTO {
 
     private String content;
 
+    @JsonFormat(pattern="dd.MM.yyyy", locale = "de_CH")
     private Date creationDate;
 
-    public RecipePostDTO() {
-    }
-
-    public Long getRecipeId() {
-        return recipeId;
-    }
-
-    public void setRecipeId(Long recipeId) {
-        this.recipeId = recipeId;
-    }
 
     public String getRecipeName() {
         return recipeName;

@@ -26,7 +26,7 @@ import org.mapstruct.factory.Mappers;
 public interface DTOMapper {
 
   DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
-
+  // users
   @Mapping(source = "username", target = "username")
   @Mapping(source = "password", target = "password")
   User convertUserPostDTOtoEntity(UserPostDTO userPostDTO);
@@ -49,7 +49,8 @@ public interface DTOMapper {
   @Mapping(source = "gender", target = "gender")
   User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
 
-  @Mapping(source = "recipeId", target = "recipeId")
+  // recipes
+  @Mapping(target = "recipeId", ignore = true)
   @Mapping(source = "recipeName", target = "recipeName")
   @Mapping(source = "authorId", target = "authorId")
   @Mapping(source = "cuisine", target = "cuisine")

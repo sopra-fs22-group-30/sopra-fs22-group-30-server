@@ -35,5 +35,18 @@ public class RecipeService {
         return this.recipeRepository.findAll();
     }
 
+    // create new recipe
+    public Recipe createRecipe(Recipe newRecipe) {
+        // saves the given entity but data is only persisted in the database once
+        // flush() is called
+        newRecipe.setCreationDate(new Date());
+        newRecipe = recipeRepository.save(newRecipe);
+        recipeRepository.flush();
+
+        log.debug("Created Information for User: {}", newRecipe);
+        return newRecipe;
+    }
+
+
 
 }

@@ -5,21 +5,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-public class RecipeGetDTO {
+public class RecipeGetDTO{
+
     private Long recipeId;
-
     private String recipeName;
-
     private Long authorId;
-
     private Cuisine cuisine;
-
     private Long cost;
-
     private String ingredient;
-
     private String content;
-
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
     private Date creationDate;
 
