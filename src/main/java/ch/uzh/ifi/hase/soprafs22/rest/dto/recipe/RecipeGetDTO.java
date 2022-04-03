@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto.recipe;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
+import ch.uzh.ifi.hase.soprafs22.entity.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
@@ -16,6 +17,7 @@ public class RecipeGetDTO{
     private String content;
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
     private Date creationDate;
+    private User user;
 
     public Long getRecipeId() {
         return recipeId;
@@ -79,5 +81,13 @@ public class RecipeGetDTO{
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

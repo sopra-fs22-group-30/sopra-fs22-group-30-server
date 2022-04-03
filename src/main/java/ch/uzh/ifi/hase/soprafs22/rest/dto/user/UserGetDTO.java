@@ -2,9 +2,11 @@ package ch.uzh.ifi.hase.soprafs22.rest.dto.user;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Gender;
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
+import java.util.Set;
 
 public class UserGetDTO {
 
@@ -17,6 +19,7 @@ public class UserGetDTO {
     private Date creationDate;
     private String intro;
     private Gender gender;
+    private Set<Recipe> recipes;
 
     public Long getId() {
         return id;
@@ -72,5 +75,13 @@ public class UserGetDTO {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public Set<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(Set<Recipe> recipes) {
+        this.recipes = recipes;
     }
 }

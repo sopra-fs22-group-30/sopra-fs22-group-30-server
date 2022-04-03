@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "RECIPE")
@@ -15,7 +16,7 @@ public class Recipe implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
     private Long recipeId;
 
     @Column(nullable = false, unique = false)
@@ -39,6 +40,10 @@ public class Recipe implements Serializable {
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
     @Column(nullable = true)
     private Date creationDate;
+
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", referencedColumnName = "id")
+    private User user;
 
     public String getRecipeName() {
         return recipeName;
@@ -102,5 +107,14 @@ public class Recipe implements Serializable {
 
     public void setRecipeId(Long recipeId) {
         this.recipeId = recipeId;
+    }
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
