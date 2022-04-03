@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs22.rest.dto;
+package ch.uzh.ifi.hase.soprafs22.rest.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
