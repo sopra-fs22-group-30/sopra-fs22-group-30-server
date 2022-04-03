@@ -159,7 +159,7 @@ public class UserControllerTest {
         userPutDTO.setId(1L);
         userPutDTO.setUsername("New Name");
 
-        doNothing().when(userService).editUser(anyLong(), Mockito.any());
+        doNothing().when(userService).editUser(Mockito.any());
 
         MockHttpServletRequestBuilder putRequest = put("/users/" + oldUser.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -184,7 +184,7 @@ public class UserControllerTest {
 
         doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND))
                 .when(userService)
-                .editUser(anyLong(), Mockito.any());
+                .editUser(Mockito.any());
 
         // when/then -> do the request + validate the result
         MockHttpServletRequestBuilder putRequest = put("/users/5")
