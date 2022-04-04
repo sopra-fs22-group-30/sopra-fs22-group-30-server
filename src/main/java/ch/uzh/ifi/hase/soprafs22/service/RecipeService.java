@@ -39,8 +39,7 @@ public class RecipeService {
         // saves the given entity but data is only persisted in the database once
         // flush() is called
         newRecipe.setCreationDate(new Date());
-        Optional<User> author = userRepository.findById(newRecipe.getAuthorId());
-        newRecipe.setUser(author.get());
+//        Optional<User> author = userRepository.findById(newRecipe.getAuthorId());
         newRecipe = recipeRepository.save(newRecipe);
         recipeRepository.flush();
 

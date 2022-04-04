@@ -53,7 +53,7 @@ public class User implements Serializable {
     @Column(nullable = true)
     private Gender gender;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "authorId")
     private Set<Recipe> recipes;
 
     public Long getId() {
@@ -128,13 +128,4 @@ public class User implements Serializable {
         this.recipes = recipes;
     }
 
-    public void addRecipe(Recipe recipe) {
-        this.recipes.add(recipe);
-        recipe.setUser(this);
-    }
-
-    public void removeRecipe(Recipe recipe) {
-        this.recipes.remove(recipe);
-        recipe.setUser(this);
-    }
 }

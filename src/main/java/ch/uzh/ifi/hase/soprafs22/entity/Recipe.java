@@ -41,10 +41,6 @@ public class Recipe implements Serializable {
     @Column(nullable = true)
     private Date creationDate;
 
-    @ManyToOne
-    @JoinColumn(name = "USER_ID", referencedColumnName = "id")
-    private User user;
-
     public String getRecipeName() {
         return recipeName;
     }
@@ -109,12 +105,4 @@ public class Recipe implements Serializable {
         this.recipeId = recipeId;
     }
 
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
