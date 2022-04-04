@@ -37,6 +37,17 @@ public class RecipeController {
         }
         return recipeGetDTOs;
     }
+
+    // get one recipe
+    @GetMapping("/recipes/{recipeId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public RecipeGetDTO recipeGetDTO (@PathVariable("recipeId") Long recipeId) {
+        Recipe recipe = recipeService.getRecipeById(recipeId);
+        return DTOMapper.INSTANCE.convertEntityToRecipeGetDTO(recipe);
+    }
+
+
     // create new recipe
     @PostMapping("/recipes")
     @ResponseStatus(HttpStatus.CREATED)
@@ -51,5 +62,15 @@ public class RecipeController {
         // convert internal representation of user back to API
         return DTOMapper.INSTANCE.convertEntityToRecipeGetDTO(createdRecipe);
     }
+
+
+    // delete own recipe
+    @DeleteMapping("/users/{userId}/recipes/{recipeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void deleteRecipe(@PathVariable Long userId, @PathVariable Long recipeId) {
+        recipeService.deleteRecipe(userId, recipeId);
+    }
+
 }
 

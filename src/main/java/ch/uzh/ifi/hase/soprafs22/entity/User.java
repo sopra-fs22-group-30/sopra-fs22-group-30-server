@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Internal User Representation
@@ -51,6 +52,9 @@ public class User implements Serializable {
 
     @Column(nullable = true)
     private Gender gender;
+
+    @OneToMany(mappedBy = "authorId")
+    private Set<Recipe> recipes;
 
     public Long getId() {
         return id;
@@ -115,4 +119,13 @@ public class User implements Serializable {
     public void setGender(Gender gender){
         this.gender = gender;
     }
+
+    public Set<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(Set<Recipe> recipes) {
+        this.recipes = recipes;
+    }
+
 }

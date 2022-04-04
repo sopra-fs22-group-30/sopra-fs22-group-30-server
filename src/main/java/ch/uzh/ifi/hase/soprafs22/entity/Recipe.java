@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Duration;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "RECIPE")
@@ -15,7 +17,7 @@ public class Recipe implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
     private Long recipeId;
 
     @Column(nullable = false, unique = false)
@@ -33,12 +35,25 @@ public class Recipe implements Serializable {
     @Column(nullable = false, unique = false)
     private String ingredient;
 
+
+    @Column
+    private Duration timeConsumed;
+
+    @Column
+    private  String pictureLocation;
+
     @Column(nullable = false, unique = false)
     private String content;
 
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
     @Column(nullable = true)
     private Date creationDate;
+
+    @Column(nullable = false)
+    private Long likeNum;
+
+
+
 
     public String getRecipeName() {
         return recipeName;
@@ -102,5 +117,29 @@ public class Recipe implements Serializable {
 
     public void setRecipeId(Long recipeId) {
         this.recipeId = recipeId;
+    }
+
+    public Duration getTimeConsumed() {
+        return timeConsumed;
+    }
+
+    public void setTimeConsumed(Duration timeConsumed) {
+        this.timeConsumed = timeConsumed;
+    }
+
+    public String getPictureLocation() {
+        return pictureLocation;
+    }
+
+    public void setPictureLocation(String pictureLocation) {
+        this.pictureLocation = pictureLocation;
+    }
+
+    public Long getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(Long likeNum) {
+        this.likeNum = likeNum;
     }
 }

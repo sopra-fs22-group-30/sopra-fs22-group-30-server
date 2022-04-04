@@ -1,8 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto.recipe;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
+import ch.uzh.ifi.hase.soprafs22.entity.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.time.Duration;
 import java.util.Date;
 
 public class RecipeGetDTO{
@@ -12,10 +14,13 @@ public class RecipeGetDTO{
     private Long authorId;
     private Cuisine cuisine;
     private Long cost;
+    private Duration timeConsumed;
+    private String pictureLocation;
     private String ingredient;
     private String content;
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
     private Date creationDate;
+    private Long likesNum;
 
     public Long getRecipeId() {
         return recipeId;
@@ -79,5 +84,29 @@ public class RecipeGetDTO{
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Duration getTimeConsumed() {
+        return timeConsumed;
+    }
+
+    public void setTimeConsumed(Duration timeConsumed) {
+        this.timeConsumed = timeConsumed;
+    }
+
+    public String getPictureLocation() {
+        return pictureLocation;
+    }
+
+    public void setPictureLocation(String pictureLocation) {
+        this.pictureLocation = pictureLocation;
+    }
+
+    public Long getLikesNum() {
+        return likesNum;
+    }
+
+    public void setLikesNum(Long likesNum) {
+        this.likesNum = likesNum;
     }
 }
