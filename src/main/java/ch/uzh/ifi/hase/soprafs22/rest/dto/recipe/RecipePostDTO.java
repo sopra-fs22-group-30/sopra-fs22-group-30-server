@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs22.rest.dto.recipe;
 import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.time.Duration;
 import java.util.Date;
 
 public class RecipePostDTO {
@@ -16,6 +17,8 @@ public class RecipePostDTO {
     private Long cost;
 
     private String ingredient;
+
+    private Duration timeConsumed;
 
     private String content;
 
@@ -77,5 +80,13 @@ public class RecipePostDTO {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Duration getTimeConsumed() {
+        return timeConsumed;
+    }
+
+    public void setTimeConsumed(Duration timeConsumed) {
+        this.timeConsumed = timeConsumed;
     }
 }

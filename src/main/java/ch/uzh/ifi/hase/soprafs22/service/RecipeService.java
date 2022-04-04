@@ -42,6 +42,7 @@ public class RecipeService {
         // flush() is called
         newRecipe.setCreationDate(new Date());
 //        Optional<User> author = userRepository.findById(newRecipe.getAuthorId());
+        newRecipe.setLikeNum(0L);
         newRecipe = recipeRepository.save(newRecipe);
         recipeRepository.flush();
 
