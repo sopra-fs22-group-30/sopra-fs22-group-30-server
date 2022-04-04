@@ -61,6 +61,24 @@ public class RecipeService {
         }
     }
 
+    // delete own recipe
+    public void deleteRecipe(Long userId, Long recipeId) {
+        Optional<Recipe> checkRecipe = recipeRepository.findById(recipeId);
+        if (checkRecipe.isPresent()) {
+            Long authorId = checkRecipe.get().getAuthorId();
+            if (userId != authorId) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Fail to delete this recipe because the user is not the author");
+            }
+            else{
+                recipeRepository.deleteById(recipeId);
+            }
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User was not found!");
+        }
+
+
+    }
 
 
 }

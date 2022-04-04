@@ -1,10 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
-import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.RecipeService;
 import org.springframework.http.HttpStatus;
@@ -64,5 +62,15 @@ public class RecipeController {
         // convert internal representation of user back to API
         return DTOMapper.INSTANCE.convertEntityToRecipeGetDTO(createdRecipe);
     }
+
+
+    // delete own recipe
+    @DeleteMapping("/users/{userId}/recipes/{recipeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void deleteRecipe(@PathVariable Long userId, @PathVariable Long recipeId) {
+        recipeService.deleteRecipe(userId, recipeId);
+    }
+
 }
 
