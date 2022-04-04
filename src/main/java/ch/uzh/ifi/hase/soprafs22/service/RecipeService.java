@@ -9,8 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.List;
@@ -45,6 +47,17 @@ public class RecipeService {
 
         log.debug("Created Information for User: {}", newRecipe);
         return newRecipe;
+    }
+
+    // get recipe by id
+    public Recipe getRecipeById(Long recipeId) {
+        Optional<Recipe> checkRecipe = recipeRepository.findById(recipeId);
+        if (checkRecipe.isPresent()) {
+            return checkRecipe.get();
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe was not found!");
+        }
     }
 
 

@@ -1,8 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
+import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.RecipeService;
 import org.springframework.http.HttpStatus;
@@ -37,6 +39,17 @@ public class RecipeController {
         }
         return recipeGetDTOs;
     }
+
+    // get one recipe
+    @GetMapping("/recipes/{recipeId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public RecipeGetDTO recipeGetDTO (@PathVariable("recipeId") Long recipeId) {
+        Recipe recipe = recipeService.getRecipeById(recipeId);
+        return DTOMapper.INSTANCE.convertEntityToRecipeGetDTO(recipe);
+    }
+
+
     // create new recipe
     @PostMapping("/recipes")
     @ResponseStatus(HttpStatus.CREATED)
