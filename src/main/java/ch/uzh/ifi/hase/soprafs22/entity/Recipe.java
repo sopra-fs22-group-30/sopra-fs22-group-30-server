@@ -37,7 +37,7 @@ public class Recipe implements Serializable {
 
 
     @Column
-    private Duration timeConsumed;
+    private Long timeConsumed;
 
     @Column
     private  String pictureLocation;
@@ -119,11 +119,11 @@ public class Recipe implements Serializable {
         this.recipeId = recipeId;
     }
 
-    public Duration getTimeConsumed() {
+    public Long getTimeConsumed() {
         return timeConsumed;
     }
 
-    public void setTimeConsumed(Duration timeConsumed) {
+    public void setTimeConsumed(Long timeConsumed) {
         this.timeConsumed = timeConsumed;
     }
 

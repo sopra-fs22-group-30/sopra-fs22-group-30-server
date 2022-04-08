@@ -18,7 +18,7 @@ public class RecipePostDTO {
 
     private String ingredient;
 
-    private Duration timeConsumed;
+    private Long timeConsumed;
 
     private String content;
 
@@ -82,11 +82,11 @@ public class RecipePostDTO {
         this.creationDate = creationDate;
     }
 
-    public Duration getTimeConsumed() {
+    public Long getTimeConsumed() {
         return timeConsumed;
     }
 
-    public void setTimeConsumed(Duration timeConsumed) {
+    public void setTimeConsumed(Long timeConsumed) {
         this.timeConsumed = timeConsumed;
     }
 }

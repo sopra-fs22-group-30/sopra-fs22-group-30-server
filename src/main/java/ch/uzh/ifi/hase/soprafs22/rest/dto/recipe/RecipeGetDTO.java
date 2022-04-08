@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto.recipe;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
-import ch.uzh.ifi.hase.soprafs22.entity.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.Duration;
@@ -14,7 +13,7 @@ public class RecipeGetDTO{
     private Long authorId;
     private Cuisine cuisine;
     private Long cost;
-    private Duration timeConsumed;
+    private Long timeConsumed;
     private String pictureLocation;
     private String ingredient;
     private String content;
@@ -86,11 +85,11 @@ public class RecipeGetDTO{
         this.creationDate = creationDate;
     }
 
-    public Duration getTimeConsumed() {
+    public Long getTimeConsumed() {
         return timeConsumed;
     }
 
-    public void setTimeConsumed(Duration timeConsumed) {
+    public void setTimeConsumed(Long timeConsumed) {
         this.timeConsumed = timeConsumed;
     }
 
