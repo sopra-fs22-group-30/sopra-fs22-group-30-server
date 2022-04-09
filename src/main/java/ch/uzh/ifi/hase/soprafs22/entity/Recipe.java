@@ -35,12 +35,6 @@ public class Recipe implements Serializable {
     @Column(nullable = false, unique = false)
     private Long cost;
 
-
-
-//    @Column(nullable = false, unique = false)
-//    @ElementCollection(targetClass = Ingredient.class)
-////    private String ingredient;
-//    private List<String> ingredients;
     @OneToMany(mappedBy = "name")
     private List<Ingredient> ingredients;
 
@@ -61,7 +55,7 @@ public class Recipe implements Serializable {
     private Date creationDate;
 
     @Column(nullable = false)
-    private Long likeNum;
+    private Long likesNum;
 
     public Recipe() {
     }
@@ -139,13 +133,6 @@ public class Recipe implements Serializable {
         this.pictureLocation = pictureLocation;
     }
 
-    public Long getLikeNum() {
-        return likeNum;
-    }
-
-    public void setLikeNum(Long likeNum) {
-        this.likeNum = likeNum;
-    }
 
     public Integer getPortion() {
         return portion;
@@ -162,5 +149,13 @@ public class Recipe implements Serializable {
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public Long getLikesNum() {
+        return likesNum;
+    }
+
+    public void setLikesNum(Long likesNum) {
+        this.likesNum = likesNum;
     }
 }

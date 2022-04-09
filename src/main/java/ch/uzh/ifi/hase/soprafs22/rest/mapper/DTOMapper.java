@@ -62,6 +62,7 @@ public interface DTOMapper {
   @Mapping(source = "content", target = "content")
   @Mapping(source = "creationDate", target = "creationDate")
   @Mapping(source = "portion", target = "portion")
+  @Mapping(source = "likesNum", target = "likesNum")
   Recipe convertRecipePostDTOtoEntity(RecipePostDTO RecipePostDTO);
 
   @Mapping(source = "recipeId", target = "recipeId")
@@ -75,7 +76,7 @@ public interface DTOMapper {
   @Mapping(source = "portion", target = "portion")
   RecipeGetDTO convertEntityToRecipeGetDTO(Recipe recipe);
 
-
+  // ingredients
   @Mapping(source = "name", target = "name")
   @Mapping(source = "amount", target = "amount")
   IngredientGetDTO convertEntityToIngredientGetDTO(Ingredient ingredient);
@@ -83,6 +84,6 @@ public interface DTOMapper {
 
   @Mapping(source = "name", target = "name")
   @Mapping(source = "amount", target = "amount")
-  Ingredient convertIngredientPostDTOtoEntity(IngredientPostDTO ingredientPostDTOP);
+  Ingredient convertIngredientPostDTOtoEntity(IngredientPostDTO ingredientPostDTO);
 
 }

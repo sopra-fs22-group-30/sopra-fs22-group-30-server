@@ -45,7 +45,7 @@ public class RecipeService {
 
         newRecipe.setCreationDate(new Date());
 //        Optional<User> author = userRepository.findById(newRecipe.getAuthorId());
-        newRecipe.setLikeNum(0L);
+        newRecipe.setLikesNum(0L);
         newRecipe = recipeRepository.save(newRecipe);
         recipeRepository.flush();
 
@@ -53,10 +53,21 @@ public class RecipeService {
         return newRecipe;
     }
 
+//    public List<Ingredient> getIngredients(Long recipeId) {
+//        Optional<Recipe> checkRecipe = recipeRepository.findById(recipeId);
+//        if (checkRecipe.isPresent()) {
+//            return checkRecipe.get().getIngredients();
+//        }
+//        else {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe was not found!");
+//        }
+//    }
+
     // get recipe by id
     public Recipe getRecipeById(Long recipeId) {
         Optional<Recipe> checkRecipe = recipeRepository.findById(recipeId);
         if (checkRecipe.isPresent()) {
+            System.out.println(ingredientRepository.findById(1L).get());
             return checkRecipe.get();
         }
         else {

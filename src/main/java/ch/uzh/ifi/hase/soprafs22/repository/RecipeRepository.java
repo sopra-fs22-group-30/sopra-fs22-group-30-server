@@ -10,6 +10,5 @@ import java.util.Optional;
 
 @Repository("recipeRepository")
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
-    Recipe findByRecipeId(Long recipeId);
-    Recipe findByAuthorId(Long authorId);
+
 }

@@ -11,6 +11,7 @@ public class Ingredient implements Serializable {
     private String name;
     private Integer amount;
 
+
     public String getName() {
         return name;
     }
@@ -26,6 +27,7 @@ public class Ingredient implements Serializable {
     public void setAmount(Integer amount) {
         this.amount = amount;
     }
+
 
 
 //    public Long getIngredientId() {
