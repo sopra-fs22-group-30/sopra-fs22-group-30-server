@@ -7,8 +7,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
+import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 
 @Entity
 @Table(name = "RECIPE")
@@ -32,9 +35,14 @@ public class Recipe implements Serializable {
     @Column(nullable = false, unique = false)
     private Long cost;
 
-    @Column(nullable = false, unique = false)
-    private String ingredient;
 
+
+//    @Column(nullable = false, unique = false)
+//    @ElementCollection(targetClass = Ingredient.class)
+////    private String ingredient;
+//    private List<String> ingredients;
+    @OneToMany(mappedBy = "name")
+    private List<Ingredient> ingredients;
 
     @Column
     private Long timeConsumed;
@@ -55,7 +63,8 @@ public class Recipe implements Serializable {
     @Column(nullable = false)
     private Long likeNum;
 
-
+    public Recipe() {
+    }
 
 
     public String getRecipeName() {
@@ -88,14 +97,6 @@ public class Recipe implements Serializable {
 
     public void setCost(Long cost) {
         this.cost = cost;
-    }
-
-    public String getIngredient() {
-        return ingredient;
-    }
-
-    public void setIngredient(String ingredient) {
-        this.ingredient = ingredient;
     }
 
     public String getContent() {
@@ -152,5 +153,14 @@ public class Recipe implements Serializable {
 
     public void setPortion(Integer portion) {
         this.portion = portion;
+    }
+
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }

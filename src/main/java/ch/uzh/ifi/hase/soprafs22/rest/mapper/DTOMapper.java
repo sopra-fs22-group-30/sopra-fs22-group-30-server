@@ -1,8 +1,11 @@
 package ch.uzh.ifi.hase.soprafs22.rest.mapper;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
+import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.ingredient.IngredientGetDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.ingredient.IngredientPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserGetDTO;
@@ -55,7 +58,7 @@ public interface DTOMapper {
   @Mapping(source = "authorId", target = "authorId")
   @Mapping(source = "cuisine", target = "cuisine")
   @Mapping(source = "cost", target = "cost")
-  @Mapping(source = "ingredient", target = "ingredient")
+  @Mapping(source = "ingredients", target = "ingredients")
   @Mapping(source = "content", target = "content")
   @Mapping(source = "creationDate", target = "creationDate")
   @Mapping(source = "portion", target = "portion")
@@ -66,9 +69,20 @@ public interface DTOMapper {
   @Mapping(source = "authorId", target = "authorId")
   @Mapping(source = "cuisine", target = "cuisine")
   @Mapping(source = "cost", target = "cost")
-  @Mapping(source = "ingredient", target = "ingredient")
+  @Mapping(source = "ingredients", target = "ingredients")
   @Mapping(source = "content", target = "content")
   @Mapping(source = "creationDate", target = "creationDate")
   @Mapping(source = "portion", target = "portion")
   RecipeGetDTO convertEntityToRecipeGetDTO(Recipe recipe);
+
+
+  @Mapping(source = "name", target = "name")
+  @Mapping(source = "amount", target = "amount")
+  IngredientGetDTO convertEntityToIngredientGetDTO(Ingredient ingredient);
+
+
+  @Mapping(source = "name", target = "name")
+  @Mapping(source = "amount", target = "amount")
+  Ingredient convertIngredientPostDTOtoEntity(IngredientPostDTO ingredientPostDTOP);
+
 }

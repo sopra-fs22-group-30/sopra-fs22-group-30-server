@@ -1,8 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 
+import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
+import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RecipeRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.slf4j.Logger;
@@ -24,12 +26,12 @@ public class RecipeService {
     private final Logger log = LoggerFactory.getLogger(RecipeService.class);
 
     private final RecipeRepository recipeRepository;
-    private final UserRepository userRepository;
+    private final IngredientRepository ingredientRepository;
 
     @Autowired
-    public RecipeService(@Qualifier("recipeRepository") RecipeRepository recipeRepository, UserRepository userRepository) {
+    public RecipeService(@Qualifier("recipeRepository") RecipeRepository recipeRepository, @Qualifier("ingredientRepository") IngredientRepository ingredientRepository) {
         this.recipeRepository = recipeRepository;
-        this.userRepository = userRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     public List<Recipe> getRecipes() {
@@ -40,6 +42,7 @@ public class RecipeService {
     public Recipe createRecipe(Recipe newRecipe) {
         // saves the given entity but data is only persisted in the database once
         // flush() is called
+
         newRecipe.setCreationDate(new Date());
 //        Optional<User> author = userRepository.findById(newRecipe.getAuthorId());
         newRecipe.setLikeNum(0L);

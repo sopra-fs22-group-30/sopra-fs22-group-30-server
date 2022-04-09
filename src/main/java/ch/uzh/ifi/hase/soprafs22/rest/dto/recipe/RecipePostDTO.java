@@ -1,10 +1,13 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto.recipe;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
+import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class RecipePostDTO {
 
@@ -16,7 +19,7 @@ public class RecipePostDTO {
 
     private Long cost;
 
-    private String ingredient;
+    private List<Ingredient> ingredients;
 
     private Integer portion;
 
@@ -60,13 +63,7 @@ public class RecipePostDTO {
         this.cost = cost;
     }
 
-    public String getIngredient() {
-        return ingredient;
-    }
 
-    public void setIngredient(String ingredient) {
-        this.ingredient = ingredient;
-    }
 
     public String getContent() {
         return content;
@@ -98,5 +95,14 @@ public class RecipePostDTO {
 
     public void setPortion(Integer portion) {
         this.portion = portion;
+    }
+
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }
