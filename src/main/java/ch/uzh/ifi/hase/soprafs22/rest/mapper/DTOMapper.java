@@ -58,6 +58,7 @@ public interface DTOMapper {
   @Mapping(source = "ingredient", target = "ingredient")
   @Mapping(source = "content", target = "content")
   @Mapping(source = "creationDate", target = "creationDate")
+  @Mapping(source = "portion", target = "portion")
   Recipe convertRecipePostDTOtoEntity(RecipePostDTO RecipePostDTO);
 
   @Mapping(source = "recipeId", target = "recipeId")
@@ -68,5 +69,6 @@ public interface DTOMapper {
   @Mapping(source = "ingredient", target = "ingredient")
   @Mapping(source = "content", target = "content")
   @Mapping(source = "creationDate", target = "creationDate")
+  @Mapping(source = "portion", target = "portion")
   RecipeGetDTO convertEntityToRecipeGetDTO(Recipe recipe);
 }

@@ -16,6 +16,7 @@ public class RecipeGetDTO{
     private Long timeConsumed;
     private String pictureLocation;
     private String ingredient;
+    private Integer portion;
     private String content;
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
     private Date creationDate;
@@ -107,5 +108,13 @@ public class RecipeGetDTO{
 
     public void setLikesNum(Long likesNum) {
         this.likesNum = likesNum;
+    }
+
+    public Integer getPortion() {
+        return portion;
+    }
+
+    public void setPortion(Integer portion) {
+        this.portion = portion;
     }
 }

@@ -18,6 +18,8 @@ public class RecipePostDTO {
 
     private String ingredient;
 
+    private Integer portion;
+
     private Long timeConsumed;
 
     private String content;
@@ -88,5 +90,13 @@ public class RecipePostDTO {
 
     public void setTimeConsumed(Long timeConsumed) {
         this.timeConsumed = timeConsumed;
+    }
+
+    public Integer getPortion() {
+        return portion;
+    }
+
+    public void setPortion(Integer portion) {
+        this.portion = portion;
     }
 }

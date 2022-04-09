@@ -40,6 +40,9 @@ public class Recipe implements Serializable {
     private Long timeConsumed;
 
     @Column
+    private Integer portion;
+
+    @Column
     private  String pictureLocation;
 
     @Column(nullable = false, unique = false)
@@ -141,5 +144,13 @@ public class Recipe implements Serializable {
 
     public void setLikeNum(Long likeNum) {
         this.likeNum = likeNum;
+    }
+
+    public Integer getPortion() {
+        return portion;
+    }
+
+    public void setPortion(Integer portion) {
+        this.portion = portion;
     }
 }
