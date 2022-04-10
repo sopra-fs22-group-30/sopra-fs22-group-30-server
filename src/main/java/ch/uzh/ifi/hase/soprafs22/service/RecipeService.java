@@ -3,10 +3,8 @@ package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
-import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RecipeRepository;
-import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -47,9 +46,23 @@ public class RecipeService {
 //        Optional<User> author = userRepository.findById(newRecipe.getAuthorId());
         newRecipe.setLikesNum(0L);
         newRecipe = recipeRepository.save(newRecipe);
-        recipeRepository.flush();
 
+        for (Ingredient ingredient : newRecipe.getIngredients()) {
+            ingredient.setRecipeId(newRecipe.getRecipeId());
+            ingredientRepository.save(ingredient);
+        }
+//        Ingredient ingredient = new Ingredient();
+//        ingredient.setName("tomato");
+//        ingredient.setAmount(100);
+        ingredientRepository.save(newRecipe.getIngredients().get(0));
+        recipeRepository.flush();
+//        Optional<Recipe> myRecipe = recipeRepository.findById(newRecipe.getRecipeId());
+        System.out.println("Here-----");
+        System.out.println(ingredientRepository.findAll());
+//        System.out.println(recipeRepository.findById(newRecipe.getRecipeId()).get().getIngredients());
         log.debug("Created Information for User: {}", newRecipe);
+//        System.out.println(newRecipe.getIngredients());
+//        System.out.println(newRecipe.getIngredients().get(0).getName());
         return newRecipe;
     }
 
@@ -66,8 +79,10 @@ public class RecipeService {
     // get recipe by id
     public Recipe getRecipeById(Long recipeId) {
         Optional<Recipe> checkRecipe = recipeRepository.findById(recipeId);
+
         if (checkRecipe.isPresent()) {
-            System.out.println(ingredientRepository.findById(1L).get());
+            System.out.println(checkRecipe.get().getIngredients().get(0));
+            System.out.println(checkRecipe.get().getIngredients().get(1));
             return checkRecipe.get();
         }
         else {

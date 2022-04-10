@@ -62,7 +62,6 @@ public interface DTOMapper {
   @Mapping(source = "content", target = "content")
   @Mapping(source = "creationDate", target = "creationDate")
   @Mapping(source = "portion", target = "portion")
-  @Mapping(source = "likesNum", target = "likesNum")
   Recipe convertRecipePostDTOtoEntity(RecipePostDTO RecipePostDTO);
 
   @Mapping(source = "recipeId", target = "recipeId")

@@ -35,7 +35,7 @@ public class Recipe implements Serializable {
     @Column(nullable = false, unique = false)
     private Long cost;
 
-    @OneToMany(mappedBy = "name")
+    @OneToMany(mappedBy = "recipeId", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private List<Ingredient> ingredients;
 
     @Column

@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs22.rest.dto.recipe;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.ingredient.IngredientGetDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.Duration;
@@ -18,7 +19,7 @@ public class RecipeGetDTO{
     private Long cost;
     private Long timeConsumed;
     private String pictureLocation;
-    private List<Ingredient> ingredients;
+    private List<IngredientGetDTO> ingredients;
     private Integer portion;
     private String content;
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
@@ -115,11 +116,11 @@ public class RecipeGetDTO{
     }
 
 
-    public List<Ingredient> getIngredients() {
+    public List<IngredientGetDTO> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(List<IngredientGetDTO> ingredients) {
         this.ingredients = ingredients;
     }
 }
