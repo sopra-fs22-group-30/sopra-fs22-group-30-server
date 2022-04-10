@@ -51,38 +51,23 @@ public class RecipeService {
             ingredient.setRecipeId(newRecipe.getRecipeId());
             ingredientRepository.save(ingredient);
         }
-//        Ingredient ingredient = new Ingredient();
-//        ingredient.setName("tomato");
-//        ingredient.setAmount(100);
+
         ingredientRepository.save(newRecipe.getIngredients().get(0));
         recipeRepository.flush();
-//        Optional<Recipe> myRecipe = recipeRepository.findById(newRecipe.getRecipeId());
-//        System.out.println("Here-----");
-//        System.out.println(ingredientRepository.findAll());
-//        System.out.println(recipeRepository.findById(newRecipe.getRecipeId()).get().getIngredients());
+
         log.debug("Created Information for User: {}", newRecipe);
-//        System.out.println(newRecipe.getIngredients());
-//        System.out.println(newRecipe.getIngredients().get(0).getName());
+
         return newRecipe;
     }
 
-//    public List<Ingredient> getIngredients(Long recipeId) {
-//        Optional<Recipe> checkRecipe = recipeRepository.findById(recipeId);
-//        if (checkRecipe.isPresent()) {
-//            return checkRecipe.get().getIngredients();
-//        }
-//        else {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe was not found!");
-//        }
-//    }
 
     // get recipe by id
     public Recipe getRecipeById(Long recipeId) {
         Optional<Recipe> checkRecipe = recipeRepository.findById(recipeId);
 
         if (checkRecipe.isPresent()) {
-//            System.out.println(checkRecipe.get().getIngredients().get(0));
-//            System.out.println(checkRecipe.get().getIngredients().get(1));
+//            System.out.println("hi");
+//            System.out.println(ingredientRepository.findAll());
             return checkRecipe.get();
         }
         else {
@@ -108,6 +93,45 @@ public class RecipeService {
 
 
     }
+
+    //edit recipe
+    public void editRecipe(Long userId, Long recipeId, Recipe newRecipe) {
+        // saves the given entity but data is only persisted in the database once
+        // flush() is called
+        Optional<Recipe> checkRecipe = recipeRepository.findById(recipeId);
+        if (checkRecipe.isPresent()) {
+            if (userId != checkRecipe.get().getAuthorId()) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Fail to delete this recipe because the user is not the author");
+            }else{
+                Recipe recipeToBeUpdated = getRecipeById(recipeId);
+                recipeToBeUpdated.setRecipeName(newRecipe.getRecipeName());
+                recipeToBeUpdated.setCuisine(newRecipe.getCuisine());
+                recipeToBeUpdated.setTimeConsumed(newRecipe.getTimeConsumed());
+                recipeToBeUpdated.setContent(newRecipe.getContent());
+                recipeToBeUpdated.setCost(newRecipe.getCost());
+                recipeToBeUpdated.setPortion(newRecipe.getPortion());
+
+                for (Ingredient ingredient : recipeToBeUpdated.getIngredients()) {
+                    ingredient.setRecipeId(null);
+                }
+//                System.out.println(newRecipe.getIngredients());
+
+//                newRecipe = recipeRepository.saveAndFlush(newRecipe);
+                for (Ingredient ingredient : newRecipe.getIngredients()) {
+                    ingredient.setRecipeId(recipeId);
+                    ingredientRepository.save(ingredient);
+                }
+
+                recipeRepository.saveAndFlush(recipeToBeUpdated);
+//              TODO: maybe delete ingredients which recipeId is null in ingredientRepository.
+            }
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe was not found!");
+        }
+
+
+        }
+
 
 
 }

@@ -8,6 +8,7 @@ import ch.uzh.ifi.hase.soprafs22.rest.dto.ingredient.IngredientGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.ingredient.IngredientPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserPutDTO;
@@ -64,6 +65,17 @@ public interface DTOMapper {
   @Mapping(source = "portion", target = "portion")
   Recipe convertRecipePostDTOtoEntity(RecipePostDTO RecipePostDTO);
 
+  @Mapping(target = "recipeId", ignore = true)
+  @Mapping(source = "recipeName", target = "recipeName")
+  @Mapping(source = "authorId", target = "authorId")
+  @Mapping(source = "cuisine", target = "cuisine")
+  @Mapping(source = "cost", target = "cost")
+  @Mapping(source = "ingredients", target = "ingredients")
+  @Mapping(source = "content", target = "content")
+  @Mapping(source = "creationDate", target = "creationDate")
+  @Mapping(source = "portion", target = "portion")
+  Recipe convertRecipePutDTOtoEntity(RecipePutDTO RecipePutDTO);
+
   @Mapping(source = "recipeId", target = "recipeId")
   @Mapping(source = "recipeName", target = "recipeName")
   @Mapping(source = "authorId", target = "authorId")
@@ -76,6 +88,8 @@ public interface DTOMapper {
   RecipeGetDTO convertEntityToRecipeGetDTO(Recipe recipe);
 
   // ingredients
+  @Mapping(source = "ingredientId", target = "ingredientId")
+  @Mapping(source = "recipeId", target = "recipeId")
   @Mapping(source = "name", target = "name")
   @Mapping(source = "amount", target = "amount")
   IngredientGetDTO convertEntityToIngredientGetDTO(Ingredient ingredient);

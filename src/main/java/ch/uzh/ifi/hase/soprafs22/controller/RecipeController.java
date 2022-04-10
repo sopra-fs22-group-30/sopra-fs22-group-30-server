@@ -1,8 +1,11 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
+import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePutDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserPutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.RecipeService;
 import org.springframework.http.HttpStatus;
@@ -70,6 +73,18 @@ public class RecipeController {
     @ResponseBody
     public void deleteRecipe(@PathVariable Long userId, @PathVariable Long recipeId) {
         recipeService.deleteRecipe(userId, recipeId);
+    }
+
+    // edit recipe
+    @PutMapping("/users/{userId}/recipes/{recipeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void editRecipe(@PathVariable("userId") Long userId, @PathVariable("recipeId") Long recipeId, @RequestBody RecipePutDTO recipePutDTO) {
+
+        // updates the user identified by the given ID with the given data by the client
+        Recipe recipeInput = DTOMapper.INSTANCE.convertRecipePutDTOtoEntity(recipePutDTO);
+        recipeService.editRecipe(userId, recipeId, recipeInput);
+
     }
 
 }
