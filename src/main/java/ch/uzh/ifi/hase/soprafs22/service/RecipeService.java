@@ -57,8 +57,8 @@ public class RecipeService {
         ingredientRepository.save(newRecipe.getIngredients().get(0));
         recipeRepository.flush();
 //        Optional<Recipe> myRecipe = recipeRepository.findById(newRecipe.getRecipeId());
-        System.out.println("Here-----");
-        System.out.println(ingredientRepository.findAll());
+//        System.out.println("Here-----");
+//        System.out.println(ingredientRepository.findAll());
 //        System.out.println(recipeRepository.findById(newRecipe.getRecipeId()).get().getIngredients());
         log.debug("Created Information for User: {}", newRecipe);
 //        System.out.println(newRecipe.getIngredients());
@@ -81,8 +81,8 @@ public class RecipeService {
         Optional<Recipe> checkRecipe = recipeRepository.findById(recipeId);
 
         if (checkRecipe.isPresent()) {
-            System.out.println(checkRecipe.get().getIngredients().get(0));
-            System.out.println(checkRecipe.get().getIngredients().get(1));
+//            System.out.println(checkRecipe.get().getIngredients().get(0));
+//            System.out.println(checkRecipe.get().getIngredients().get(1));
             return checkRecipe.get();
         }
         else {
