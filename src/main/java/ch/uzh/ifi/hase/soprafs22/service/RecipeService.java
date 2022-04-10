@@ -84,6 +84,9 @@ public class RecipeService {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Fail to delete this recipe because the user is not the author");
             }
             else{
+                for (Ingredient ingredient : checkRecipe.get().getIngredients()) {
+                    ingredient.setRecipeId(null);
+                }
                 recipeRepository.deleteById(recipeId);
             }
         }
