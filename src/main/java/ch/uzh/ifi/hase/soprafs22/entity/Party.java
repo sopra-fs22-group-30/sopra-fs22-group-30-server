@@ -35,12 +35,12 @@ public class Party implements Serializable {
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
     private Date creationDate;
 
-    @Column
+    @Column(nullable = false)
     private Long recipeUsedId;
 
 
     @Column
-    @OneToMany(mappedBy = "recipeId")
+    @Transient
     private List<Ingredient> ingredients;
 
     @Column
@@ -48,7 +48,7 @@ public class Party implements Serializable {
     private List<String> partyAttendentsList;
 
     @Column
-    private Long partyAttendentsNum;
+    private Integer partyAttendentsNum;
 
     public Long getPartyId() {
         return partyId;
@@ -115,15 +115,6 @@ public class Party implements Serializable {
         this.ingredients = ingredients;
     }
 
-
-    public Long getPartyAttendentsNum() {
-        return partyAttendentsNum;
-    }
-
-    public void setPartyAttendentsNum(Long partyAttendentsNum) {
-        this.partyAttendentsNum = partyAttendentsNum;
-    }
-
     public Long getRecipeUsedId() {
         return recipeUsedId;
     }
@@ -139,5 +130,13 @@ public class Party implements Serializable {
 
     public void setPartyAttendentsList(List<String> partyAttendentsList) {
         this.partyAttendentsList = partyAttendentsList;
+    }
+
+    public Integer getPartyAttendentsNum() {
+        return partyAttendentsNum;
+    }
+
+    public void setPartyAttendentsNum(Integer partyAttendentsNum) {
+        this.partyAttendentsNum = partyAttendentsNum;
     }
 }

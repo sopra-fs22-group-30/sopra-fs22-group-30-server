@@ -34,7 +34,7 @@ public class PartyGetDTO {
 
     private List<String> partyAttendentsList;
 
-    private Long partyAttendentsNum;
+    private Integer partyAttendentsNum;
 
     public Long getPartyId() {
         return partyId;
@@ -108,13 +108,6 @@ public class PartyGetDTO {
         this.partyAttendentsList = partyAttendentsList;
     }
 
-    public Long getPartyAttendentsNum() {
-        return partyAttendentsNum;
-    }
-
-    public void setPartyAttendentsNum(Long partyAttendentsNum) {
-        this.partyAttendentsNum = partyAttendentsNum;
-    }
 
     public Long getRecipeUsedId() {
         return recipeUsedId;
@@ -122,5 +115,13 @@ public class PartyGetDTO {
 
     public void setRecipeUsedId(Long recipeUsedId) {
         this.recipeUsedId = recipeUsedId;
+    }
+
+    public Integer getPartyAttendentsNum() {
+        return partyAttendentsNum;
+    }
+
+    public void setPartyAttendentsNum(Integer partyAttendentsNum) {
+        this.partyAttendentsNum = partyAttendentsNum;
     }
 }
