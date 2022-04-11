@@ -9,6 +9,7 @@ import ch.uzh.ifi.hase.soprafs22.rest.dto.ingredient.IngredientGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.ingredient.IngredientPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyPutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePutDTO;
@@ -133,4 +134,11 @@ public interface DTOMapper {
   @Mapping(source = "partyAttendentsList", target = "partyAttendentsList")
   @Mapping(source = "partyAttendentsNum", target = "partyAttendentsNum")
   PartyGetDTO convertEntityToPartyGetDTO(Party party);
+
+
+  @Mapping(source = "partyIntro", target = "partyIntro")
+  @Mapping(source = "place", target = "place")
+  @Mapping(source = "time", target = "time")
+  @Mapping(source = "partyAttendentsList", target = "partyAttendentsList")
+  Party convertPartyPutDTOtoEntity(PartyPutDTO partyPutDTO);
 }

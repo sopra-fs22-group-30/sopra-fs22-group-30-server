@@ -86,4 +86,43 @@ public class PartyService {
         }
         return partyToGet.get();
     }
+
+    // edit party
+    public Party editParty(Long userId, Long partyId, Party newParty) {
+        Optional<Party> partyToUpdate = partyRepository.findById(partyId);
+        if (!partyToUpdate.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party may not exist!!");
+        }
+        else if (partyToUpdate.get().getPartyHostId() != userId) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You cannot edit party");
+        }
+
+        for (String username : newParty.getPartyAttendentsList()) {
+            User checkUser = userRepository.findByUsername(username);
+            if (checkUser == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The user you invited may not exist!");
+            }
+        }
+
+        partyToUpdate.get().setPartyIntro(newParty.getPartyIntro());
+        partyToUpdate.get().setPlace(newParty.getPlace());
+        partyToUpdate.get().setTime(newParty.getTime());
+        if (partyToUpdate.get().getPartyAttendentsList() != newParty.getPartyAttendentsList()) {
+            Integer newSize = newParty.getPartyAttendentsList().size();
+            partyToUpdate.get().setPartyAttendentsNum(newSize);
+            for (String username : newParty.getPartyAttendentsList()) {
+                User attendent = userRepository.findByUsername(username);
+                if (!attendent.getJoinParties().contains(partyToUpdate.get().getPartyName())) {
+                    attendent.addJoinParties(newParty.getPartyName());
+                    userRepository.saveAndFlush(attendent);
+                }
+            }
+
+
+            partyRepository.saveAndFlush(partyToUpdate.get());
+
+        }
+        return newParty;
+    }
+
 }

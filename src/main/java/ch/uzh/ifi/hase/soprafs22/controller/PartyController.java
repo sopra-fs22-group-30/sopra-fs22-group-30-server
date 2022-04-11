@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyPutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePutDTO;
@@ -67,6 +68,18 @@ public class PartyController {
     public PartyGetDTO partyGetDTO (@PathVariable("userId") Long userId, @PathVariable("partyId") Long partyId) {
         Party party = partyService.getPartyById(userId, partyId);
         return DTOMapper.INSTANCE.convertEntityToPartyGetDTO(party);
+    }
+
+    // edit party detail
+    @PutMapping("/users/{userId}/parties/{partyId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void editParty(@PathVariable("userId") Long userId, @PathVariable("partyId") Long partyId,@RequestBody PartyPutDTO partyPutDTO) {
+
+        // updates the user identified by the given ID with the given data by the client
+        Party partyToUpdate = DTOMapper.INSTANCE.convertPartyPutDTOtoEntity(partyPutDTO);
+        partyService.editParty(userId, partyId, partyToUpdate);
+
     }
 
 
