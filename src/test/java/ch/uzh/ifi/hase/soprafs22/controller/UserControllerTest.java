@@ -1,3 +1,4 @@
+
 package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.entity.User;
@@ -17,6 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Collections;
+import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -43,8 +47,36 @@ public class UserControllerTest {
     @MockBean
     private UserService userService;
 
+
     @Test
-    public void createUser_validInput_userCreated() throws Exception {
+    public void getAllUsers() throws Exception{
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("test Username1");
+        user.setPassword("Test Password1");
+        user.setToken("1");
+
+        List<User> allUsers = Collections.singletonList(user);
+
+        // this mocks the UserService -> we define above what the userService should
+        // return when getUsers() is called
+        given(userService.getUsers()).willReturn(allUsers);
+
+        // when
+        MockHttpServletRequestBuilder getRequest = get("/users").contentType(MediaType.APPLICATION_JSON);
+
+        // then
+        mockMvc.perform(getRequest).andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id", is(user.getId().intValue())))
+                .andExpect(jsonPath("$[0].username", is(user.getUsername())));
+    }
+
+
+
+    //create user with valid input
+    @Test
+    public void createUser_validInput() throws Exception {
         // given
         User user = new User();
         user.setId(1L);
@@ -53,6 +85,7 @@ public class UserControllerTest {
 
         UserPostDTO userPostDTO = new UserPostDTO();
         userPostDTO.setUsername("testUsername");
+        userPostDTO.setPassword("testPassword");
 
         given(userService.createUser(Mockito.any())).willReturn(user);
 
@@ -68,8 +101,9 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.username", is(user.getUsername())));
     }
 
+    //create user with invalid input
     @Test
-    public void createUser_invalidInput_userCreated() throws Exception {
+    public void createUser_invalidInput() throws Exception {
 
         // given
         User user = new User();
@@ -148,7 +182,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void updateUser_validInput_userUpdate() throws Exception {
+    public void updateUser_validInput() throws Exception {
 
         //given
         User oldUser = new User();
@@ -171,7 +205,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void updateUser_invalid_IdNotFound() throws Exception {
+    public void updateUser_invalidInput_IdNotFound() throws Exception {
 
         User user = new User();
         user.setId(1L);
@@ -213,3 +247,4 @@ public class UserControllerTest {
         }
     }
 }
+
