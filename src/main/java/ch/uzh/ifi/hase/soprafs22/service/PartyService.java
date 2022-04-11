@@ -8,7 +8,6 @@ import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PartyRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RecipeRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
-import org.hibernate.query.criteria.internal.expression.function.AggregationFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +72,18 @@ public class PartyService {
         partyRepository.saveAndFlush(newParty);
         return newParty;
 
+    }
+
+    // get one party detail
+    public Party getPartyById(Long userId, Long partyId) {
+        Optional<Party> partyToGet = partyRepository.findById(partyId);
+        if (!partyToGet.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party may not exist!!");
+        }
+        Optional<User> userToCheck = userRepository.findById(userId);
+        if (userId != partyToGet.get().getPartyHostId() && !userToCheck.get().getJoinParties().contains(partyToGet.get().getPartyName()) ){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not in this party");
+        }
+        return partyToGet.get();
     }
 }

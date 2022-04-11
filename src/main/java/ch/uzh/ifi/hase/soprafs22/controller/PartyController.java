@@ -8,6 +8,7 @@ import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePutDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserPutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.PartyService;
@@ -57,6 +58,15 @@ public class PartyController {
 
         // convert internal representation of user back to API
         return DTOMapper.INSTANCE.convertEntityToPartyGetDTO(createdParty);
+    }
+
+    // get one party detail
+    @GetMapping("/users/{userId}/parties/{partyId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public PartyGetDTO partyGetDTO (@PathVariable("userId") Long userId, @PathVariable("partyId") Long partyId) {
+        Party party = partyService.getPartyById(userId, partyId);
+        return DTOMapper.INSTANCE.convertEntityToPartyGetDTO(party);
     }
 
 
