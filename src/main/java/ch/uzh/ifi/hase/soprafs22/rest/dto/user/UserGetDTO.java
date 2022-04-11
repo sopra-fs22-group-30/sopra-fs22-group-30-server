@@ -2,9 +2,12 @@ package ch.uzh.ifi.hase.soprafs22.rest.dto.user;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Gender;
 import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs22.entity.Party;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.Set;
 
@@ -20,6 +23,10 @@ public class UserGetDTO {
     private String intro;
     private Gender gender;
     private Set<Recipe> recipes;
+
+    private Set<Party> hostParties;
+
+    private Set<String> joinParties;
 
     public Long getId() {
         return id;
@@ -83,5 +90,22 @@ public class UserGetDTO {
 
     public void setRecipes(Set<Recipe> recipes) {
         this.recipes = recipes;
+    }
+
+    public Set<Party> getHostParties() {
+        return hostParties;
+    }
+
+    public void setHostParties(Set<Party> hostParties) {
+        this.hostParties = hostParties;
+    }
+
+
+    public Set<String> getJoinParties() {
+        return joinParties;
+    }
+
+    public void setJoinParties(Set<String> joinParties) {
+        this.joinParties = joinParties;
     }
 }

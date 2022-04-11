@@ -56,6 +56,13 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "authorId")
     private Set<Recipe> recipes;
 
+    @OneToMany(mappedBy = "partyHostId")
+    private Set<Party> hostParties;
+
+    @ElementCollection
+    private Set<String> joinParties;
+
+
     public Long getId() {
         return id;
     }
@@ -128,4 +135,25 @@ public class User implements Serializable {
         this.recipes = recipes;
     }
 
+    public Set<Party> getHostParties() {
+        return hostParties;
+    }
+
+    public void setHostParties(Set<Party> hostParties) {
+        this.hostParties = hostParties;
+    }
+
+    public Set<String> getJoinParties() {
+        return joinParties;
+    }
+
+    public void setJoinParties(Set<String> joinParties) {
+        this.joinParties = joinParties;
+    }
+
+
+    public void addJoinParties(String partyname) {
+        this.joinParties.add(partyname);
+
+    }
 }
