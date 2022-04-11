@@ -2,18 +2,26 @@ package ch.uzh.ifi.hase.soprafs22.rest.mapper;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
+import ch.uzh.ifi.hase.soprafs22.entity.Party;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.ingredient.IngredientGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.ingredient.IngredientPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyGetDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserPutDTO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
+
+import javax.servlet.http.Part;
+import java.util.Date;
+import java.util.List;
 
 /**
  * DTOMapper
@@ -99,4 +107,28 @@ public interface DTOMapper {
   @Mapping(source = "amount", target = "amount")
   Ingredient convertIngredientPostDTOtoEntity(IngredientPostDTO ingredientPostDTO);
 
+
+  // parties
+  @Mapping(source = "partyName", target = "partyName")
+  @Mapping(source = "partyHostId", target = "partyHostId")
+  @Mapping(source = "partyIntro", target = "partyIntro")
+  @Mapping(source = "place", target = "place")
+  @Mapping(source = "time", target = "time")
+  @Mapping(source = "recipeUsedId", target = "recipeUsedId")
+  @Mapping(source = "partyAttendentsList", target = "partyAttendentsList")
+  Party convertPartyPostDTOtoEntity(PartyPostDTO partyPostDTO);
+
+
+  @Mapping(source = "partyId", target = "partyId")
+  @Mapping(source = "partyName", target = "partyName")
+  @Mapping(source = "partyHostId", target = "partyHostId")
+  @Mapping(source = "partyIntro", target = "partyIntro")
+  @Mapping(source = "place", target = "place")
+  @Mapping(source = "time", target = "time")
+  @Mapping(source = "creationDate", target = "creationDate")
+  @Mapping(source = "ingredients", target = "ingredients")
+  @Mapping(source = "recipeUsedId", target = "recipeUsedId")
+  @Mapping(source = "partyAttendentsList", target = "partyAttendentsList")
+  @Mapping(source = "partyAttendentsNum", target = "partyAttendentsNum")
+  PartyGetDTO convertEntityToPartyGetDTO(Party party);
 }

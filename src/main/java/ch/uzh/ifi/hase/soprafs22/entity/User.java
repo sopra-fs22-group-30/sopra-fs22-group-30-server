@@ -56,6 +56,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "authorId")
     private Set<Recipe> recipes;
 
+
     public Long getId() {
         return id;
     }
