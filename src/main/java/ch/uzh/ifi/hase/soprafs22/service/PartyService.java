@@ -57,11 +57,18 @@ public class PartyService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe may not exist!!");
         }
 
+
         newParty.setCreationDate(new Date());
         List<Ingredient> ingredientsList = recipeToCheck.get().getIngredients();
         newParty.setIngredients(ingredientsList);
         Integer size = newParty.getPartyAttendentsList().size();
         newParty.setPartyAttendentsNum(size);
+
+        for(String username: newParty.getPartyAttendentsList()) {
+            User attendent = userRepository.findByUsername(username);
+            attendent.addJoinParties(newParty.getPartyName());
+            userRepository.saveAndFlush(attendent);
+        }
 
         partyRepository.saveAndFlush(newParty);
         return newParty;
