@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 public class UserGetDTO {
@@ -27,6 +28,8 @@ public class UserGetDTO {
     private Set<Party> hostParties;
 
     private Set<String> joinParties;
+
+    private List<Recipe> likeList;
 
     public Long getId() {
         return id;
@@ -107,5 +110,13 @@ public class UserGetDTO {
 
     public void setJoinParties(Set<String> joinParties) {
         this.joinParties = joinParties;
+    }
+
+    public List<Recipe> getLikeList() {
+        return likeList;
+    }
+
+    public void setLikeList(List<Recipe> likeList) {
+        this.likeList = likeList;
     }
 }

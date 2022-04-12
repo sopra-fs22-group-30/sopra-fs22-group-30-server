@@ -87,5 +87,17 @@ public class RecipeController {
 
     }
 
+    // like and unlike a recipe
+    @PostMapping("/users/{userId}/recipes/{recipeId}/likes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public Boolean likeAndUnlike(@PathVariable("userId") Long userId, @PathVariable("recipeId") Long recipeId) {
+        // create recipe
+        Boolean result = recipeService.likeAndUnlike(userId, recipeId);
+
+        // convert internal representation of user back to API
+        return result;
+    }
+
 }
 

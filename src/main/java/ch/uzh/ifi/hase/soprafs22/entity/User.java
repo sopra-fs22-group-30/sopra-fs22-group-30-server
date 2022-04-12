@@ -62,6 +62,9 @@ public class User implements Serializable {
     @ElementCollection
     private Set<String> joinParties;
 
+    @OneToMany(mappedBy = "recipeId")
+    private List<Recipe> likeList;
+
 
     public Long getId() {
         return id;
@@ -155,5 +158,13 @@ public class User implements Serializable {
     public void addJoinParties(String partyname) {
         this.joinParties.add(partyname);
 
+    }
+
+    public List<Recipe> getLikeList() {
+        return likeList;
+    }
+
+    public void setLikeList(List<Recipe> likeList) {
+        this.likeList = likeList;
     }
 }

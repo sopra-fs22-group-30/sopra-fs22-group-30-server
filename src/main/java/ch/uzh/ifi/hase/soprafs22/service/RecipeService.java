@@ -3,8 +3,10 @@ package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
+import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RecipeRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -27,10 +28,13 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final IngredientRepository ingredientRepository;
 
+    private final UserRepository userRepository;
+
     @Autowired
-    public RecipeService(@Qualifier("recipeRepository") RecipeRepository recipeRepository, @Qualifier("ingredientRepository") IngredientRepository ingredientRepository) {
+    public RecipeService(@Qualifier("recipeRepository") RecipeRepository recipeRepository, @Qualifier("ingredientRepository") IngredientRepository ingredientRepository, @Qualifier("userRepository") UserRepository userRepository) {
         this.recipeRepository = recipeRepository;
         this.ingredientRepository = ingredientRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Recipe> getRecipes() {
@@ -133,7 +137,31 @@ public class RecipeService {
         }
 
 
+    }
+
+    // like and unlike
+    public Boolean likeAndUnlike(Long userId, Long recipeId) {
+        Optional<User> user = userRepository.findById(userId);
+        Optional<Recipe> recipe = recipeRepository.findById(recipeId);
+        if (user.isPresent() && recipe.isPresent()) {
+            if (recipe.get().getLikedUser().contains(user.get().getUsername())) {
+                recipe.get().getLikedUser().remove(user.get().getUsername());
+                recipe.get().setLikesNum(recipe.get().getLikesNum() - 1L);
+                user.get().getLikeList().remove(recipe);
+                return Boolean.FALSE;
+            }
+            else {
+                recipe.get().getLikedUser().add(user.get().getUsername());
+                recipe.get().setLikesNum(recipe.get().getLikesNum() + 1L);
+                user.get().getLikeList().add(recipe.get());
+                return Boolean.TRUE;
+            }
+        }else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User or recipe was not found!");
         }
+    }
+
+
 
 
 

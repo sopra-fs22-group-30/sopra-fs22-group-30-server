@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs22.constant.Gender;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -56,6 +57,10 @@ public class Recipe implements Serializable {
 
     @Column(nullable = false)
     private Long likesNum;
+
+    @Column
+    @ElementCollection
+    private List<String> likedUser;
 
     public Recipe() {
     }
@@ -157,5 +162,13 @@ public class Recipe implements Serializable {
 
     public void setLikesNum(Long likesNum) {
         this.likesNum = likesNum;
+    }
+
+    public List<String> getLikedUser() {
+        return likedUser;
+    }
+
+    public void setLikedUser(List<String> likedUser) {
+        this.likedUser = likedUser;
     }
 }
