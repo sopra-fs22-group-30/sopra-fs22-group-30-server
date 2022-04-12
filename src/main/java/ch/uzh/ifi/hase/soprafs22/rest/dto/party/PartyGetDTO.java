@@ -29,8 +29,8 @@ public class PartyGetDTO {
 
     private Long recipeUsedId;
 
-    @OneToMany(mappedBy = "recipeId")
-    private List<Ingredient> ingredients;
+
+    private List<String> ingredients;
 
     private List<String> partyAttendentsList;
 
@@ -92,13 +92,6 @@ public class PartyGetDTO {
         this.creationDate = creationDate;
     }
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
 
     public List<String> getPartyAttendentsList() {
         return partyAttendentsList;
@@ -123,5 +116,13 @@ public class PartyGetDTO {
 
     public void setPartyAttendentsNum(Integer partyAttendentsNum) {
         this.partyAttendentsNum = partyAttendentsNum;
+    }
+
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
     }
 }

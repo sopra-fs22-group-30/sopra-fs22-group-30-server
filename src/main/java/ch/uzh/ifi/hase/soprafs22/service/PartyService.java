@@ -17,10 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional
@@ -59,8 +56,12 @@ public class PartyService {
 
 
         newParty.setCreationDate(new Date());
-        List<Ingredient> ingredientsList = recipeToCheck.get().getIngredients();
-        newParty.setIngredients(ingredientsList);
+        List<String> ingredientList = new ArrayList<>() {
+        };
+        for (Ingredient ingredient : recipeToCheck.get().getIngredients()) {
+            ingredientList.add(ingredient.getName());
+        }
+        newParty.setIngredients(ingredientList);
         Integer size = newParty.getPartyAttendentsList().size();
         newParty.setPartyAttendentsNum(size);
 

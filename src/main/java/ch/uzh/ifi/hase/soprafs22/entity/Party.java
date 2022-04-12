@@ -40,8 +40,8 @@ public class Party implements Serializable {
 
 
     @Column
-    @Transient
-    private List<Ingredient> ingredients;
+    @ElementCollection
+    private List<String> ingredients;
 
     @Column
     @ElementCollection
@@ -107,13 +107,6 @@ public class Party implements Serializable {
     }
 
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
 
     public Long getRecipeUsedId() {
         return recipeUsedId;
@@ -138,5 +131,13 @@ public class Party implements Serializable {
 
     public void setPartyAttendentsNum(Integer partyAttendentsNum) {
         this.partyAttendentsNum = partyAttendentsNum;
+    }
+
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
     }
 }
