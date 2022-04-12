@@ -148,12 +148,16 @@ public class RecipeService {
                 recipe.get().getLikedUser().remove(user.get().getUsername());
                 recipe.get().setLikesNum(recipe.get().getLikesNum() - 1L);
                 user.get().getLikeList().remove(recipe);
+                recipeRepository.saveAndFlush(recipe.get());
+                userRepository.saveAndFlush(user.get());
                 return Boolean.FALSE;
             }
             else {
                 recipe.get().getLikedUser().add(user.get().getUsername());
                 recipe.get().setLikesNum(recipe.get().getLikesNum() + 1L);
                 user.get().getLikeList().add(recipe.get());
+                recipeRepository.saveAndFlush(recipe.get());
+                userRepository.saveAndFlush(user.get());
                 return Boolean.TRUE;
             }
         }else {
