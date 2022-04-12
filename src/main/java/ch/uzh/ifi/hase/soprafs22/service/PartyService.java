@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -62,6 +63,7 @@ public class PartyService {
         newParty.setIngredients(ingredientsList);
         Integer size = newParty.getPartyAttendentsList().size();
         newParty.setPartyAttendentsNum(size);
+
 
         for(String username: newParty.getPartyAttendentsList()) {
             User attendent = userRepository.findByUsername(username);
@@ -125,4 +127,42 @@ public class PartyService {
         return newParty;
     }
 
+    public void deleteParty(Long userId, Long partyId){
+        Optional<Party> partyToDelete = partyRepository.findById(partyId);
+        if (!partyToDelete.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party may not exist!!");
+        }
+        else if (partyToDelete.get().getPartyHostId() != userId) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You cannot delete party");
+        }
+        partyRepository.deleteById(partyId);
+    }
+
+
+    public void quitParty(Long userId, Long partyId){
+        Optional<Party> partyChecked= partyRepository.findById(partyId);
+        Optional<User> userChecked = userRepository.findById(userId);
+        if (!partyChecked.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party may not exist!!");
+        }
+        List<String> AttendantsList = partyChecked.get().getPartyAttendentsList();
+        if (!userChecked.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This user does not exist!!");
+        }
+        String quittingUserName = userChecked.get().getUsername();
+        if (!AttendantsList.contains(quittingUserName)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not attendant of this party");
+        }
+        AttendantsList.remove(quittingUserName);
+        Party partyToQuit = partyChecked.get();
+        partyToQuit.setPartyAttendentsList(AttendantsList);
+        partyToQuit.setPartyAttendentsNum(AttendantsList.size());
+        partyRepository.saveAndFlush(partyToQuit);
+
+        User userQuitting = userChecked.get();
+        Set<String> joinedParties = userQuitting.getJoinParties();
+        joinedParties.remove(partyToQuit.getPartyName());
+        userQuitting.setJoinParties(joinedParties);
+        userRepository.saveAndFlush(userQuitting);
+    }
 }

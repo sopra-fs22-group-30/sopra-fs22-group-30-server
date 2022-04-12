@@ -44,7 +44,7 @@ public class Party implements Serializable {
     private List<Ingredient> ingredients;
 
     @Column
-    @Transient
+    @ElementCollection
     private List<String> partyAttendentsList;
 
     @Column

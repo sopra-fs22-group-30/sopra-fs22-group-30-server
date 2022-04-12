@@ -82,6 +82,25 @@ public class PartyController {
 
     }
 
+    // (a host) delete a party
+    @DeleteMapping("/parties/{partyId}/users/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void deleteParty(@PathVariable("partyId") Long partyId,@PathVariable Long userId) {
+        // delete party by the given userID from client
+        partyService.deleteParty(userId, partyId);
+    }
+
+    // (an attendant) quit a party
+    @PutMapping("/parties/quitting/{partyId}/users/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void quitParty(@PathVariable Long userId, @PathVariable Long partyId) {
+        // delete party by the given userID from client
+        partyService.quitParty(userId, partyId);
+    }
+
+
 
 
 
