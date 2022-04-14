@@ -18,7 +18,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 @Table(name = "RECIPE")
 public class Recipe implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+//    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
