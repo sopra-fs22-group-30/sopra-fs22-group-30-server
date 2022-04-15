@@ -147,7 +147,7 @@ public class RecipeService {
             if (recipe.get().getLikedUser().contains(user.get().getUsername())) {
                 recipe.get().getLikedUser().remove(user.get().getUsername());
                 recipe.get().setLikesNum(recipe.get().getLikesNum() - 1L);
-                user.get().getLikeList().remove(recipe);
+                user.get().getLikeList().remove(recipe.get());
                 recipeRepository.saveAndFlush(recipe.get());
                 userRepository.saveAndFlush(user.get());
                 return Boolean.FALSE;
@@ -164,7 +164,6 @@ public class RecipeService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User or recipe was not found!");
         }
     }
-
 
 
 
