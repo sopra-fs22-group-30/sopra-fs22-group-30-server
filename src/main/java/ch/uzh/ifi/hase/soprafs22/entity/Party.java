@@ -45,10 +45,10 @@ public class Party implements Serializable {
 
     @Column
     @ElementCollection
-    private List<String> partyAttendentsList;
+    private List<String> partyAttendantsList;
 
     @Column
-    private Integer partyAttendentsNum;
+    private Integer partyAttendantsNum;
 
     public Long getPartyId() {
         return partyId;
@@ -117,21 +117,6 @@ public class Party implements Serializable {
     }
 
 
-    public List<String> getPartyAttendentsList() {
-        return partyAttendentsList;
-    }
-
-    public void setPartyAttendentsList(List<String> partyAttendentsList) {
-        this.partyAttendentsList = partyAttendentsList;
-    }
-
-    public Integer getPartyAttendentsNum() {
-        return partyAttendentsNum;
-    }
-
-    public void setPartyAttendentsNum(Integer partyAttendentsNum) {
-        this.partyAttendentsNum = partyAttendentsNum;
-    }
 
     public List<String> getIngredients() {
         return ingredients;
@@ -139,5 +124,21 @@ public class Party implements Serializable {
 
     public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public List<String> getPartyAttendantsList() {
+        return partyAttendantsList;
+    }
+
+    public void setPartyAttendantsList(List<String> partyAttendantsList) {
+        this.partyAttendantsList = partyAttendantsList;
+    }
+
+    public Integer getPartyAttendantsNum() {
+        return partyAttendantsNum;
+    }
+
+    public void setPartyAttendantsNum(Integer partyAttendantsNum) {
+        this.partyAttendantsNum = partyAttendantsNum;
     }
 }
