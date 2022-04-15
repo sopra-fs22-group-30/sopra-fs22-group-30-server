@@ -32,9 +32,9 @@ public class PartyGetDTO {
 
     private List<String> ingredients;
 
-    private List<String> partyAttendentsList;
+    private List<String> partyAttendantsList;
 
-    private Integer partyAttendentsNum;
+    private Integer partyAttendantsNum;
 
     public Long getPartyId() {
         return partyId;
@@ -92,16 +92,6 @@ public class PartyGetDTO {
         this.creationDate = creationDate;
     }
 
-
-    public List<String> getPartyAttendentsList() {
-        return partyAttendentsList;
-    }
-
-    public void setPartyAttendentsList(List<String> partyAttendentsList) {
-        this.partyAttendentsList = partyAttendentsList;
-    }
-
-
     public Long getRecipeUsedId() {
         return recipeUsedId;
     }
@@ -110,13 +100,6 @@ public class PartyGetDTO {
         this.recipeUsedId = recipeUsedId;
     }
 
-    public Integer getPartyAttendentsNum() {
-        return partyAttendentsNum;
-    }
-
-    public void setPartyAttendentsNum(Integer partyAttendentsNum) {
-        this.partyAttendentsNum = partyAttendentsNum;
-    }
 
     public List<String> getIngredients() {
         return ingredients;
@@ -124,5 +107,21 @@ public class PartyGetDTO {
 
     public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public List<String> getPartyAttendantsList() {
+        return partyAttendantsList;
+    }
+
+    public void setPartyAttendantsList(List<String> partyAttendantsList) {
+        this.partyAttendantsList = partyAttendantsList;
+    }
+
+    public Integer getPartyAttendantsNum() {
+        return partyAttendantsNum;
+    }
+
+    public void setPartyAttendantsNum(Integer partyAttendantsNum) {
+        this.partyAttendantsNum = partyAttendantsNum;
     }
 }

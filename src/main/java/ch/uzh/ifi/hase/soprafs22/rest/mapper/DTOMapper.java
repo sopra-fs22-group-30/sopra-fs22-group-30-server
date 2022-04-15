@@ -118,7 +118,7 @@ public interface DTOMapper {
   @Mapping(source = "place", target = "place")
   @Mapping(source = "time", target = "time")
   @Mapping(source = "recipeUsedId", target = "recipeUsedId")
-  @Mapping(source = "partyAttendentsList", target = "partyAttendentsList")
+  @Mapping(source = "partyAttendantsList", target = "partyAttendantsList")
   Party convertPartyPostDTOtoEntity(PartyPostDTO partyPostDTO);
 
 
@@ -131,14 +131,14 @@ public interface DTOMapper {
   @Mapping(source = "creationDate", target = "creationDate")
   @Mapping(source = "ingredients", target = "ingredients")
   @Mapping(source = "recipeUsedId", target = "recipeUsedId")
-  @Mapping(source = "partyAttendentsList", target = "partyAttendentsList")
-  @Mapping(source = "partyAttendentsNum", target = "partyAttendentsNum")
+  @Mapping(source = "partyAttendantsList", target = "partyAttendantsList")
+  @Mapping(source = "partyAttendantsNum", target = "partyAttendantsNum")
   PartyGetDTO convertEntityToPartyGetDTO(Party party);
 
 
   @Mapping(source = "partyIntro", target = "partyIntro")
   @Mapping(source = "place", target = "place")
   @Mapping(source = "time", target = "time")
-  @Mapping(source = "partyAttendentsList", target = "partyAttendentsList")
+  @Mapping(source = "partyAttendantsList", target = "partyAttendantsList")
   Party convertPartyPutDTOtoEntity(PartyPutDTO partyPutDTO);
 }

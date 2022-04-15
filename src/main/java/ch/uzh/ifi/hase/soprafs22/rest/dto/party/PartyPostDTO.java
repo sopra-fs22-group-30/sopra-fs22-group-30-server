@@ -23,7 +23,7 @@ public class PartyPostDTO {
 
     private Long recipeUsedId;
 
-    private List<String> partyAttendentsList;
+    private List<String> partyAttendantsList;
 
     public String getPartyName() {
         return partyName;
@@ -73,11 +73,11 @@ public class PartyPostDTO {
         this.recipeUsedId = recipeUsedId;
     }
 
-    public List<String> getPartyAttendentsList() {
-        return partyAttendentsList;
+    public List<String> getPartyAttendantsList() {
+        return partyAttendantsList;
     }
 
-    public void setPartyAttendentsList(List<String> partyAttendentsList) {
-        this.partyAttendentsList = partyAttendentsList;
+    public void setPartyAttendantsList(List<String> partyAttendantsList) {
+        this.partyAttendantsList = partyAttendantsList;
     }
 }

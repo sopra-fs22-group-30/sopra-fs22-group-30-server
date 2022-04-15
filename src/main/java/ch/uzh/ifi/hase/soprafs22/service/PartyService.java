@@ -43,7 +43,7 @@ public class PartyService {
 
     // create new party
     public Party createParty(Party newParty) {
-        for (String username: newParty.getPartyAttendentsList()) {
+        for (String username: newParty.getPartyAttendantsList()) {
             User checkUser = userRepository.findByUsername(username);
             if (checkUser == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Username may not exist!!");
@@ -62,14 +62,14 @@ public class PartyService {
             ingredientList.add(ingredient.getName());
         }
         newParty.setIngredients(ingredientList);
-        Integer size = newParty.getPartyAttendentsList().size();
-        newParty.setPartyAttendentsNum(size);
+        Integer size = newParty.getPartyAttendantsList().size();
+        newParty.setPartyAttendantsNum(size);
 
 
-        for(String username: newParty.getPartyAttendentsList()) {
-            User attendent = userRepository.findByUsername(username);
-            attendent.addJoinParties(newParty.getPartyName());
-            userRepository.saveAndFlush(attendent);
+        for(String username: newParty.getPartyAttendantsList()) {
+            User attendant = userRepository.findByUsername(username);
+            attendant.addJoinParties(newParty.getPartyName());
+            userRepository.saveAndFlush(attendant);
         }
 
         partyRepository.saveAndFlush(newParty);
@@ -100,7 +100,7 @@ public class PartyService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You cannot edit party");
         }
 
-        for (String username : newParty.getPartyAttendentsList()) {
+        for (String username : newParty.getPartyAttendantsList()) {
             User checkUser = userRepository.findByUsername(username);
             if (checkUser == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The user you invited may not exist!");
@@ -110,14 +110,14 @@ public class PartyService {
         partyToUpdate.get().setPartyIntro(newParty.getPartyIntro());
         partyToUpdate.get().setPlace(newParty.getPlace());
         partyToUpdate.get().setTime(newParty.getTime());
-        if (partyToUpdate.get().getPartyAttendentsList() != newParty.getPartyAttendentsList()) {
-            Integer newSize = newParty.getPartyAttendentsList().size();
-            partyToUpdate.get().setPartyAttendentsNum(newSize);
-            for (String username : newParty.getPartyAttendentsList()) {
-                User attendent = userRepository.findByUsername(username);
-                if (!attendent.getJoinParties().contains(partyToUpdate.get().getPartyName())) {
-                    attendent.addJoinParties(newParty.getPartyName());
-                    userRepository.saveAndFlush(attendent);
+        if (partyToUpdate.get().getPartyAttendantsList() != newParty.getPartyAttendantsList()) {
+            Integer newSize = newParty.getPartyAttendantsList().size();
+            partyToUpdate.get().setPartyAttendantsNum(newSize);
+            for (String username : newParty.getPartyAttendantsList()) {
+                User attendant = userRepository.findByUsername(username);
+                if (!attendant.getJoinParties().contains(partyToUpdate.get().getPartyName())) {
+                    attendant.addJoinParties(newParty.getPartyName());
+                    userRepository.saveAndFlush(attendant);
                 }
             }
 
@@ -146,7 +146,7 @@ public class PartyService {
         if (!partyChecked.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party may not exist!!");
         }
-        List<String> AttendantsList = partyChecked.get().getPartyAttendentsList();
+        List<String> AttendantsList = partyChecked.get().getPartyAttendantsList();
         if (!userChecked.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This user does not exist!!");
         }
@@ -156,8 +156,8 @@ public class PartyService {
         }
         AttendantsList.remove(quittingUserName);
         Party partyToQuit = partyChecked.get();
-        partyToQuit.setPartyAttendentsList(AttendantsList);
-        partyToQuit.setPartyAttendentsNum(AttendantsList.size());
+        partyToQuit.setPartyAttendantsList(AttendantsList);
+        partyToQuit.setPartyAttendantsNum(AttendantsList.size());
         partyRepository.saveAndFlush(partyToQuit);
 
         User userQuitting = userChecked.get();

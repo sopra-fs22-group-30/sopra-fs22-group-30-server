@@ -14,7 +14,7 @@ public class PartyPutDTO {
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
     private Date time;
 
-    private List<String> partyAttendentsList;
+    private List<String> partyAttendantsList;
 
 
     public String getPartyIntro() {
@@ -41,11 +41,12 @@ public class PartyPutDTO {
         this.time = time;
     }
 
-    public List<String> getPartyAttendentsList() {
-        return partyAttendentsList;
+
+    public List<String> getPartyAttendantsList() {
+        return partyAttendantsList;
     }
 
-    public void setPartyAttendentsList(List<String> partyAttendentsList) {
-        this.partyAttendentsList = partyAttendentsList;
+    public void setPartyAttendantsList(List<String> partyAttendantsList) {
+        this.partyAttendantsList = partyAttendantsList;
     }
 }
