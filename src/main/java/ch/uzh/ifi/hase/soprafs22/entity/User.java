@@ -62,7 +62,8 @@ public class User implements Serializable {
     @ElementCollection
     private Set<String> joinParties;
 
-    @OneToMany
+
+    @ManyToMany
     private List<Recipe> likeList;
 
 

@@ -159,7 +159,7 @@ public class RecipeService {
                 recipe_.setLikesNum(likesNum);
                 //remove recipe from userLikeList
                 userLikeList.remove(recipe_);
-                user_.setLikeList(userLikeList);
+                //user_.setLikeList(userLikeList);
                 userRepository.saveAndFlush(user_);
                 recipeRepository.saveAndFlush(recipe_);
                 return Boolean.FALSE;
@@ -167,13 +167,13 @@ public class RecipeService {
             else {//to like
                 //add user
                 likedUser.add(username);
-                recipe.get().setLikedUser(likedUser);
+                recipe_.setLikedUser(likedUser);
                 //increment likesNum
                 likesNum = likesNum + 1L;
-                recipe.get().setLikesNum(likesNum);
+                recipe_.setLikesNum(likesNum);
                 //add recipe from userLikeList
                 userLikeList.add(recipe_);
-                user_.setLikeList(userLikeList);
+                //user_.setLikeList(userLikeList);
                 userRepository.saveAndFlush(user_);
                 recipeRepository.saveAndFlush(recipe_);
                 return Boolean.TRUE;

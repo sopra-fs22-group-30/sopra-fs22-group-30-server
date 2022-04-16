@@ -58,7 +58,7 @@ public class Recipe implements Serializable {
     @Column(nullable = false)
     private Long likesNum;
 
-    @Column
+    @Column(insertable = true, updatable = true)
     @ElementCollection
     private List<String> likedUser;
 
