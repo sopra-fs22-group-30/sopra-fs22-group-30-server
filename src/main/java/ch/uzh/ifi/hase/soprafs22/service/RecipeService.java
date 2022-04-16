@@ -144,20 +144,38 @@ public class RecipeService {
         Optional<User> user = userRepository.findById(userId);
         Optional<Recipe> recipe = recipeRepository.findById(recipeId);
         if (user.isPresent() && recipe.isPresent()) {
-            if (recipe.get().getLikedUser().contains(user.get().getUsername())) {
-                recipe.get().getLikedUser().remove(user.get().getUsername());
-                recipe.get().setLikesNum(recipe.get().getLikesNum() - 1L);
-                user.get().getLikeList().remove(recipe.get());
-                recipeRepository.saveAndFlush(recipe.get());
-                userRepository.saveAndFlush(user.get());
+            Recipe recipe_ = recipe.get();
+            User user_ = user.get();
+            List<String> likedUser = recipe_.getLikedUser();
+            Long likesNum = recipe_.getLikesNum();
+            String username = user_.getUsername();
+            List<Recipe> userLikeList = user_.getLikeList();
+            if (likedUser.contains(username)) {//to unlike
+                //remove user
+                likedUser.remove(username);
+                recipe_.setLikedUser(likedUser);
+                //decrease likesNum
+                likesNum = likesNum - 1L;
+                recipe_.setLikesNum(likesNum);
+                //remove recipe from userLikeList
+                userLikeList.remove(recipe_);
+                user_.setLikeList(userLikeList);
+                userRepository.saveAndFlush(user_);
+                recipeRepository.saveAndFlush(recipe_);
                 return Boolean.FALSE;
             }
-            else {
-                recipe.get().getLikedUser().add(user.get().getUsername());
-                recipe.get().setLikesNum(recipe.get().getLikesNum() + 1L);
-                user.get().getLikeList().add(recipe.get());
-                recipeRepository.saveAndFlush(recipe.get());
-                userRepository.saveAndFlush(user.get());
+            else {//to like
+                //add user
+                likedUser.add(username);
+                recipe.get().setLikedUser(likedUser);
+                //increment likesNum
+                likesNum = likesNum + 1L;
+                recipe.get().setLikesNum(likesNum);
+                //add recipe from userLikeList
+                userLikeList.add(recipe_);
+                user_.setLikeList(userLikeList);
+                userRepository.saveAndFlush(user_);
+                recipeRepository.saveAndFlush(recipe_);
                 return Boolean.TRUE;
             }
         }else {
