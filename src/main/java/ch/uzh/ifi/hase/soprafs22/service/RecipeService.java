@@ -140,7 +140,7 @@ public class RecipeService {
     }
 
     // like and unlike
-    public Boolean likeAndUnlike(Long userId, Long recipeId) {
+    public boolean likeAndUnlike(Long userId, Long recipeId) {
         Optional<User> user = userRepository.findById(userId);
         Optional<Recipe> recipe = recipeRepository.findById(recipeId);
         if (user.isPresent() && recipe.isPresent()) {
@@ -162,7 +162,7 @@ public class RecipeService {
                 //user_.setLikeList(userLikeList);
                 userRepository.saveAndFlush(user_);
                 recipeRepository.saveAndFlush(recipe_);
-                return Boolean.FALSE;
+                return false;
             }
             else {//to like
                 //add user
@@ -176,14 +176,29 @@ public class RecipeService {
                 //user_.setLikeList(userLikeList);
                 userRepository.saveAndFlush(user_);
                 recipeRepository.saveAndFlush(recipe_);
-                return Boolean.TRUE;
+                return true;
             }
         }else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User or recipe was not found!");
         }
     }
 
-
-
+    public boolean likeOrUnlike(Long userId, Long recipeId) {
+        Optional<User> user = userRepository.findById(userId);
+        Optional<Recipe> recipe = recipeRepository.findById(recipeId);
+        if (user.isPresent() && recipe.isPresent()) {
+            Recipe recipe_ = recipe.get();
+            User user_ = user.get();
+            List<String> likedUser = recipe_.getLikedUser();
+            String username = user_.getUsername();
+            if (likedUser.contains(username)){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User or recipe was not found!");
+        }
+    }
 
 }

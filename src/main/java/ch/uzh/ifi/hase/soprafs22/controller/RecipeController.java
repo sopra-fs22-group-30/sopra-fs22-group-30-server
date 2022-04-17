@@ -89,11 +89,23 @@ public class RecipeController {
 
     // like and unlike a recipe
     @PostMapping("/users/{userId}/recipes/{recipeId}/likes")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Boolean likeAndUnlike(@PathVariable("userId") Long userId, @PathVariable("recipeId") Long recipeId) {
+    public boolean likeAndUnlike(@PathVariable("userId") Long userId, @PathVariable("recipeId") Long recipeId) {
         // create recipe
-        Boolean result = recipeService.likeAndUnlike(userId, recipeId);
+        boolean result = recipeService.likeAndUnlike(userId, recipeId);
+
+        // convert internal representation of user back to API
+        return result;
+    }
+
+    // like and unlike a recipe
+    @GetMapping("/users/{userId}/recipes/{recipeId}/likes")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public boolean likeOrUnlike(@PathVariable("userId") Long userId, @PathVariable("recipeId") Long recipeId) {
+        // create recipe
+        boolean result = recipeService.likeOrUnlike(userId, recipeId);
 
         // convert internal representation of user back to API
         return result;
