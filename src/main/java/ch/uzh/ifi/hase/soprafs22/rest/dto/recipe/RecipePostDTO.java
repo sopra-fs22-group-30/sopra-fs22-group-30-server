@@ -27,6 +27,8 @@ public class RecipePostDTO {
 
     private String content;
 
+    private String pictureLocation;
+
     @JsonFormat(pattern="dd.MM.yyyy", locale = "de_CH")
     private Date creationDate;
 
@@ -104,5 +106,13 @@ public class RecipePostDTO {
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public String getPictureLocation() {
+        return pictureLocation;
+    }
+
+    public void setPictureLocation(String pictureLocation) {
+        this.pictureLocation = pictureLocation;
     }
 }
