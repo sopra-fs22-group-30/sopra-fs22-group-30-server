@@ -117,6 +117,7 @@ public class RecipeService {
                 recipeToBeUpdated.setContent(newRecipe.getContent());
                 recipeToBeUpdated.setCost(newRecipe.getCost());
                 recipeToBeUpdated.setPortion(newRecipe.getPortion());
+                recipeToBeUpdated.setPictureLocation(newRecipe.getPictureLocation());
 
                 for (Ingredient ingredient : recipeToBeUpdated.getIngredients()) {
                     ingredient.setRecipeId(null);
