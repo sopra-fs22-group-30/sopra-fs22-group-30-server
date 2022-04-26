@@ -32,7 +32,7 @@
 //    //@SendTo("checklist/{partyId}/outgoing")
 //    public void storeAndRedirectMessage(@PathVariable("partyId") Long partyId,ChecklistMessageDTO checklistMessageDTO) {
 //        ChecklistGetDTO checklistGetDTO = checklistService.storeAndConvert(partyId,checklistMessageDTO);
-//        simpMessagingTemplate.convertAndSend("/checklist/{partyId}/outgoing/" , checklistGetDTO);
+//        simpMessagingTemplate.convertAndSend("/checklist/outgoing/"+checklistGetDTO.getPartyId().toString() , checklistGetDTO);
 //    }
 //
 //
@@ -45,7 +45,7 @@
 //    @GetMapping("/checklist/party/{partyId}")
 //    @ResponseStatus(HttpStatus.OK)
 //    @ResponseBody
-//    public List<ChecklistGetDTO> getAllMessagesSentInLobby(@PathVariable("partyId") Long partyId) {
+//    public List<ChecklistGetDTO> getAllCheckInParty(@PathVariable("partyId") Long partyId) {
 //        return checklistService.getChecklistInParty(partyId);
 //    }
 //

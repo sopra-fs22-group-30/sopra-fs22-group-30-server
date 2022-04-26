@@ -1,9 +1,12 @@
 //package ch.uzh.ifi.hase.soprafs22.websocket;
 //
+//import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
+//import ch.uzh.ifi.hase.soprafs22.entity.Party;
 //import ch.uzh.ifi.hase.soprafs22.entity.User;
 //import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
 //import ch.uzh.ifi.hase.soprafs22.repository.PartyRepository;
 //import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
+//import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 //import ch.uzh.ifi.hase.soprafs22.service.UserService;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,15 +36,26 @@
 //
 //    public ChecklistGetDTO storeAndConvert(Long partyId, ChecklistMessageDTO checklistMessageDTO) {
 //        Long takerId = checklistMessageDTO.getTakerId();
-//        ingredient
+//        Long ingredientId =  checklistMessageDTO.getIngredientId();
 //        Optional<User> checkedUser = userRepository.findById(takerId);
 //        if (checkedUser.isEmpty()) {
 //            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
 //        }
-//        String takerName = checkedUser.get().getUsername();
+//        String taker = checkedUser.get().getUsername();
+//        Optional<Ingredient> checkedIngredient = ingredientRepository.findById(ingredientId);
+//        if (checkedIngredient.isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ingredient not found!");
+//        }
+//        String ingredientName = checkedIngredient.get().getName();
+//        checkedIngredient.get().setTakerId(takerId);
+//        ingredientRepository.saveAndFlush(checkedIngredient.get());
 //
-//        ingredientRepository
-//        return DTOMapper.INSTANCE.convertMessageToChatMessageDTO(message);
+//        ChecklistGetDTO checklistGetDTO = new ChecklistGetDTO();
+//        checklistGetDTO.setPartyId(partyId);
+//        checklistGetDTO.setIngredientId(ingredientId);
+//        checklistGetDTO.setIngredientName(ingredientName);
+//        checklistGetDTO.setTaker(taker);
+//        return checklistGetDTO;
 //    }
 //
 //    public List<ChecklistMessageDTO> getChecklistInParty(Long partyId) {
