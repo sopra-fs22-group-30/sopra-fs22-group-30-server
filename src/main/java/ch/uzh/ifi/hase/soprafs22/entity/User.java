@@ -156,8 +156,8 @@ public class User implements Serializable {
     }
 
 
-    public void addJoinParties(String partyname) {
-        this.joinParties.add(partyname);
+    public void addJoinParties(String partyName) {
+        this.joinParties.add(partyName);
 
     }
 
