@@ -30,7 +30,7 @@ public class PartyGetDTO {
     private Long recipeUsedId;
 
 
-    private List<String> ingredients;
+    private List<Ingredient> ingredientList;
 
     private List<String> partyAttendantsList;
 
@@ -101,13 +101,14 @@ public class PartyGetDTO {
     }
 
 
-    public List<String> getIngredients() {
-        return ingredients;
+    public List<Ingredient> getIngredientList() {
+        return ingredientList;
     }
 
-    public void setIngredients(List<String> ingredients) {
-        this.ingredients = ingredients;
+    public void setIngredientList(List<Ingredient> ingredientList) {
+        this.ingredientList = ingredientList;
     }
+
 
     public List<String> getPartyAttendantsList() {
         return partyAttendantsList;

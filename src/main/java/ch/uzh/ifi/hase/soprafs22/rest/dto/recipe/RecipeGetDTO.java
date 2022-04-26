@@ -19,7 +19,8 @@ public class RecipeGetDTO{
     private Long cost;
     private Long timeConsumed;
     private String pictureLocation;
-    private List<IngredientGetDTO> ingredients;
+    private List<Ingredient> ingredientList;
+
     private Integer portion;
     private String content;
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
@@ -116,11 +117,9 @@ public class RecipeGetDTO{
     }
 
 
-    public List<IngredientGetDTO> getIngredients() {
-        return ingredients;
-    }
+    public List<Ingredient> getIngredientList() { return ingredientList;}
 
-    public void setIngredients(List<IngredientGetDTO> ingredients) {
-        this.ingredients = ingredients;
+    public void setIngredientList(List<Ingredient> ingredientList) {
+        this.ingredientList = ingredientList;
     }
 }

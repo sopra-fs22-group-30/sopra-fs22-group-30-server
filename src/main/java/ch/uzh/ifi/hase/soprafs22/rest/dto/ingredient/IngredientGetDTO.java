@@ -7,6 +7,8 @@ public class IngredientGetDTO {
     private Long recipeId;
     private String name;
     private Integer amount;
+    private Long partyId;
+    private Long takerId;
 
 
     public String getName() {
@@ -41,4 +43,21 @@ public class IngredientGetDTO {
     public void setRecipeId(Long recipeId) {
         this.recipeId = recipeId;
     }
+
+    public Long getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(Long partyId) {
+        this.partyId = partyId;
+    }
+
+    public Long getTakerId() {
+        return takerId;
+    }
+
+    public void setTakerId(Long takerId) {
+        this.ingredientId = takerId;
+    }
+
 }

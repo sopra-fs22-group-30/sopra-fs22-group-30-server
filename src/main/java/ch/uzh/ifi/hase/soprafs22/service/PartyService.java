@@ -43,6 +43,9 @@ public class PartyService {
 
     // create new party
     public Party createParty(Party newParty) {
+
+        newParty.setCreationDate(new Date());
+
         for (String username: newParty.getPartyAttendantsList()) {
             User checkUser = userRepository.findByUsername(username);
             if (checkUser == null) {
@@ -50,21 +53,13 @@ public class PartyService {
             }
         }
         Optional<Recipe> recipeToCheck = recipeRepository.findById(newParty.getRecipeUsedId());
-        if (!recipeToCheck.isPresent()){
+        if (recipeToCheck.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe may not exist!!");
         }
 
-
-        newParty.setCreationDate(new Date());
-        List<String> ingredientList = new ArrayList<>() {
-        };
-        for (Ingredient ingredient : recipeToCheck.get().getIngredients()) {
-            ingredientList.add(ingredient.getName());
-        }
-        newParty.setIngredients(ingredientList);
-        Integer size = newParty.getPartyAttendantsList().size();
-        newParty.setPartyAttendantsNum(size);
-
+        //set party attendants number
+        int size = newParty.getPartyAttendantsList().size();
+        newParty.setPartyAttendantsNum(size+1);
 
         for(String username: newParty.getPartyAttendantsList()) {
             User attendant = userRepository.findByUsername(username);
@@ -72,7 +67,23 @@ public class PartyService {
             userRepository.saveAndFlush(attendant);
         }
 
+        newParty=partyRepository.save(newParty);
+
+        //set party ingredient list equal to recipe ingredient list
+        List<Ingredient> ingredientList = new ArrayList<Ingredient>();
+        for (Ingredient ingredient: recipeToCheck.get().getIngredientList()){
+            Ingredient ingredientCopied = new Ingredient();
+            ingredientCopied.setName(ingredient.getName());
+            ingredientCopied.setAmount(ingredient.getAmount());
+            ingredientCopied.setRecipeId(ingredient.getRecipeId());
+            ingredientCopied.setPartyId(newParty.getPartyId());
+            ingredientCopied.setRecipeId(null);
+            ingredientList.add(ingredientCopied);
+        }
+
+        newParty.setIngredientList(ingredientList);
         partyRepository.saveAndFlush(newParty);
+
         return newParty;
 
     }

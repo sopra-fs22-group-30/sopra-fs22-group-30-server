@@ -40,8 +40,8 @@ public class Party implements Serializable {
 
 
     @Column
-    @ElementCollection
-    private List<String> ingredients;
+    @OneToMany(mappedBy = "partyId", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private List<Ingredient> ingredientList;
 
     @Column
     @ElementCollection
@@ -118,12 +118,12 @@ public class Party implements Serializable {
 
 
 
-    public List<String> getIngredients() {
-        return ingredients;
+    public List<Ingredient> getIngredientList() {
+        return ingredientList;
     }
 
-    public void setIngredients(List<String> ingredients) {
-        this.ingredients = ingredients;
+    public void setIngredientList(List<Ingredient> ingredientList) {
+        this.ingredientList = ingredientList;
     }
 
     public List<String> getPartyAttendantsList() {

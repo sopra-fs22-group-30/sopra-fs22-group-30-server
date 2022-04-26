@@ -37,7 +37,7 @@ public class Recipe implements Serializable {
     private Long cost;
 
     @OneToMany(mappedBy = "recipeId", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    private List<Ingredient> ingredients;
+    private List<Ingredient> ingredientList;
 
     @Column
     private Long timeConsumed;
@@ -148,12 +148,12 @@ public class Recipe implements Serializable {
     }
 
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
+    public List<Ingredient> getIngredientList() {
+        return ingredientList;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public void setIngredientList(List<Ingredient> ingredientList) {
+        this.ingredientList = ingredientList;
     }
 
     public Long getLikesNum() {

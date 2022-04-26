@@ -16,8 +16,15 @@ public class Ingredient implements Serializable {
     @Column
     private Long recipeId;
 
+    @Column(nullable = true)
     private String name;
+    @Column(nullable = true)
     private Integer amount;
+
+    @Column(nullable = true)
+    private Long partyId;
+    @Column(nullable = true)
+    private Long takerId;
 
 
     public String getName() {
@@ -50,6 +57,22 @@ public class Ingredient implements Serializable {
 
     public void setRecipeId(Long recipeId) {
         this.recipeId = recipeId;
+    }
+
+    public Long getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(Long partyId) {
+        this.partyId = partyId;
+    }
+
+    public Long getTakerId() {
+        return takerId;
+    }
+
+    public void setTakerId(Long takerId) {
+        this.takerId = takerId;
     }
 
 

@@ -49,15 +49,15 @@ public class RecipeService {
         newRecipe.setCreationDate(new Date());
 //        Optional<User> author = userRepository.findById(newRecipe.getAuthorId());
         newRecipe.setLikesNum(0L);
-        newRecipe = recipeRepository.save(newRecipe);
+        newRecipe=recipeRepository.save(newRecipe);
 
-        for (Ingredient ingredient : newRecipe.getIngredients()) {
+        for (Ingredient ingredient : newRecipe.getIngredientList()) {
             ingredient.setRecipeId(newRecipe.getRecipeId());
-            ingredientRepository.save(ingredient);
+            ingredientRepository.saveAndFlush(ingredient);
         }
 
-        ingredientRepository.save(newRecipe.getIngredients().get(0));
-        recipeRepository.flush();
+
+        recipeRepository.saveAndFlush(newRecipe);
 
         log.debug("Created Information for User: {}", newRecipe);
 
@@ -88,7 +88,7 @@ public class RecipeService {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Fail to delete this recipe because the user is not the author");
             }
             else{
-                for (Ingredient ingredient : checkRecipe.get().getIngredients()) {
+                for (Ingredient ingredient : checkRecipe.get().getIngredientList()) {
                     ingredient.setRecipeId(null);
                 }
                 recipeRepository.deleteById(recipeId);
@@ -119,13 +119,13 @@ public class RecipeService {
                 recipeToBeUpdated.setPortion(newRecipe.getPortion());
                 recipeToBeUpdated.setPictureLocation(newRecipe.getPictureLocation());
 
-                for (Ingredient ingredient : recipeToBeUpdated.getIngredients()) {
+                for (Ingredient ingredient : recipeToBeUpdated.getIngredientList()) {
                     ingredient.setRecipeId(null);
                 }
 //                System.out.println(newRecipe.getIngredients());
 
 //                newRecipe = recipeRepository.saveAndFlush(newRecipe);
-                for (Ingredient ingredient : newRecipe.getIngredients()) {
+                for (Ingredient ingredient : newRecipe.getIngredientList()) {
                     ingredient.setRecipeId(recipeId);
                     ingredientRepository.save(ingredient);
                 }
