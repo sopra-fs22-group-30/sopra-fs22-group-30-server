@@ -51,7 +51,7 @@ public class RecipeService {
         newRecipe.setLikesNum(0L);
         newRecipe=recipeRepository.save(newRecipe);
 
-        for (Ingredient ingredient : newRecipe.getIngredientList()) {
+        for (Ingredient ingredient : newRecipe.getIngredients()) {
             ingredient.setRecipeId(newRecipe.getRecipeId());
             ingredientRepository.saveAndFlush(ingredient);
         }
@@ -88,7 +88,7 @@ public class RecipeService {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Fail to delete this recipe because the user is not the author");
             }
             else{
-                for (Ingredient ingredient : checkRecipe.get().getIngredientList()) {
+                for (Ingredient ingredient : checkRecipe.get().getIngredients()) {
                     ingredient.setRecipeId(null);
                 }
                 recipeRepository.deleteById(recipeId);
@@ -119,13 +119,13 @@ public class RecipeService {
                 recipeToBeUpdated.setPortion(newRecipe.getPortion());
                 recipeToBeUpdated.setPictureLocation(newRecipe.getPictureLocation());
 
-                for (Ingredient ingredient : recipeToBeUpdated.getIngredientList()) {
+                for (Ingredient ingredient : recipeToBeUpdated.getIngredients()) {
                     ingredient.setRecipeId(null);
                 }
 //                System.out.println(newRecipe.getIngredients());
 
 //                newRecipe = recipeRepository.saveAndFlush(newRecipe);
-                for (Ingredient ingredient : newRecipe.getIngredientList()) {
+                for (Ingredient ingredient : newRecipe.getIngredients()) {
                     ingredient.setRecipeId(recipeId);
                     ingredientRepository.save(ingredient);
                 }

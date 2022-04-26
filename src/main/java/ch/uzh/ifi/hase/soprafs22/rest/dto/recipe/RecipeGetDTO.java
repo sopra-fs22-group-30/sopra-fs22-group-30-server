@@ -19,7 +19,7 @@ public class RecipeGetDTO{
     private Long cost;
     private Long timeConsumed;
     private String pictureLocation;
-    private List<Ingredient> ingredientList;
+    private List<Ingredient> ingredients;
 
     private Integer portion;
     private String content;
@@ -117,9 +117,9 @@ public class RecipeGetDTO{
     }
 
 
-    public List<Ingredient> getIngredientList() { return ingredientList;}
+    public List<Ingredient> getIngredients() { return ingredients;}
 
-    public void setIngredientList(List<Ingredient> ingredientList) {
-        this.ingredientList = ingredientList;
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }

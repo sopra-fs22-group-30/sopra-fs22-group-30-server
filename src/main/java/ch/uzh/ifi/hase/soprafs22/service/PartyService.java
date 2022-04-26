@@ -71,7 +71,7 @@ public class PartyService {
 
         //set party ingredient list equal to recipe ingredient list
         List<Ingredient> ingredientList = new ArrayList<Ingredient>();
-        for (Ingredient ingredient: recipeToCheck.get().getIngredientList()){
+        for (Ingredient ingredient: recipeToCheck.get().getIngredients()){
             Ingredient ingredientCopied = new Ingredient();
             ingredientCopied.setName(ingredient.getName());
             ingredientCopied.setAmount(ingredient.getAmount());
@@ -81,7 +81,7 @@ public class PartyService {
             ingredientList.add(ingredientCopied);
         }
 
-        newParty.setIngredientList(ingredientList);
+        newParty.setIngredients(ingredientList);
         partyRepository.saveAndFlush(newParty);
 
         return newParty;
