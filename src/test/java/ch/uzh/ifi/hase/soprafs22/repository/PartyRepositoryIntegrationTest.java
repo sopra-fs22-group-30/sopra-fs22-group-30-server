@@ -17,26 +17,26 @@
 //@DataJpaTest
 //public class PartyRepositoryIntegrationTest {
 //
-//  @Autowired
-//  private TestEntityManager entityManager;
+//    @Autowired
+//    private TestEntityManager entityManager;
 //
-//  @Autowired
-//  private PartyRepository partyRepository;
+//    @Autowired
+//    private PartyRepository partyRepository;
 //
-//  @Test
-//  public void findAll() {
+//    @Test
+//    public void findAll() {
 //        // given
 //        Party party1 = new Party();
-//        party1.setPartyId(1L);
-//        party1.setPartyHostId(1l);
+////        party1.setPartyId(1L);
+//        party1.setPartyHostId(1L);
 //        party1.setPartyName("p1");
 //        party1.setRecipeUsedId(1L);
 //
 //        Party party2 = new Party();
-//        party2.setPartyId(2L);
-//        party2.setPartyHostId(2l);
+////        party2.setPartyId(2L);
+//        party2.setPartyHostId(2L);
 //        party2.setPartyName("p2");
-//        party2.setRecipeUsedId(1l);
+//        party2.setRecipeUsedId(1L);
 //
 //        entityManager.persist(party1);
 //        entityManager.flush();
@@ -56,16 +56,15 @@
 //        assertEquals(found.get(1).getPartyName(), party2.getPartyName());
 //
 //
-//
-//  }
+//    }
 //
 //    @Test
 //    public void findByID_success() {
 //        // given
 //        Party party = new Party();
-//        party.setPartyName("firstname@lastname");
-//        party.setPartyHostId(1l);
-//        party.setRecipeUsedId(1l);
+//        party.setPartyName("partyName");
+//        party.setPartyHostId(1L);
+//        party.setRecipeUsedId(1L);
 //        party.setPartyId(1L);
 //
 //        entityManager.merge(party);

@@ -99,8 +99,6 @@ public class UserService {
         }
     }
 
-
-    // logout
     public User getUserById(Long id) {
         Optional<User> checkUser = userRepository.findById(id);
         if (checkUser.isPresent()) {
@@ -111,19 +109,11 @@ public class UserService {
         }
     }
 
+    // logout
     public void logoutUser(User user) {
         user.setToken("");
     }
 
-    public Gender transferGender(String gender) {
-        if (gender.equals("Male")) {
-            return Gender.Male;
-        } else if (gender.equals("Female")){
-            return Gender.Female;
-        } else {
-            return Gender.Others;
-        }
-    }
 
     public void editUser(User userInput) {
         if(!userRepository.existsById(userInput.getId())) {

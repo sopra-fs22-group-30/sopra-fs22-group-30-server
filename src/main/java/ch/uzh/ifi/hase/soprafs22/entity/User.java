@@ -53,7 +53,7 @@ public class User implements Serializable {
     @Column(nullable = true)
     private Gender gender;
 
-    @OneToMany(mappedBy = "authorId")
+    @OneToMany(mappedBy = "authorId", cascade = CascadeType.MERGE)
     private Set<Recipe> recipes;
 
     @OneToMany(mappedBy = "partyHostId")
