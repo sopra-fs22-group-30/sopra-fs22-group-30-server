@@ -9,7 +9,7 @@ public class IngredientGetDTO {
     private Integer amount;
     private Long partyId;
     private Long takerId;
-
+    private String takerName;
 
     public String getName() {
         return name;
@@ -59,5 +59,6 @@ public class IngredientGetDTO {
     public void setTakerId(Long takerId) {
         this.ingredientId = takerId;
     }
+
 
 }

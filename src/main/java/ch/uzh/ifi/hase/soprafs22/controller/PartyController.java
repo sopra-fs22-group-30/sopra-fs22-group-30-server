@@ -62,6 +62,16 @@ public class PartyController {
         return DTOMapper.INSTANCE.convertEntityToPartyGetDTO(party);
     }
 
+//    // get party list by userId: retrieve the partyies the user is in
+//    @GetMapping("/users/{userId}/parties/{partyId}")
+//    @ResponseStatus(HttpStatus.OK)
+//    @ResponseBody
+//    public PartyGetDTO partyGetDTO (@PathVariable("userId") Long userId, @PathVariable("partyId") Long partyId) {
+//        Party party = partyService.getPartyById(userId, partyId);
+//        return DTOMapper.INSTANCE.convertEntityToPartyGetDTO(party);
+//    }
+
+
     // edit party detail
     @PutMapping("/users/{userId}/parties/{partyId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

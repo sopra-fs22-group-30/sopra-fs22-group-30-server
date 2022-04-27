@@ -26,6 +26,8 @@ public class Ingredient implements Serializable {
     @Column(nullable = true)
     private Long takerId;
 
+    @Column(nullable = true)
+    private String takerName;
 
     public String getName() {
         return name;
@@ -76,11 +78,11 @@ public class Ingredient implements Serializable {
     }
 
 
-//    public Long getIngredientId() {
-//        return ingredientId;
-//    }
-//
-//    public void setIngredientId(Long ingredientId) {
-//        this.ingredientId = ingredientId;
-//    }
+    public String getTakerName() {
+        return takerName;
+    }
+
+    public void setTakerName(String takerName) {
+        this.takerName = takerName;
+    }
 }

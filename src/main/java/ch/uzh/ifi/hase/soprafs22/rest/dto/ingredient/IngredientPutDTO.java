@@ -7,6 +7,7 @@ public class IngredientPutDTO {
     private Integer amount;
     private Long partyId;
     private Long takerId;
+    private String takerName;
 
 
 
@@ -57,6 +58,14 @@ public class IngredientPutDTO {
 
     public void setTakerId(Long takerId) {
         this.ingredientId = takerId;
+    }
+
+    public String getTakerName() {
+        return takerName;
+    }
+
+    public void setTakerName(String takerName) {
+        this.takerName = takerName;
     }
 
 }

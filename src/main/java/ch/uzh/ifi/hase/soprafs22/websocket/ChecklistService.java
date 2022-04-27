@@ -35,7 +35,7 @@ public class ChecklistService {
         this.userRepository = userRepository;
     }
 
-    public ChecklistGetDTO storeAndConvert(Long partyId, ChecklistMessageDTO checklistMessageDTO) {
+    public void storeAndConvert(Long partyId, ChecklistMessageDTO checklistMessageDTO) {
         Long takerId = checklistMessageDTO.getTakerId();
         Long ingredientId =  checklistMessageDTO.getIngredientId();
         Optional<User> checkedUser = userRepository.findById(takerId);
@@ -51,15 +51,10 @@ public class ChecklistService {
 
         //set the taker of the ingredient in a certain party
         checkedIngredient.get().setTakerId(takerId);
+        checkedIngredient.get().setTakerName(taker);
 
         ingredientRepository.saveAndFlush(checkedIngredient.get());
 
-        ChecklistGetDTO checklistGetDTO = new ChecklistGetDTO();
-        checklistGetDTO.setPartyId(partyId);
-        checklistGetDTO.setIngredientId(ingredientId);
-        checklistGetDTO.setIngredientName(ingredientName);
-        checklistGetDTO.setTaker(taker);
-        return checklistGetDTO;
     }
 
     public List<ChecklistGetDTO> getChecklistInParty(Long partyId) {
