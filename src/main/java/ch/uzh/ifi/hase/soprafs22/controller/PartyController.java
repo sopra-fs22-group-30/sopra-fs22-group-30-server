@@ -1,19 +1,11 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Party;
-import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
-import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyPutDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipeGetDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePostDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePutDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserGetDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserPutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.PartyService;
-import ch.uzh.ifi.hase.soprafs22.service.RecipeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
