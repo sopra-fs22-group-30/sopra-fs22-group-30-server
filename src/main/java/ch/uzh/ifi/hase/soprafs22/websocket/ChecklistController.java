@@ -35,7 +35,7 @@ public class ChecklistController {
     public String storeAndRedirectMessage(@DestinationVariable("partyId") Long partyId, Message<ChecklistMessageDTO> message) {
         ChecklistMessageDTO checklistMessageDTO = message.getPayload();
         ChecklistGetDTO checklistGetDTO = checklistService.storeAndConvert(102L,checklistMessageDTO);
-        simpMessagingTemplate.convertAndSend("/checklist/outgoing", checklistGetDTO);
+        //simpMessagingTemplate.convertAndSend("/checklist/outgoing", checklistGetDTO);
         //simpMessagingTemplate.convertAndSend("/checklist/outgoing/"+checklistGetDTO.getPartyId().toString() , checklistGetDTO);
         return "fetch";
     }
