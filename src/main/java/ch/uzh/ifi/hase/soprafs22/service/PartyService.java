@@ -59,7 +59,7 @@ public class PartyService {
 
         //set party attendants number
         int size = newParty.getPartyAttendantsList().size();
-        newParty.setPartyAttendantsNum(size+1);
+        newParty.setPartyAttendantsNum(size);
 
         for(String username: newParty.getPartyAttendantsList()) {
             User attendant = userRepository.findByUsername(username);
