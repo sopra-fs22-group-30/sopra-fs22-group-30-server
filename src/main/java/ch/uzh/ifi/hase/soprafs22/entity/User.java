@@ -60,7 +60,7 @@ public class User implements Serializable {
     private Set<Party> hostParties;
 
     @ElementCollection
-    private Set<String> joinParties;
+    private Set<Long> joinParties;
 
 
     @ManyToMany
@@ -147,17 +147,17 @@ public class User implements Serializable {
         this.hostParties = hostParties;
     }
 
-    public Set<String> getJoinParties() {
+    public Set<Long> getJoinParties() {
         return joinParties;
     }
 
-    public void setJoinParties(Set<String> joinParties) {
+    public void setJoinParties(Set<Long> joinParties) {
         this.joinParties = joinParties;
     }
 
 
-    public void addJoinParties(String partyName) {
-        this.joinParties.add(partyName);
+    public void addJoinParties(Long partyId) {
+        this.joinParties.add(partyId);
 
     }
 

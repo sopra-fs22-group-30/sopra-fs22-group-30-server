@@ -26,7 +26,7 @@ public class PartyController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<PartyGetDTO> getAllParties() {
-        // fetch all users in the internal representation
+        // fetch all parties in the internal representation
         List<Party> parties = partyService.getParties();
         List<PartyGetDTO> partyGetDTOs = new ArrayList<>();
 
@@ -62,14 +62,20 @@ public class PartyController {
         return DTOMapper.INSTANCE.convertEntityToPartyGetDTO(party);
     }
 
-//    // get party list by userId: retrieve the partyies the user is in
-//    @GetMapping("/users/{userId}/parties/{partyId}")
-//    @ResponseStatus(HttpStatus.OK)
-//    @ResponseBody
-//    public PartyGetDTO partyGetDTO (@PathVariable("userId") Long userId, @PathVariable("partyId") Long partyId) {
-//        Party party = partyService.getPartyById(userId, partyId);
-//        return DTOMapper.INSTANCE.convertEntityToPartyGetDTO(party);
-//    }
+    // get party list by userId: retrieve the parties the user is in
+    @GetMapping("/users/parties/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<PartyGetDTO> getPartiesAUserIsIn (@PathVariable("userId") Long userId) {
+        // fetch all parties consisting of a specific user in the internal representation
+        List<Party> parties = partyService.getPartiesAUserIsIn(userId);
+        List<PartyGetDTO> partyGetDTOs = new ArrayList<>();
+        // convert each user to the API representation
+        for (Party party : parties) {
+            partyGetDTOs.add(DTOMapper.INSTANCE.convertEntityToPartyGetDTO(party));
+        }
+        return partyGetDTOs;
+    }
 
 
     // edit party detail

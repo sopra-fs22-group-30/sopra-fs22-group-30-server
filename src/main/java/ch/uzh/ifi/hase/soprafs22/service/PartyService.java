@@ -43,9 +43,7 @@ public class PartyService {
 
     // create new party
     public Party createParty(Party newParty) {
-
         newParty.setCreationDate(new Date());
-
         for (String username: newParty.getPartyAttendantsList()) {
             User checkUser = userRepository.findByUsername(username);
             if (checkUser == null) {
@@ -61,13 +59,15 @@ public class PartyService {
         int size = newParty.getPartyAttendantsList().size();
         newParty.setPartyAttendantsNum(size);
 
-        for(String username: newParty.getPartyAttendantsList()) {
-            User attendant = userRepository.findByUsername(username);
-            attendant.addJoinParties(newParty.getPartyName());
-            userRepository.saveAndFlush(attendant);
-        }
+
 
         newParty=partyRepository.save(newParty);
+
+        for(String username: newParty.getPartyAttendantsList()) {
+            User attendant = userRepository.findByUsername(username);
+            attendant.addJoinParties(newParty.getPartyId());
+            userRepository.saveAndFlush(attendant);
+        }
 
         //set party ingredient list equal to recipe ingredient list
         List<Ingredient> ingredientList = new ArrayList<Ingredient>();
@@ -83,10 +83,26 @@ public class PartyService {
 
         newParty.setIngredients(ingredientList);
         partyRepository.saveAndFlush(newParty);
-
         return newParty;
-
     }
+
+    //get a list of parties of a specific user
+    public List<Party> getPartiesAUserIsIn(Long userId){
+        Optional<User> foundUser = userRepository.findById(userId);
+        //find user
+        if(foundUser.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!!");
+        }
+        //find parties this user host
+        List<Party> parties = new ArrayList<>(foundUser.get().getHostParties());
+        //find parties this user attends
+        for (Long partyId: foundUser.get().getJoinParties()) {
+            Optional<Party> foundParty = partyRepository.findById(partyId);
+            foundParty.ifPresent(parties::add);
+        }
+        return parties;
+    }
+
 
     // get one party detail
     public Party getPartyById(Long userId, Long partyId) {
@@ -95,7 +111,7 @@ public class PartyService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party may not exist!!");
         }
         Optional<User> userToCheck = userRepository.findById(userId);
-        if (userId != partyToGet.get().getPartyHostId() && !userToCheck.get().getJoinParties().contains(partyToGet.get().getPartyName()) ){
+        if (userId != partyToGet.get().getPartyHostId() && !userToCheck.get().getJoinParties().contains(partyToGet.get().getPartyId()) ){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not in this party");
         }
         return partyToGet.get();
@@ -126,8 +142,8 @@ public class PartyService {
             partyToUpdate.get().setPartyAttendantsNum(newSize);
             for (String username : newParty.getPartyAttendantsList()) {
                 User attendant = userRepository.findByUsername(username);
-                if (!attendant.getJoinParties().contains(partyToUpdate.get().getPartyName())) {
-                    attendant.addJoinParties(newParty.getPartyName());
+                if (!attendant.getJoinParties().contains(partyToUpdate.get().getPartyId())) {
+                    attendant.addJoinParties(newParty.getPartyId());
                     userRepository.saveAndFlush(attendant);
                 }
             }
@@ -172,8 +188,8 @@ public class PartyService {
         partyRepository.saveAndFlush(partyToQuit);
 
         User userQuitting = userChecked.get();
-        Set<String> joinedParties = userQuitting.getJoinParties();
-        joinedParties.remove(partyToQuit.getPartyName());
+        Set<Long> joinedParties = userQuitting.getJoinParties();
+        joinedParties.remove(partyToQuit.getPartyId());
         userQuitting.setJoinParties(joinedParties);
         userRepository.saveAndFlush(userQuitting);
     }
