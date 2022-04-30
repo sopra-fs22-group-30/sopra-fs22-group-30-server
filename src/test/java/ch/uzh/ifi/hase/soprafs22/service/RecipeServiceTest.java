@@ -64,4 +64,5 @@ public class RecipeServiceTest {
 
         assertEquals(testRecipe.getRecipeId(), foundRecipe.getRecipeId());
     }
+
 }

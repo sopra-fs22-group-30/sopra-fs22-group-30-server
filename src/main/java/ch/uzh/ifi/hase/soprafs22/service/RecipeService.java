@@ -122,9 +122,7 @@ public class RecipeService {
                 for (Ingredient ingredient : recipeToBeUpdated.getIngredients()) {
                     ingredient.setRecipeId(null);
                 }
-//                System.out.println(newRecipe.getIngredients());
 
-//                newRecipe = recipeRepository.saveAndFlush(newRecipe);
                 for (Ingredient ingredient : newRecipe.getIngredients()) {
                     ingredient.setRecipeId(recipeId);
                     ingredientRepository.save(ingredient);

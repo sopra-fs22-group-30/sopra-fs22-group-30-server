@@ -1,9 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs22.constant.Gender;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserPutDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -11,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
@@ -35,8 +36,7 @@ public class UserServiceTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
 
-        // when -> any object is being saved in the userRepository -> return the dummy
-        // testUser
+        // when -> any object is being saved in the userRepository -> return the dummy testUser
         Mockito.when(userRepository.save(Mockito.any())).thenReturn(testUser);
     }
 
@@ -108,19 +108,45 @@ public class UserServiceTest {
         assertEquals(testUser, loginUser);
     }
 
-//    @Test
-//    public void editUser_success(){
-//        User newUser = new User();
-//        newUser.setId(1L);
-//        newUser.setUsername("newName");
-//
-//        Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(testUser);
-//
-//        userService.editUser(newUser);
-//
-//        // then
-//        Mockito.verify(userRepository, Mockito.times(1)).save(Mockito.any());
-//
-//        assertEquals(testUser.getUsername(), newUser.getUsername());
-//    }
+    @Test
+    public void editUsername_success(){
+        User newUser = new User();
+        newUser.setId(1L);
+        newUser.setUsername("testUsername");
+        newUser.setPassword("testPassword");
+
+        // when -> any object is being updated in the userRepository -> return the testUpdateUser
+        Mockito.when(userRepository.save(Mockito.any())).thenReturn(newUser);
+        Mockito.when(userRepository.existsById(Mockito.any())).thenReturn(true);
+        Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.ofNullable(testUser));
+
+        // when -> any object is being saved in the userRepository -> return the testUser
+        userService.editUser(newUser);
+
+        // then
+        Mockito.verify(userRepository, Mockito.times(1)).save(Mockito.any());
+
+        assertEquals(testUser.getUsername(), newUser.getUsername());
+    }
+
+    @Test
+    public void editUserGender_success(){
+        User newUser = new User();
+        newUser.setId(1L);
+        newUser.setUsername("newName");
+        newUser.setGender(Gender.Female);
+
+        // when -> any object is being updated in the userRepository -> return the testUpdateUser
+        Mockito.when(userRepository.save(Mockito.any())).thenReturn(newUser);
+        Mockito.when(userRepository.existsById(Mockito.any())).thenReturn(true);
+        Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.ofNullable(testUser));
+
+        // when -> any object is being saved in the userRepository -> return the testUser
+        userService.editUser(newUser);
+
+        // then
+        Mockito.verify(userRepository, Mockito.times(1)).save(Mockito.any());
+
+        assertEquals(testUser.getGender(), newUser.getGender());
+    }
 }
