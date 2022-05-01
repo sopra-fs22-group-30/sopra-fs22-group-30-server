@@ -77,13 +77,17 @@ public class DTOMapperTest {
     public void test_convertIngredientPostDTOtoEntity(){
         // create IngredientPostDTO
         IngredientPostDTO ingredientPostDTO = new IngredientPostDTO();
+        ingredientPostDTO.setIngredientId(1L);
         ingredientPostDTO.setName("beef");
+        ingredientPostDTO.setAmount(50);
 
-        // MAP -> Create user
+        // MAP -> Create ingredient
         Ingredient ingredient = DTOMapper.INSTANCE.convertIngredientPostDTOtoEntity(ingredientPostDTO);
 
         // check content
+        assertEquals(ingredientPostDTO.getIngredientId(), ingredient.getIngredientId());
         assertEquals(ingredientPostDTO.getName(), ingredient.getName());
+        assertEquals(ingredientPostDTO.getAmount(), ingredient.getAmount());
     }
 }
 

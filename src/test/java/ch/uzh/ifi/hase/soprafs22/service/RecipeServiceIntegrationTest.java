@@ -1,8 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
+import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
+import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RecipeRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,85 +13,127 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
 
+@WebAppConfiguration
+@SpringBootTest
 public class RecipeServiceIntegrationTest {
-    @Mock
+
+    @Qualifier("recipeRepository")
+    @Autowired
     private RecipeRepository recipeRepository;
 
-    @Mock
+    @Qualifier("ingredientRepository")
+    @Autowired
+    private IngredientRepository ingredientRepository;
+
+    @Qualifier("userRepository")
+    @Autowired
     private UserRepository userRepository;
 
-    @InjectMocks
+    @Autowired
     private RecipeService recipeService;
 
-    private Recipe testRecipe;
-    private User testUser;
+    @Autowired
+    private UserService userService;
 
     @BeforeEach
     public void setup() {
-        MockitoAnnotations.openMocks(this);
+        recipeRepository.deleteAll();
+        ingredientRepository.deleteAll();
+        userRepository.deleteAll();
+    }
 
-        // given
-        testRecipe = new Recipe();
-        testRecipe.setRecipeId(1L);
-        testRecipe.setRecipeName("testRecipeName");
+    @Test
+    public void creatRecipe_validInputs_success() {
+        //given
+        Recipe testRecipe = new Recipe();
         testRecipe.setAuthorId(1L);
-        List<String> likedUsers = new ArrayList<>();
-        likedUsers.add("testUsername");
-        testRecipe.setLikedUser(likedUsers);
-        testRecipe.setLikesNum(1L);
+        testRecipe.setContent("content");
+        testRecipe.setRecipeName("testRecipeName");
         List<Ingredient> ingredients = new ArrayList<>();
+        Ingredient ingredient = new Ingredient();
+        ingredient.setName("eggs");
+        ingredient.setAmount(50);
+        ingredients.add(ingredient);
         testRecipe.setIngredients(ingredients);
+        testRecipe.setCost(1L);
+        testRecipe.setTimeConsumed(1L);
+        testRecipe.setCuisine(Cuisine.Algerian);
+        testRecipe.setPortion(1);
 
-        testUser = new User();
-        testUser.setId(1L);
-        testUser.setUsername("testUsername");
-        testUser.setPassword("testPassword");
-        List<Recipe> userLikedList = new ArrayList<>();
-        userLikedList.add(testRecipe);
-        testUser.setLikeList(userLikedList);
+        User testUser = new User();
+        testUser.setUsername("testName");
+        testUser.setPassword("1234565");
 
-        // when -> any object is being saved in the userRepository -> return the dummy
-        // testUser
-        Mockito.when(recipeRepository.save(Mockito.any())).thenReturn(testRecipe);
-        Mockito.when(userRepository.save(Mockito.any())).thenReturn(testUser);
+        User createdUser = userService.createUser(testUser);
+
+        //when
+        Recipe createdRecipe = recipeService.createRecipe(testRecipe);
+
+        //then
+        assertEquals(testRecipe.getRecipeId(), createdRecipe.getRecipeId());
+        assertEquals(testRecipe.getRecipeName(), createdRecipe.getRecipeName());
     }
 
     @Test
     public void test_editRecipe() {
+        //given
+        Recipe testRecipe = new Recipe();
+        testRecipe.setAuthorId(1L);
+        testRecipe.setContent("content");
+        testRecipe.setRecipeName("testRecipeName");
+        List<Ingredient> ingredients = new ArrayList<>();
+        Ingredient ingredient = new Ingredient();
+        ingredient.setName("eggs");
+        ingredient.setAmount(50);
+        ingredients.add(ingredient);
+        testRecipe.setIngredients(ingredients);
+        testRecipe.setCost(1L);
+        testRecipe.setTimeConsumed(1L);
+        testRecipe.setCuisine(Cuisine.Algerian);
+        testRecipe.setPortion(1);
+
+        User testUser = new User();
+        testUser.setUsername("testName");
+        testUser.setPassword("1234565");
+
+        User createdUser = userService.createUser(testUser);
+        Recipe createdRecipe = recipeService.createRecipe(testRecipe);
+
         Recipe newRecipe = new Recipe();
         newRecipe.setRecipeId(1L);
-        newRecipe.setRecipeName("newName");
-        List<Ingredient> ingredients = new ArrayList<>();
-        newRecipe.setIngredients(ingredients);
-
-        Mockito.when(recipeRepository.save(Mockito.any())).thenReturn(newRecipe);
-        Mockito.when(recipeRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testRecipe));
+        newRecipe.setCost(2L);
+        newRecipe.setRecipeName("newRecipeName");
+        List<Ingredient> newIngredients = new ArrayList<>();
+        Ingredient newIngredient = new Ingredient();
+        newIngredient.setName("beef");
+        newIngredient.setAmount(500);
+        ingredients.add(newIngredient);
+        newRecipe.setIngredients(newIngredients);
+        newRecipe.setContent("new content");
+        newRecipe.setTimeConsumed(1L);
+        newRecipe.setCuisine(Cuisine.Algerian);
+        newRecipe.setPortion(1);
 
         recipeService.editRecipe(1L,1L,newRecipe);
 
-        assertEquals(testRecipe.getRecipeName(), newRecipe.getRecipeName());
-    }
-
-    @Test
-    public void test_likeAndUnlike_Unlike() {
-        Mockito.when(userRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testUser));
-        Mockito.when(recipeRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testRecipe));
-
-        assertFalse(recipeService.likeAndUnlike(1L, 1L));
-    }
-
-    @Test
-    public void test_LikeOrUnlike() {
-        Mockito.when(userRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testUser));
-        Mockito.when(recipeRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testRecipe));
-
-        assertTrue(recipeService.likeOrUnlike(1L, 1L));
+        Recipe editedRecipe = new Recipe();
+        if (recipeRepository.findById(1L).isPresent()){
+            editedRecipe = recipeRepository.findById(1L).get();
+        } else {
+            assertThrows(ResponseStatusException.class, () -> recipeService.getRecipeById(1L));
+        }
+        assertEquals(editedRecipe.getRecipeName(), newRecipe.getRecipeName());
+        assertEquals(editedRecipe.getCost(), newRecipe.getCost());
     }
 }

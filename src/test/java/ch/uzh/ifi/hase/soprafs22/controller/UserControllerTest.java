@@ -207,12 +207,6 @@ public class UserControllerTest {
     @Test
     public void updateUser_invalidInput_IdNotFound() throws Exception {
 
-        User user = new User();
-        user.setId(1L);
-        user.setUsername("Test User");
-        user.setToken("1");
-        user.setPassword("123");
-
         UserPutDTO userPutDTO = new UserPutDTO();
         userPutDTO.setUsername("newUsername");
 

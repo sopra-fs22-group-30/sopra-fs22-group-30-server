@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -113,7 +114,6 @@ public class UserServiceTest {
         User newUser = new User();
         newUser.setId(1L);
         newUser.setUsername("testUsername");
-        newUser.setPassword("testPassword");
 
         // when -> any object is being updated in the userRepository -> return the testUpdateUser
         Mockito.when(userRepository.save(Mockito.any())).thenReturn(newUser);
@@ -126,27 +126,33 @@ public class UserServiceTest {
         // then
         Mockito.verify(userRepository, Mockito.times(1)).save(Mockito.any());
 
+        assertEquals(testUser.getId(), newUser.getId());
         assertEquals(testUser.getUsername(), newUser.getUsername());
     }
 
     @Test
-    public void editUserGender_success(){
+    public void editUserDifferentUsername_success(){
         User newUser = new User();
         newUser.setId(1L);
         newUser.setUsername("newName");
+        newUser.setBirthday(new Date());
         newUser.setGender(Gender.Female);
+        newUser.setIntro("Welcome to my page!");
 
         // when -> any object is being updated in the userRepository -> return the testUpdateUser
         Mockito.when(userRepository.save(Mockito.any())).thenReturn(newUser);
         Mockito.when(userRepository.existsById(Mockito.any())).thenReturn(true);
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.ofNullable(testUser));
 
-        // when -> any object is being saved in the userRepository -> return the testUser
         userService.editUser(newUser);
 
         // then
         Mockito.verify(userRepository, Mockito.times(1)).save(Mockito.any());
 
+        assertEquals(testUser.getId(), newUser.getId());
+        assertEquals(testUser.getUsername(), newUser.getUsername());
+        assertEquals(testUser.getBirthday(), newUser.getBirthday());
         assertEquals(testUser.getGender(), newUser.getGender());
+        assertEquals(testUser.getIntro(), newUser.getIntro());
     }
 }

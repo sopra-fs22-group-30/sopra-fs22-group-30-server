@@ -49,13 +49,13 @@ public class RecipeService {
         newRecipe.setCreationDate(new Date());
 //        Optional<User> author = userRepository.findById(newRecipe.getAuthorId());
         newRecipe.setLikesNum(0L);
-        newRecipe=recipeRepository.save(newRecipe);
+        newRecipe = recipeRepository.save(newRecipe);
 
         for (Ingredient ingredient : newRecipe.getIngredients()) {
+            ingredientRepository.save(ingredient);
             ingredient.setRecipeId(newRecipe.getRecipeId());
-            ingredientRepository.saveAndFlush(ingredient);
+            ingredientRepository.flush();
         }
-
 
         recipeRepository.saveAndFlush(newRecipe);
 
@@ -70,8 +70,6 @@ public class RecipeService {
         Optional<Recipe> checkRecipe = recipeRepository.findById(recipeId);
 
         if (checkRecipe.isPresent()) {
-//            System.out.println("hi");
-//            System.out.println(ingredientRepository.findAll());
             return checkRecipe.get();
         }
         else {
