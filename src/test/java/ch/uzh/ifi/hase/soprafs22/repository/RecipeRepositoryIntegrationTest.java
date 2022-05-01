@@ -76,6 +76,8 @@ public class RecipeRepositoryIntegrationTest {
 
     @Test
     public void findAll() {
+        entityManager.clear();
+
         // given
         User testUser = new User();
         testUser.setUsername("testName");
