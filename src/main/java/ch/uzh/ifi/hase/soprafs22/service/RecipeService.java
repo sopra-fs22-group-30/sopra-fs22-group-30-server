@@ -52,7 +52,7 @@ public class RecipeService {
         newRecipe = recipeRepository.save(newRecipe);
 
         for (Ingredient ingredient : newRecipe.getIngredients()) {
-            ingredientRepository.save(ingredient);
+            ingredientRepository.saveAndFlush(ingredient);
             ingredient.setRecipeId(newRecipe.getRecipeId());
             ingredientRepository.flush();
         }

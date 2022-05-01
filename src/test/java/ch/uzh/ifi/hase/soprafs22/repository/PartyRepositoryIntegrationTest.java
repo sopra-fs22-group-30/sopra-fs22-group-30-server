@@ -37,6 +37,7 @@
 //        User testUser = new User();
 //        testUser.setUsername("testUsername");
 //        testUser.setPassword("testPassword");
+//        testUser.setToken("1");
 //        Set<Long> partyName = new HashSet<>();
 //        partyName.add(1L);
 //        partyName.add(2L);

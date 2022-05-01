@@ -94,7 +94,7 @@ public class UserServiceIntegrationTest {
         User oldUser = userService.createUser(testUser);
 
         User newUser = new User();
-        newUser.setId(1L);
+        newUser.setId(oldUser.getId());
         newUser.setUsername("newName");
         newUser.setBirthday(new Date());
         newUser.setGender(Gender.Female);

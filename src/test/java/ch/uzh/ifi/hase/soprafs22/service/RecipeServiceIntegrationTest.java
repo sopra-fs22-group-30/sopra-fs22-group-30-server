@@ -7,6 +7,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RecipeRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -48,8 +49,15 @@ public class RecipeServiceIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        recipeRepository.deleteAll();
         ingredientRepository.deleteAll();
+        recipeRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
+    @AfterEach
+    public void finish() {
+        ingredientRepository.deleteAll();
+        recipeRepository.deleteAll();
         userRepository.deleteAll();
     }
 
@@ -88,8 +96,14 @@ public class RecipeServiceIntegrationTest {
     @Test
     public void test_editRecipe() {
         //given
+        User testUser = new User();
+        testUser.setUsername("testName");
+        testUser.setPassword("1234565");
+
+        User createdUser = userService.createUser(testUser);
+
         Recipe testRecipe = new Recipe();
-        testRecipe.setAuthorId(1L);
+        testRecipe.setAuthorId(createdUser.getId());
         testRecipe.setContent("content");
         testRecipe.setRecipeName("testRecipeName");
         List<Ingredient> ingredients = new ArrayList<>();
@@ -103,15 +117,10 @@ public class RecipeServiceIntegrationTest {
         testRecipe.setCuisine(Cuisine.Algerian);
         testRecipe.setPortion(1);
 
-        User testUser = new User();
-        testUser.setUsername("testName");
-        testUser.setPassword("1234565");
-
-        User createdUser = userService.createUser(testUser);
         Recipe createdRecipe = recipeService.createRecipe(testRecipe);
 
         Recipe newRecipe = new Recipe();
-        newRecipe.setRecipeId(1L);
+        newRecipe.setRecipeId(createdRecipe.getRecipeId());
         newRecipe.setCost(2L);
         newRecipe.setRecipeName("newRecipeName");
         List<Ingredient> newIngredients = new ArrayList<>();
@@ -125,11 +134,11 @@ public class RecipeServiceIntegrationTest {
         newRecipe.setCuisine(Cuisine.Algerian);
         newRecipe.setPortion(1);
 
-        recipeService.editRecipe(1L,1L,newRecipe);
+        recipeService.editRecipe(createdUser.getId(),createdRecipe.getRecipeId(),newRecipe);
 
         Recipe editedRecipe = new Recipe();
-        if (recipeRepository.findById(1L).isPresent()){
-            editedRecipe = recipeRepository.findById(1L).get();
+        if (recipeRepository.findById(createdRecipe.getRecipeId()).isPresent()){
+            editedRecipe = recipeRepository.findById(createdRecipe.getRecipeId()).get();
         } else {
             assertThrows(ResponseStatusException.class, () -> recipeService.getRecipeById(1L));
         }
