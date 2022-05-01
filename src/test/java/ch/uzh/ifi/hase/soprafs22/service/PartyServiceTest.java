@@ -69,8 +69,8 @@ public class PartyServiceTest {
         testUser.setId(1L);
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        Set<String> partyName = new HashSet<>();
-        partyName.add("testPartyName");
+        Set<Long> partyName = new HashSet<>();
+        partyName.add(1L);
         testUser.setJoinParties(partyName);
 
         // when -> any object is being saved in the userRepository -> return the dummy
