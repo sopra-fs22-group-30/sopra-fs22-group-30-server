@@ -1,91 +1,138 @@
-//package ch.uzh.ifi.hase.soprafs22.repository;
-//
-//import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
-//import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-//import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.junit.jupiter.api.Assertions.assertNotNull;
-//
-//
-//@DataJpaTest
-//public class RecipeRepositoryIntegrationTest {
-//
-//    @Autowired
-//    private TestEntityManager entityManager;
-//
-//    @Autowired
-//    private RecipeRepository recipeRepository;
-//
-//    @Test
-//    public void findAll() {
-//        // given
-//        Recipe recipe1 = new Recipe();
-////        recipe1.setRecipeId(10L);
-//        recipe1.setRecipeName("r1");
-//        recipe1.setAuthorId(10L);
-//        recipe1.setCuisine(Cuisine.Algerian);
-//        recipe1.setCost(30L);
-//        recipe1.setContent("content");
-//        recipe1.setLikesNum(10L);
-//
-//        Recipe recipe2 = new Recipe();
-////        recipe2.setRecipeId(20L);
-//        recipe2.setRecipeName("r2");
-//        recipe2.setAuthorId(11L);
-//        recipe2.setCuisine(Cuisine.Chinese);
-//        recipe2.setCost(31L);
-//        recipe2.setContent("content1");
-//        recipe2.setLikesNum(11L);
-//
-//        entityManager.persist(recipe1);
-//        entityManager.flush();
-//        entityManager.persist(recipe2);
-//        entityManager.flush();
-//
-//        // when
-//        List<Recipe> found = recipeRepository.findAll();
-//
-//        // then
-//        assertNotNull(found.get(0).getRecipeId());
-//        assertEquals(found.get(0).getRecipeId(), recipe1.getRecipeId());
-//        assertEquals(found.get(0).getRecipeName(), recipe1.getRecipeName());
-//
-//        assertNotNull(found.get(1).getRecipeId());
-//        assertEquals(found.get(1).getRecipeId(), recipe2.getRecipeId());
-//        assertEquals(found.get(1).getRecipeName(), recipe2.getRecipeName());
-//    }
-//
-//    @Test
-//    public void findByID_success() {
-//        // given
-//        Recipe recipe = new Recipe();
-//        recipe.setRecipeName("r1");
-//        recipe.setAuthorId(1L);
-//        recipe.setCuisine(Cuisine.Algerian);
-//        recipe.setCost(30L);
-//        recipe.setContent("content");
-//        recipe.setLikesNum(0L);
-//
-//        entityManager.persist(recipe);
-//        entityManager.flush();
-//
-//        // when
-//        Optional<Recipe> checkRecipe = recipeRepository.findById(recipe.getRecipeId());
-//        Recipe found = null;
-//        if (checkRecipe.isPresent()) {
-//            found = checkRecipe.get();
-//        }
-//        // then
-//        assert found != null;
-//        assertNotNull(found.getRecipeId());
-//        assertEquals(found.getRecipeName(), recipe.getRecipeName());
-//        assertEquals(found.getRecipeId(), recipe.getRecipeId());
-//    }
-//}
+package ch.uzh.ifi.hase.soprafs22.repository;
+
+import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
+import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
+import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
+import ch.uzh.ifi.hase.soprafs22.entity.User;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+
+@DataJpaTest
+public class RecipeRepositoryIntegrationTest {
+
+    @Autowired
+    private TestEntityManager entityManager;
+
+    @Autowired
+    private RecipeRepository recipeRepository;
+
+    @Test
+    public void findByID_success() {
+
+        entityManager.clear();
+
+        // given
+        User testUser = new User();
+        testUser.setUsername("testName");
+        testUser.setPassword("1234565");
+        testUser.setToken("1");
+
+        entityManager.persist(testUser);
+        entityManager.flush();
+
+        Recipe testRecipe = new Recipe();
+        testRecipe.setAuthorId(testUser.getId());
+        testRecipe.setContent("content");
+        testRecipe.setRecipeName("testRecipeName");
+        List<Ingredient> ingredients = new ArrayList<>();
+        Ingredient ingredient = new Ingredient();
+        ingredient.setName("eggs");
+        ingredient.setAmount(50);
+        ingredients.add(ingredient);
+        testRecipe.setIngredients(ingredients);
+        testRecipe.setCost(1L);
+        testRecipe.setTimeConsumed(1L);
+        testRecipe.setCuisine(Cuisine.Algerian);
+        testRecipe.setPortion(1);
+        testRecipe.setLikesNum(0L);
+
+        entityManager.persist(testRecipe);
+        entityManager.flush();
+
+        // when
+        Optional<Recipe> checkRecipe = recipeRepository.findById(testRecipe.getRecipeId());
+        Recipe found = null;
+        if (checkRecipe.isPresent()) {
+            found = checkRecipe.get();
+        }
+        // then
+        assert found != null;
+        assertNotNull(found.getRecipeId());
+        assertEquals(found.getRecipeName(), testRecipe.getRecipeName());
+        assertEquals(found.getRecipeId(), testRecipe.getRecipeId());
+    }
+
+    @Test
+    public void findAll() {
+        // given
+        User testUser = new User();
+        testUser.setUsername("testName");
+        testUser.setPassword("1234565");
+        testUser.setToken("1");
+
+        entityManager.persist(testUser);
+        entityManager.flush();
+
+        Recipe testRecipe = new Recipe();
+        testRecipe.setAuthorId(1L);
+        testRecipe.setContent("content");
+        testRecipe.setRecipeName("testRecipeName");
+        List<Ingredient> ingredients = new ArrayList<>();
+        Ingredient ingredient = new Ingredient();
+        ingredient.setName("eggs");
+        ingredient.setAmount(50);
+        ingredients.add(ingredient);
+        testRecipe.setIngredients(ingredients);
+        testRecipe.setCost(1L);
+        testRecipe.setTimeConsumed(1L);
+        testRecipe.setCuisine(Cuisine.Algerian);
+        testRecipe.setPortion(1);
+        testRecipe.setLikesNum(0L);
+
+        entityManager.persist(testRecipe);
+        entityManager.flush();
+
+        Recipe testRecipe1 = new Recipe();
+        testRecipe1.setAuthorId(1L);
+        testRecipe1.setContent("content1");
+        testRecipe1.setRecipeName("testRecipeName1");
+        List<Ingredient> ingredients1 = new ArrayList<>();
+        Ingredient ingredient1 = new Ingredient();
+        ingredient1.setName("beef");
+        ingredient1.setAmount(50);
+        ingredients.add(ingredient1);
+        testRecipe1.setIngredients(ingredients1);
+        testRecipe1.setCost(2L);
+        testRecipe1.setTimeConsumed(2L);
+        testRecipe1.setCuisine(Cuisine.Algerian);
+        testRecipe1.setPortion(2);
+        testRecipe1.setLikesNum(0L);
+
+        entityManager.persist(testRecipe1);
+        entityManager.flush();
+
+        // when
+        List<Recipe> found = recipeRepository.findAll();
+
+        // then
+        assertNotNull(found.get(0).getRecipeId());
+        assertEquals(found.get(0).getRecipeId(), testRecipe.getRecipeId());
+        assertEquals(found.get(0).getRecipeName(), testRecipe.getRecipeName());
+
+        assertNotNull(found.get(1).getRecipeId());
+        assertEquals(found.get(1).getRecipeId(), testRecipe1.getRecipeId());
+        assertEquals(found.get(1).getRecipeName(), testRecipe1.getRecipeName());
+    }
+}
