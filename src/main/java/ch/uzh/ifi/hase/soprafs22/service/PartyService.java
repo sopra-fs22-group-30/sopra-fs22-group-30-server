@@ -146,6 +146,13 @@ public class PartyService {
                 if (!newParty.getPartyAttendantsList().contains(username)) {
                     attendant.deleteJoinParties(partyToUpdate.get().getPartyId());
                     userRepository.saveAndFlush(attendant);
+                    for (Ingredient ingredients : partyToUpdate.get().getIngredients()) {
+                        if (ingredients.getTakerName() == username) {
+                            ingredients.setTakerId(null);
+                            ingredients.setTakerName(null);
+                            ingredientRepository.saveAndFlush(ingredients);
+                        }
+                    }
                 }
             }
             for (String username : newParty.getPartyAttendantsList()) {
