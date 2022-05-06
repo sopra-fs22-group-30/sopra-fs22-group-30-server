@@ -7,6 +7,8 @@ import java.util.List;
 
 public class PartyPutDTO {
 
+    private String partyName;
+
     private String partyIntro;
 
     private String place;
@@ -48,5 +50,13 @@ public class PartyPutDTO {
 
     public void setPartyAttendantsList(List<String> partyAttendantsList) {
         this.partyAttendantsList = partyAttendantsList;
+    }
+
+    public String getPartyName() {
+        return partyName;
+    }
+
+    public void setPartyName(String partyName) {
+        this.partyName = partyName;
     }
 }

@@ -137,16 +137,26 @@ public class PartyService {
         partyToUpdate.get().setPartyIntro(newParty.getPartyIntro());
         partyToUpdate.get().setPlace(newParty.getPlace());
         partyToUpdate.get().setTime(newParty.getTime());
+        partyToUpdate.get().setPartyName(newParty.getPartyName());
         if (partyToUpdate.get().getPartyAttendantsList() != newParty.getPartyAttendantsList()) {
             Integer newSize = newParty.getPartyAttendantsList().size();
             partyToUpdate.get().setPartyAttendantsNum(newSize);
-            for (String username : newParty.getPartyAttendantsList()) {
+            for (String username : partyToUpdate.get().getPartyAttendantsList()) {
                 User attendant = userRepository.findByUsername(username);
-                if (!attendant.getJoinParties().contains(partyToUpdate.get().getPartyId())) {
-                    attendant.addJoinParties(newParty.getPartyId());
+                if (!newParty.getPartyAttendantsList().contains(username)) {
+                    attendant.deleteJoinParties(partyToUpdate.get().getPartyId());
                     userRepository.saveAndFlush(attendant);
                 }
             }
+            for (String username : newParty.getPartyAttendantsList()) {
+                User attendant = userRepository.findByUsername(username);
+                if (!attendant.getJoinParties().contains(partyToUpdate.get().getPartyId())) {
+                    attendant.addJoinParties(partyToUpdate.get().getPartyId());
+                    userRepository.saveAndFlush(attendant);
+                }
+            }
+            partyToUpdate.get().setPartyAttendantsList(newParty.getPartyAttendantsList());
+
 
 
             partyRepository.saveAndFlush(partyToUpdate.get());

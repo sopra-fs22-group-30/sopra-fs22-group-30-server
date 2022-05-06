@@ -160,6 +160,12 @@ public class User implements Serializable {
 
     }
 
+    public void deleteJoinParties(Long partyId) {
+        this.joinParties.remove(partyId);
+
+    }
+
+
     public List<Recipe> getLikeList() {
         return likeList;
     }
