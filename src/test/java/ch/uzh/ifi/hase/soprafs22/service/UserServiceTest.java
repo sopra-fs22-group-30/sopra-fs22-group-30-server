@@ -96,6 +96,15 @@ public class UserServiceTest {
     }
 
     @Test
+    public void getUserById_invalidInput_fail() {
+        userService.createUser(testUser);
+
+        Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.empty());
+
+        assertThrows(ResponseStatusException.class, () -> userService.getUserById(10L));
+    }
+
+    @Test
     public void test_login_success(){
         User user = new User();
         user.setUsername(testUser.getUsername());
@@ -107,6 +116,27 @@ public class UserServiceTest {
         User loginUser = userService.loginUser(user);
 
         assertEquals(testUser, loginUser);
+    }
+
+    @Test
+    public void login_fail_username() {
+        userService.createUser(testUser);
+
+        Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(null);
+
+        assertThrows(ResponseStatusException.class, () -> userService.loginUser(testUser));
+    }
+
+    @Test
+    public void login_fail_password() {
+        userService.createUser(testUser);
+        User user = new User();
+        user.setUsername(testUser.getUsername());
+        user.setPassword("wrong password");
+
+        Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(testUser);
+
+        assertThrows(ResponseStatusException.class, () -> userService.loginUser(user));
     }
 
     @Test

@@ -75,6 +75,28 @@ public class UserServiceIntegrationTest {
     }
 
     @Test
+    public void getUserById_success() {
+        User testUser = new User();
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+        User createdUser = userService.createUser(testUser);
+
+        User foundUser = userService.getUserById(createdUser.getId());
+
+        assertEquals(foundUser.getUsername(), testUser.getUsername());
+    }
+
+    @Test
+    public void getUserById_fail() {
+        User testUser = new User();
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+        User createdUser = userService.createUser(testUser);
+
+        assertThrows(ResponseStatusException.class, () -> userService.getUserById(1000L));
+    }
+
+    @Test
     public void test_login_success() {
         User testUser = new User();
         testUser.setUsername("testUsername");
@@ -106,6 +128,20 @@ public class UserServiceIntegrationTest {
         assertEquals(userRepository.findByUsername("newName").getUsername(), newUser.getUsername());
         assertEquals(userRepository.findByUsername("newName").getGender(), newUser.getGender());
         assertEquals(userRepository.findByUsername("newName").getIntro(), newUser.getIntro());
+    }
+
+    @Test
+    public void editUser_fail() {
+        User testUser = new User();
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+        User oldUser = userService.createUser(testUser);
+
+        User newUser = new User();
+        newUser.setId(1000L);
+        newUser.setUsername("testUsername");
+
+        assertThrows(ResponseStatusException.class, () -> userService.editUser(newUser));
     }
 }
 
