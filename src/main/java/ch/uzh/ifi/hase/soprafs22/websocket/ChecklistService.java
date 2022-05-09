@@ -1,13 +1,13 @@
 package ch.uzh.ifi.hase.soprafs22.websocket;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
-import ch.uzh.ifi.hase.soprafs22.entity.Party;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PartyRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
-import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.UserService;
+import ch.uzh.ifi.hase.soprafs22.websocket.dtoWS.ChecklistGetDTO;
+import ch.uzh.ifi.hase.soprafs22.websocket.dtoWS.ChecklistMessageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional

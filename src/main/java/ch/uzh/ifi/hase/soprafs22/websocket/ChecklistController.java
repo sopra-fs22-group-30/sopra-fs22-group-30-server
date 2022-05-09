@@ -1,33 +1,29 @@
 package ch.uzh.ifi.hase.soprafs22.websocket;
 
 
-import org.hibernate.annotations.Check;
+import ch.uzh.ifi.hase.soprafs22.websocket.dtoWS.ChecklistGetDTO;
+import ch.uzh.ifi.hase.soprafs22.websocket.dtoWS.ChecklistMessageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
-import java.util.UUID;
 
 
 @Controller
 @RestController
 public class ChecklistController {
 
-    private final SimpMessagingTemplate simpMessagingTemplate;
     private final ChecklistService checklistService;
 
     @Autowired
-    ChecklistController(ChecklistService checklistService, SimpMessagingTemplate simpMessagingTemplate) {
+    ChecklistController(ChecklistService checklistService) {
         this.checklistService = checklistService;
-        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     @MessageMapping("/checklist/{partyId}/fetch")
@@ -35,8 +31,6 @@ public class ChecklistController {
     public String storeAndRedirectMessage(@DestinationVariable("partyId") Long partyId, Message<ChecklistMessageDTO> message) {
         ChecklistMessageDTO checklistMessageDTO = message.getPayload();
         checklistService.storeAndConvert(partyId,checklistMessageDTO);
-        //simpMessagingTemplate.convertAndSend("/checklist/outgoing", checklistGetDTO);
-        //simpMessagingTemplate.convertAndSend("/checklist/outgoing/"+checklistGetDTO.getPartyId().toString() , checklistGetDTO);
         return "fetch";
     }
 

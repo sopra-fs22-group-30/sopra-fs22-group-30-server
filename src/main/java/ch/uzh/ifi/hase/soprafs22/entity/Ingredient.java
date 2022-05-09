@@ -18,11 +18,13 @@ public class Ingredient implements Serializable {
 
     @Column(nullable = true)
     private String name;
+
     @Column(nullable = true)
     private Integer amount;
 
     @Column(nullable = true)
     private Long partyId;
+
     @Column(nullable = true)
     private Long takerId;
 

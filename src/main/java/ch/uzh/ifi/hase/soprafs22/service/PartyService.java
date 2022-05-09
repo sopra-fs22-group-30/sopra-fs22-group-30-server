@@ -180,6 +180,8 @@ public class PartyService {
         else if (partyToDelete.get().getPartyHostId() != userId) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You cannot delete party");
         }
+        List<Ingredient> partyIngredients = ingredientRepository.findByPartyId(partyId);
+        ingredientRepository.deleteAll(partyIngredients);
         partyRepository.deleteById(partyId);
     }
 

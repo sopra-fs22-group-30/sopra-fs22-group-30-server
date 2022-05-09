@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs22.websocket;
+package ch.uzh.ifi.hase.soprafs22.websocket.dtoWS;
 
 public class ChecklistGetDTO {
 

@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs22.websocket;
+package ch.uzh.ifi.hase.soprafs22.websocket.dtoWS;
 
 public class ChecklistMessageDTO {
 
@@ -12,7 +12,6 @@ public class ChecklistMessageDTO {
     public void setIngredientId(Long ingredientId) {
         this.ingredientId = ingredientId;
     }
-
 
     public Long getTakerId() {
         return takerId;
