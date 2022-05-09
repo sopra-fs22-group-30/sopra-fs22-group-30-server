@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -86,9 +87,20 @@ public class RecipeService {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Fail to delete this recipe because the user is not the author");
             }
             else{
+
+                //first delete ingredients to avoid foreign key problem
                 for (Ingredient ingredient : checkRecipe.get().getIngredients()) {
                     ingredient.setRecipeId(null);
                 }
+                //second delete likes to avoid foreign key problem
+                for (String username : checkRecipe.get().getLikedUser()) {
+                    Optional<User> checkUser = Optional.ofNullable(userRepository.findByUsername(username));
+                    User user_ = checkUser.get();
+                    List<Recipe> likeList = user_.getLikeList();
+                    likeList.removeIf(recipe -> (recipe.getRecipeId()==recipeId));
+                    userRepository.saveAndFlush(user_);
+                }
+                //remove recipe
                 recipeRepository.deleteById(recipeId);
             }
         }
