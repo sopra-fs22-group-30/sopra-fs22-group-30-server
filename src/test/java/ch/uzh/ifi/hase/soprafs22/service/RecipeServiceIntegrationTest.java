@@ -47,62 +47,24 @@ public class RecipeServiceIntegrationTest {
     @Autowired
     private UserService userService;
 
+    Recipe testRecipe;
+    Recipe createdRecipe;
+    User testUser;
+    User createdUser;
+
     @BeforeEach
     public void setup() {
         ingredientRepository.deleteAll();
         recipeRepository.deleteAll();
         userRepository.deleteAll();
-    }
 
-    @AfterEach
-    public void finish() {
-        ingredientRepository.deleteAll();
-        recipeRepository.deleteAll();
-        userRepository.deleteAll();
-    }
-
-    @Test
-    public void creatRecipe_validInputs_success() {
-        //given
-        Recipe testRecipe = new Recipe();
-        testRecipe.setAuthorId(1L);
-        testRecipe.setContent("content");
-        testRecipe.setRecipeName("testRecipeName");
-        List<Ingredient> ingredients = new ArrayList<>();
-        Ingredient ingredient = new Ingredient();
-        ingredient.setName("eggs");
-        ingredient.setAmount(50);
-        ingredients.add(ingredient);
-        testRecipe.setIngredients(ingredients);
-        testRecipe.setCost(1L);
-        testRecipe.setTimeConsumed(1L);
-        testRecipe.setCuisine(Cuisine.Algerian);
-        testRecipe.setPortion(1);
-
-        User testUser = new User();
+        testUser = new User();
         testUser.setUsername("testName");
         testUser.setPassword("1234565");
 
-        User createdUser = userService.createUser(testUser);
+        createdUser = userService.createUser(testUser);
 
-        //when
-        Recipe createdRecipe = recipeService.createRecipe(testRecipe);
-
-        //then
-        assertEquals(testRecipe.getRecipeId(), createdRecipe.getRecipeId());
-        assertEquals(testRecipe.getRecipeName(), createdRecipe.getRecipeName());
-    }
-
-    @Test
-    public void test_editRecipe() {
-        //given
-        User testUser = new User();
-        testUser.setUsername("testName");
-        testUser.setPassword("1234565");
-
-        User createdUser = userService.createUser(testUser);
-
-        Recipe testRecipe = new Recipe();
+        testRecipe = new Recipe();
         testRecipe.setAuthorId(createdUser.getId());
         testRecipe.setContent("content");
         testRecipe.setRecipeName("testRecipeName");
@@ -117,7 +79,37 @@ public class RecipeServiceIntegrationTest {
         testRecipe.setCuisine(Cuisine.Algerian);
         testRecipe.setPortion(1);
 
-        Recipe createdRecipe = recipeService.createRecipe(testRecipe);
+        createdRecipe = recipeService.createRecipe(testRecipe);
+    }
+
+    @AfterEach
+    public void finish() {
+        ingredientRepository.deleteAll();
+        recipeRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
+    @Test
+    public void creatRecipe_validInputs_success() {
+
+        assertEquals(testRecipe.getRecipeName(), createdRecipe.getRecipeName());
+    }
+
+    @Test
+    public void getRecipeById_success() {
+
+        Recipe foundRecipe = recipeService.getRecipeById(createdRecipe.getRecipeId());
+
+        assertEquals(foundRecipe.getRecipeName(), testRecipe.getRecipeName());
+    }
+
+    @Test
+    public void getRecipeById_fail () {
+        assertThrows(ResponseStatusException.class, () -> recipeService.getRecipeById(1000L));
+    }
+
+    @Test
+    public void test_editRecipe() {
 
         Recipe newRecipe = new Recipe();
         newRecipe.setRecipeId(createdRecipe.getRecipeId());
@@ -127,7 +119,7 @@ public class RecipeServiceIntegrationTest {
         Ingredient newIngredient = new Ingredient();
         newIngredient.setName("beef");
         newIngredient.setAmount(500);
-        ingredients.add(newIngredient);
+        newIngredients.add(newIngredient);
         newRecipe.setIngredients(newIngredients);
         newRecipe.setContent("new content");
         newRecipe.setTimeConsumed(1L);
@@ -144,5 +136,10 @@ public class RecipeServiceIntegrationTest {
         }
         assertEquals(editedRecipe.getRecipeName(), newRecipe.getRecipeName());
         assertEquals(editedRecipe.getCost(), newRecipe.getCost());
+    }
+
+    @Test
+    public void likeOrUnlike_Unlike() {
+        assertFalse(recipeService.likeOrUnlike(createdUser.getId(),createdRecipe.getRecipeId()));
     }
 }
