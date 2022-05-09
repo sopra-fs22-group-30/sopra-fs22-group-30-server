@@ -29,6 +29,7 @@ public class PartyService {
     private final PartyRepository partyRepository;
     private final UserRepository userRepository;
 
+
     @Autowired
     public PartyService(@Qualifier("recipeRepository") RecipeRepository recipeRepository, @Qualifier("ingredientRepository") IngredientRepository ingredientRepository, @Qualifier("partyRepository") PartyRepository partyRepository, @Qualifier("userRepository") UserRepository userRepository) {
         this.recipeRepository = recipeRepository;
