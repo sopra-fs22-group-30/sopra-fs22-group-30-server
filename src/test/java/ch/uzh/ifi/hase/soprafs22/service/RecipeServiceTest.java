@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs22.service;
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
+import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RecipeRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 
 public class RecipeServiceTest {
     @Mock
@@ -25,6 +27,9 @@ public class RecipeServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private IngredientRepository ingredientRepository;
 
     @InjectMocks
     private RecipeService recipeService;
@@ -46,6 +51,10 @@ public class RecipeServiceTest {
         testRecipe.setLikedUser(likedUsers);
         testRecipe.setLikesNum(1L);
         List<Ingredient> ingredients = new ArrayList<>();
+        Ingredient ingredient = new Ingredient();
+        ingredient.setName("eggs");
+        ingredient.setAmount(50);
+        ingredients.add(ingredient);
         testRecipe.setIngredients(ingredients);
 
         testUser = new User();
@@ -87,7 +96,7 @@ public class RecipeServiceTest {
     }
 
     @Test
-    public void test_editRecipe() {
+    public void test_editRecipe_success() {
         Recipe newRecipe = new Recipe();
         newRecipe.setRecipeId(1L);
         newRecipe.setRecipeName("newName");
@@ -116,6 +125,14 @@ public class RecipeServiceTest {
         Mockito.when(recipeRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testRecipe));
 
         assertTrue(recipeService.likeOrUnlike(1L, 1L));
+    }
+
+    @Test
+    public void deleteRecipe_success() {
+        Mockito.when(recipeRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testRecipe));
+
+        recipeService.deleteRecipe(1L, 1L);
+        Mockito.verify(recipeRepository).deleteById(1L);
     }
 
 }
