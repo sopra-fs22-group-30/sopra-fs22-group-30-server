@@ -2,9 +2,11 @@ package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
+import ch.uzh.ifi.hase.soprafs22.entity.Party;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
+import ch.uzh.ifi.hase.soprafs22.repository.PartyRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RecipeRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -17,13 +19,17 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @WebAppConfiguration
 @SpringBootTest
-public class RecipeServiceIntegrationTest {
+public class PartyServiceIntegrationTest {
+    @Qualifier("partyRepository")
+    @Autowired
+    private PartyRepository partyRepository;
 
     @Qualifier("recipeRepository")
     @Autowired
@@ -38,11 +44,16 @@ public class RecipeServiceIntegrationTest {
     private UserRepository userRepository;
 
     @Autowired
+    private PartyService partyService;
+
+    @Autowired
     private RecipeService recipeService;
 
     @Autowired
     private UserService userService;
 
+    Party testParty;
+    Party createdParty;
     Recipe testRecipe;
     Recipe createdRecipe;
     User testUser;
@@ -76,64 +87,68 @@ public class RecipeServiceIntegrationTest {
         testRecipe.setPortion(1);
 
         createdRecipe = recipeService.createRecipe(testRecipe);
+
+        testParty = new Party();
+        testParty.setPartyName("testPartyName");
+        List<String> partyAttendantsList = new ArrayList<>();
+        partyAttendantsList.add("testName");
+        testParty.setPartyAttendantsList(partyAttendantsList);
+        testParty.setRecipeUsedId(createdRecipe.getRecipeId());
+        testParty.setPartyIntro("Have fun!");
+        testParty.setPlace("Zurich");
+        testParty.setPartyHostId(createdUser.getId());
+
+        createdParty = partyService.createParty(testParty);
     }
 
     @AfterEach
     public void finish() {
         ingredientRepository.deleteAll();
+        partyRepository.deleteAll();
         recipeRepository.deleteAll();
         userRepository.deleteAll();
     }
 
     @Test
-    public void creatRecipe_validInputs_success() {
-        assertEquals(testRecipe.getRecipeName(), createdRecipe.getRecipeName());
+    public void creatParty_success() {
+        assertEquals(testParty.getPartyName(), createdParty.getPartyName());
     }
 
     @Test
-    public void getRecipeById_success() {
-        Recipe foundRecipe = recipeService.getRecipeById(createdRecipe.getRecipeId());
+    public void getPartyId_success() {
+        Party foundParty = partyService.getPartyById(createdUser.getId(), createdParty.getPartyId());
 
-        assertEquals(foundRecipe.getRecipeName(), testRecipe.getRecipeName());
+        assertEquals(foundParty.getPartyId(), createdParty.getPartyId());
+        assertEquals(foundParty.getPartyName(), createdParty.getPartyName());
     }
 
     @Test
-    public void getRecipeById_fail () {
-        assertThrows(ResponseStatusException.class, () -> recipeService.getRecipeById(1000L));
+    public void getPartyId_fail() {
+        assertThrows(ResponseStatusException.class, () -> partyService.getPartyById(1000L,1000L));
     }
 
     @Test
-    public void test_editRecipe() {
+    public void test_editParty() {
+        Party newParty = new Party();
+        newParty.setPartyName("testPartyName");
+        List<String> partyAttendantsList = new ArrayList<>();
+        partyAttendantsList.add("testName");
+        newParty.setPartyAttendantsList(partyAttendantsList);
+        newParty.setRecipeUsedId(createdRecipe.getRecipeId());
+        newParty.setPartyIntro("New Have fun!");
+        newParty.setPlace("Zurich Oerlikon");
 
-        Recipe newRecipe = new Recipe();
-        newRecipe.setRecipeId(createdRecipe.getRecipeId());
-        newRecipe.setCost(2L);
-        newRecipe.setRecipeName("newRecipeName");
-        List<Ingredient> newIngredients = new ArrayList<>();
-        Ingredient newIngredient = new Ingredient();
-        newIngredient.setName("beef");
-        newIngredient.setAmount(500);
-        newIngredients.add(newIngredient);
-        newRecipe.setIngredients(newIngredients);
-        newRecipe.setContent("new content");
-        newRecipe.setTimeConsumed(1L);
-        newRecipe.setCuisine(Cuisine.Algerian);
-        newRecipe.setPortion(1);
+        Party editedParty = partyService.editParty(createdUser.getId(), createdParty.getPartyId(), newParty);
 
-        recipeService.editRecipe(createdUser.getId(),createdRecipe.getRecipeId(),newRecipe);
-
-        Recipe editedRecipe = new Recipe();
-        if (recipeRepository.findById(createdRecipe.getRecipeId()).isPresent()){
-            editedRecipe = recipeRepository.findById(createdRecipe.getRecipeId()).get();
-        } else {
-            assertThrows(ResponseStatusException.class, () -> recipeService.getRecipeById(1L));
-        }
-        assertEquals(editedRecipe.getRecipeName(), newRecipe.getRecipeName());
-        assertEquals(editedRecipe.getCost(), newRecipe.getCost());
+        assertEquals(newParty.getPartyIntro(), editedParty.getPartyIntro());
+        assertEquals(newParty.getPlace(), editedParty.getPlace());
     }
 
     @Test
-    public void likeOrUnlike_Unlike() {
-        assertFalse(recipeService.likeOrUnlike(createdUser.getId(),createdRecipe.getRecipeId()));
+    public void deleteParty_success() {
+        Long id = createdParty.getPartyId();
+        partyService.deleteParty(createdUser.getId(), createdParty.getPartyId());
+
+        assertThrows(ResponseStatusException.class, () -> partyService.getPartyById(createdUser.getId(), id));
     }
 }
