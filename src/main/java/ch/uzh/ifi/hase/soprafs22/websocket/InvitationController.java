@@ -29,9 +29,8 @@ public class InvitationController {
 
     @MessageMapping("/invitation/fetch")
     @SendTo("/invitation/fetch")
-    public String redirectMessage(Message<InvitationNotificationDTO> message) {
-        return "TEST";
-//        return message.getPayload();
+    public InvitationNotificationDTO redirectMessage(Message<InvitationNotificationDTO> message) {
+        return message.getPayload();
     }
 
     /*  stomp websocket mappings
