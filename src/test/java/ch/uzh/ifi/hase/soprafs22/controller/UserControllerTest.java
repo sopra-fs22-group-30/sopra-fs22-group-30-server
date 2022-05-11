@@ -49,7 +49,7 @@ public class UserControllerTest {
 
 
     @Test
-    public void getAllUsers() throws Exception{
+    public void getAllUsers() throws Exception {
         User user = new User();
         user.setId(1L);
         user.setUsername("test Username1");
@@ -71,7 +71,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[0].id", is(user.getId().intValue())))
                 .andExpect(jsonPath("$[0].username", is(user.getUsername())));
     }
-
 
 
     //create user with valid input
@@ -222,6 +221,31 @@ public class UserControllerTest {
         mockMvc.perform(putRequest)
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    public void loginUser_success() throws Exception {
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("Test User");
+        user.setToken("1");
+        user.setPassword("123");
+
+        UserPostDTO userPostDTO = new UserPostDTO();
+        userPostDTO.setUsername("testUsername");
+        userPostDTO.setPassword("testPassword");
+
+        given(userService.loginUser(Mockito.any())).willReturn(user);
+
+        // when/then -> do the request + validate the result
+        MockHttpServletRequestBuilder postRequest = post("/users/checking")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(userPostDTO));
+
+        // then
+        mockMvc.perform(postRequest)
+                .andExpect(status().isOk());
+    }
+
 
     /**
      * Helper Method to convert userPostDTO into a JSON string such that the input

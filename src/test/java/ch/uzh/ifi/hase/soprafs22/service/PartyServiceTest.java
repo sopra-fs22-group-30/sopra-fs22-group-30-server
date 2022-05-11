@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import ch.uzh.ifi.hase.soprafs22.entity.Party;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
+import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PartyRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RecipeRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
@@ -15,10 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
@@ -33,6 +31,9 @@ public class PartyServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private IngredientRepository ingredientRepository;
 
     @InjectMocks
     private PartyService partyService;
@@ -56,9 +57,14 @@ public class PartyServiceTest {
         partyAttendantsList.add("testUsername");
         testParty.setPartyAttendantsList(partyAttendantsList);
         List<Ingredient> ingredients = new ArrayList<>();
+        Ingredient ingredient = new Ingredient();
+        ingredient.setName("eggs");
+        ingredient.setAmount(50);
+        ingredients.add(ingredient);
         testParty.setIngredients(ingredients);
         testParty.setPartyIntro("Have fun!");
         testParty.setPlace("Zurich");
+        testParty.setPartyHostId(1L);
 
         testRecipe = new Recipe();
         testRecipe.setRecipeId(1L);
@@ -72,6 +78,9 @@ public class PartyServiceTest {
         Set<Long> partyName = new HashSet<>();
         partyName.add(1L);
         testUser.setJoinParties(partyName);
+        Set<Party> partySet = new HashSet<>();
+        partySet.add(testParty);
+        testUser.setHostParties(partySet);
 
         // when -> any object is being saved in the userRepository -> return the dummy
         // testUser
@@ -94,12 +103,96 @@ public class PartyServiceTest {
     }
 
     @Test
-    public void test_getPartyById_success() {
+    public void getPartyById_success() {
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testUser));
         Mockito.when(partyRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testParty));
 
         Party foundParty = partyService.getPartyById(1L, 1L);
 
         assertEquals(testParty.getPartyId(), foundParty.getPartyId());
+    }
+
+    @Test
+    public void test_getPartiesAUserIsIn() {
+        Mockito.when(userRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testUser));
+        Mockito.when(partyRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testParty));
+
+        List<Party> testPartyList;
+        testPartyList = partyService.getPartiesAUserIsIn(1L);
+
+        assertEquals(testPartyList.get(0), testParty);
+    }
+
+    @Test
+    public void test_editParty() {
+        Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(testUser);
+        Mockito.when(partyRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testParty));
+
+        User newUser = new User();
+        newUser.setUsername("newUser");
+        newUser.setPassword("111");
+
+        Party newParty = new Party();
+        newParty.setPartyName("newPartyName");
+        List<String> partyAttendantsList = new ArrayList<>();
+        partyAttendantsList.add("testUsername");
+        partyAttendantsList.add("newUser");
+        newParty.setPartyAttendantsList(partyAttendantsList);
+        List<Ingredient> ingredients = new ArrayList<>();
+        Ingredient ingredient = new Ingredient();
+        ingredient.setName("eggs");
+        ingredient.setAmount(50);
+        ingredients.add(ingredient);
+        newParty.setIngredients(ingredients);
+        newParty.setPartyIntro("Have fun!");
+        newParty.setPlace("Zurich");
+        newParty.setTime(new Date());
+
+        partyService.editParty(1L, 1L, newParty);
+
+        assertEquals(testParty.getPartyName(), newParty.getPartyName());
+    }
+
+    @Test
+    public void deleteParty_success() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        Ingredient ingredient = new Ingredient();
+        ingredient.setName("eggs");
+        ingredient.setAmount(50);
+        ingredients.add(ingredient);
+
+        Mockito.when(partyRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testParty));
+        Mockito.when(ingredientRepository.findByPartyId(Mockito.any())).thenReturn(ingredients);
+
+        partyService.deleteParty(1L, 1L);
+        Mockito.verify(partyRepository).deleteById(1L);
+    }
+
+    @Test
+    public void quitParty_success() {
+        Mockito.when(partyRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testParty));
+
+        List<String> partyAttendantsList = new ArrayList<>();
+        partyAttendantsList.add("testUsername");
+        partyAttendantsList.add("newUser");
+        testParty.setPartyAttendantsList(partyAttendantsList);
+        testParty.setPartyAttendantsNum(2);
+
+        User newUser = new User();
+        newUser.setId(2L);
+        newUser.setUsername("newUser");
+        newUser.setPassword("111");
+        Set<Long> partyName = new HashSet<>();
+        partyName.add(1L);
+        newUser.setJoinParties(partyName);
+
+        Mockito.when(userRepository.save(Mockito.any())).thenReturn(newUser);
+        Mockito.when(userRepository.findById(Mockito.any())).thenReturn(java.util.Optional.of(newUser));
+
+        partyService.quitParty(2L, 1L);
+
+        List<String> partyAttendantsList1 = new ArrayList<>();
+        partyAttendantsList1.add("testUsername");
+        assertEquals(testParty.getPartyAttendantsList(), partyAttendantsList1);
     }
 }

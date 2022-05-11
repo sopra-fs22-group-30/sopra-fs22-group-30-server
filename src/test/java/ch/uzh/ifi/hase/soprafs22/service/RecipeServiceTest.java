@@ -101,6 +101,10 @@ public class RecipeServiceTest {
         newRecipe.setRecipeId(1L);
         newRecipe.setRecipeName("newName");
         List<Ingredient> ingredients = new ArrayList<>();
+        Ingredient ingredient = new Ingredient();
+        ingredient.setName("beef");
+        ingredient.setAmount(50);
+        ingredients.add(ingredient);
         newRecipe.setIngredients(ingredients);
 
         Mockito.when(recipeRepository.save(Mockito.any())).thenReturn(newRecipe);
@@ -120,6 +124,22 @@ public class RecipeServiceTest {
     }
 
     @Test
+    public void test_likeAndUnlike_Like() {
+        User newUser = new User();
+        newUser.setUsername("new");
+        newUser.setPassword("111");
+        List<Recipe> userLikedList = new ArrayList<>();
+        newUser.setLikeList(userLikedList);
+
+        Mockito.when(userRepository.save(Mockito.any())).thenReturn(newUser);
+
+        Mockito.when(userRepository.findById(Mockito.any())).thenReturn(java.util.Optional.of(newUser));
+        Mockito.when(recipeRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testRecipe));
+
+        assertTrue(recipeService.likeAndUnlike(newUser.getId(), 1L));
+    }
+
+    @Test
     public void test_LikeOrUnlike() {
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testUser));
         Mockito.when(recipeRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testRecipe));
@@ -130,6 +150,7 @@ public class RecipeServiceTest {
     @Test
     public void deleteRecipe_success() {
         Mockito.when(recipeRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testRecipe));
+        Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(testUser);
 
         recipeService.deleteRecipe(1L, 1L);
         Mockito.verify(recipeRepository).deleteById(1L);
