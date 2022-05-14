@@ -8,6 +8,7 @@ import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PartyRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RecipeRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs22.websocket.dtoWS.InvitationNotificationDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,6 +105,22 @@ public class PartyService {
         return parties;
     }
 
+    public List<Long> findNewAttendantsAdded(Long partyId, Party partyToUpdate){
+        //initialize object
+        List<Long> newAttendants = new ArrayList<>();
+        //find old list of attendants
+        List<String> oldPartyAttendantsList = partyRepository.findById(partyId).get().getPartyAttendantsList();
+        //check new list of attendants
+        List<String> newPartyAttendantsList = partyToUpdate.getPartyAttendantsList();
+        //if user is newly added. find his or her userId and add it to the list
+        for (String username: newPartyAttendantsList){
+            if (!oldPartyAttendantsList.contains(username)){
+                newAttendants.add(userRepository.findByUsername(username).getId());
+            }
+        }
+        return newAttendants;
+    }
+
 
     // get one party detail
     public Party getPartyById(Long userId, Long partyId) {
@@ -121,20 +138,6 @@ public class PartyService {
     // edit party
     public Party editParty(Long userId, Long partyId, Party newParty) {
         Optional<Party> partyToUpdate = partyRepository.findById(partyId);
-        if (!partyToUpdate.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party may not exist!!");
-        }
-        else if (partyToUpdate.get().getPartyHostId() != userId) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You cannot edit party");
-        }
-
-        for (String username : newParty.getPartyAttendantsList()) {
-            User checkUser = userRepository.findByUsername(username);
-            if (checkUser == null) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The user you invited may not exist!");
-            }
-        }
-
         partyToUpdate.get().setPartyIntro(newParty.getPartyIntro());
         partyToUpdate.get().setPlace(newParty.getPlace());
         partyToUpdate.get().setTime(newParty.getTime());
@@ -171,6 +174,23 @@ public class PartyService {
 
         }
         return newParty;
+    }
+
+    public void checkEditPartyConditions(Long userId, Long partyId, Party newParty) {
+        //special cases:
+        Optional<Party> partyToUpdate = partyRepository.findById(partyId);
+        if (!partyToUpdate.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party may not exist!!");
+        }
+        else if (partyToUpdate.get().getPartyHostId() != userId) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You cannot edit party");
+        }
+        for (String username : newParty.getPartyAttendantsList()) {
+            User checkUser = userRepository.findByUsername(username);
+            if (checkUser == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The user you invited may not exist!");
+            }
+        }
     }
 
     public void deleteParty(Long userId, Long partyId){
@@ -212,5 +232,13 @@ public class PartyService {
         joinedParties.remove(partyToQuit.getPartyId());
         userQuitting.setJoinParties(joinedParties);
         userRepository.saveAndFlush(userQuitting);
+    }
+
+    public InvitationNotificationDTO prepareNotification (Long userId,Long partyId,Party partyToUpdate){
+        InvitationNotificationDTO notification = new InvitationNotificationDTO();
+        notification.setPartyId(partyId);
+        notification.setPartyName(partyToUpdate.getPartyName());
+        notification.setHostName(userRepository.findById(userId).get().getUsername());
+        return notification;
     }
 }

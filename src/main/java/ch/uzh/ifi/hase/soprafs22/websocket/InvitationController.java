@@ -44,6 +44,7 @@ public class InvitationController {
     }
 
 
+
 //    //Version 2: try SendTo
 //    @MessageMapping("/invitation/fetch")
 //    @SendTo("/invitation/fetch")

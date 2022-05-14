@@ -6,7 +6,9 @@ import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyPutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.PartyService;
+import ch.uzh.ifi.hase.soprafs22.websocket.dtoWS.InvitationNotificationDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,9 +18,11 @@ import java.util.List;
 public class PartyController {
 
     private final PartyService partyService;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
-    PartyController(PartyService partyService) {
+    PartyController(PartyService partyService, SimpMessagingTemplate simpMessagingTemplate) {
         this.partyService = partyService;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     // get all parties
@@ -83,9 +87,18 @@ public class PartyController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void editParty(@PathVariable("userId") Long userId, @PathVariable("partyId") Long partyId,@RequestBody PartyPutDTO partyPutDTO) {
-
-        // updates the user identified by the given ID with the given data by the client
         Party partyToUpdate = DTOMapper.INSTANCE.convertPartyPutDTOtoEntity(partyPutDTO);
+        //check if edit is possible
+        partyService.checkEditPartyConditions(userId, partyId, partyToUpdate);
+        //check if new users are added to the party. If yes, sent invitation notification.
+        List<Long> newAttendants = partyService.findNewAttendantsAdded(partyId,partyToUpdate);
+        if (!newAttendants.isEmpty()){
+            InvitationNotificationDTO notification = partyService.prepareNotification(userId,partyId,partyToUpdate);
+            for (Long userIdOfNewComer: newAttendants){
+                simpMessagingTemplate.convertAndSend("/invitation/"+userIdOfNewComer+"/fetch",notification);
+            }
+        }
+        //really change the partyRepository:
         partyService.editParty(userId, partyId, partyToUpdate);
 
     }
