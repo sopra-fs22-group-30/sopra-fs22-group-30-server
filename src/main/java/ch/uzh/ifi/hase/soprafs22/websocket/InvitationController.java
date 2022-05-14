@@ -31,15 +31,34 @@ public class InvitationController {
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
-    @MessageMapping("/invitation/fetch")
-    public void invitationNotification(Message<InvitationNameListDTO> message) {
-        InvitationNotificationDTO notification = invitationService.prepareNotification(message);
-        List<Long> userIdList = invitationService.getUserId(message);
-        for (Long userId: userIdList){
-            simpMessagingTemplate.convertAndSend("/invitation/"+userId+"/fetch",notification);
-        }
 
+//    //Version 1: original version
+//    @MessageMapping("/invitation/fetch")
+//    public void invitationNotification(Message<InvitationNameListDTO> message) {
+//        InvitationNotificationDTO notification = invitationService.prepareNotification(message);
+//        List<Long> userIdList = invitationService.getUserId(message);
+//        for (Long userId: userIdList){
+//            simpMessagingTemplate.convertAndSend("/invitation/"+userId+"/fetch",notification);
+//        }
+//
+//    }
+
+
+    //Version 2: try SendTo
+    @MessageMapping("/invitation/fetch")
+    @SendTo("/invitation/fetch")
+    public InvitationNotificationDTO invitationNotification(Message<InvitationNameListDTO> message) {
+        InvitationNotificationDTO notification = invitationService.prepareNotification(message);
+        return notification;
     }
+
+//    //Version 3:  only sent to host
+//    @MessageMapping("/invitation/fetch")
+//    public void invitationNotification(Message<InvitationNameListDTO> message) {
+//        InvitationNotificationDTO notification = invitationService.prepareNotification(message);
+//        Long hostId = invitationService.getHostId(message);
+//        simpMessagingTemplate.convertAndSend("/invitation/"+hostId+"/fetch",notification);
+//    }
 
     /*  stomp websocket mappings
     --------------------------------------------------------------------------------------------------
