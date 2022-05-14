@@ -3,17 +3,9 @@ package ch.uzh.ifi.hase.soprafs22.websocket.dtoWS;
 import java.util.List;
 
 public class InvitationNotificationDTO {
-    private Long hostId;
     private Long partyId;
-    private List<Long> attendantsList;
-
-    public Long getHostId() {
-        return hostId;
-    }
-
-    public void setHostId(Long hostId) {
-        this.hostId = hostId;
-    }
+    private String partyName;
+    private String hostName;
 
     public Long getPartyId() {
         return partyId;
@@ -23,11 +15,20 @@ public class InvitationNotificationDTO {
         this.partyId = partyId;
     }
 
-    public List<Long> getAttendantsList() {
-        return attendantsList;
+    public String getPartyName() {
+        return partyName;
     }
 
-    public void setAttendantsList(List<Long> attendantsList) {
-        this.attendantsList = attendantsList;
+    public void setPartyName(String partyName) {
+        this.partyName = partyName;
     }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
+
 }
