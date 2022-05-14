@@ -12,6 +12,7 @@ import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,7 +45,7 @@ public class InvitationService {
     }
 
     public List<Long> getUserId(Message<InvitationNameListDTO> message){
-        List<Long> userIdList = null;
+        List<Long> userIdList = new ArrayList<>();
         List<String> partyAttendantsList=message.getPayload().getPartyAttendantsList();
         for(String username : partyAttendantsList){
             userIdList.add(userRepository.findByUsername(username).getId());
