@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
+import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipeGetDTO;
@@ -109,6 +110,22 @@ public class RecipeController {
 
         // convert internal representation of user back to API
         return result;
+    }
+
+    @GetMapping("/recipes/filter/{filter}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<RecipeGetDTO> getRecipesByFilter(@PathVariable("filter") Cuisine filter) {
+        // fetch all users in the internal representation
+        List<Recipe> recipes = recipeService.getRecipesByFilter(filter);
+        List<RecipeGetDTO> recipeGetDTOs = new ArrayList<>();
+
+
+        // convert each user to the API representation
+        for (Recipe recipe : recipes) {
+            recipeGetDTOs.add(DTOMapper.INSTANCE.convertEntityToRecipeGetDTO(recipe));
+        }
+        return recipeGetDTOs;
     }
 
 }

@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 
+import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
@@ -16,10 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -208,6 +206,17 @@ public class RecipeService {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User or recipe was not found!");
         }
+    }
+
+    // find recipes by filter
+    public List<Recipe> getRecipesByFilter(Cuisine filter) {
+        List<Recipe> recipesByFilter = new ArrayList<>();
+        for (Recipe recipe : recipeRepository.findAll()) {
+            if (recipe.getCuisine().equals(filter)) {
+                recipesByFilter.add(recipe);
+            }
+        }
+        return recipesByFilter;
     }
 
 }
