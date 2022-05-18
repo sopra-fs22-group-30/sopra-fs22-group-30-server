@@ -103,6 +103,8 @@ public class PartyServiceIntegrationTest {
 
     @AfterEach
     public void finish() {
+        recipeService.likeAndUnlike(testUser.getId(),testRecipe.getRecipeId());
+
         ingredientRepository.deleteAll();
         partyRepository.deleteAll();
         recipeRepository.deleteAll();

@@ -6,6 +6,7 @@ import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.RecipeRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs22.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +20,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 
 public class RecipeServiceTest {
     @Mock
@@ -33,6 +33,9 @@ public class RecipeServiceTest {
 
     @InjectMocks
     private RecipeService recipeService;
+
+    @Mock
+    private UserService userService;
 
     private Recipe testRecipe;
     private User testUser;
@@ -74,6 +77,8 @@ public class RecipeServiceTest {
 
     @Test
     public void creatRecipe_validInputs_success() {
+        Mockito.when(userRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testUser));
+        Mockito.when(userService.getUserById(Mockito.any())).thenReturn(testUser);
 
         Recipe createdRecipe = recipeService.createRecipe(testRecipe);
 

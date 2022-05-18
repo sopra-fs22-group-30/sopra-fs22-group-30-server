@@ -80,6 +80,8 @@ public class RecipeServiceIntegrationTest {
 
     @AfterEach
     public void finish() {
+        recipeService.likeAndUnlike(testUser.getId(),testRecipe.getRecipeId());
+
         ingredientRepository.deleteAll();
         recipeRepository.deleteAll();
         userRepository.deleteAll();
@@ -133,7 +135,7 @@ public class RecipeServiceIntegrationTest {
     }
 
     @Test
-    public void likeOrUnlike_Unlike() {
-        assertFalse(recipeService.likeOrUnlike(createdUser.getId(),createdRecipe.getRecipeId()));
+    public void likeOrUnlike_Like() {
+        assertTrue(recipeService.likeOrUnlike(createdUser.getId(),createdRecipe.getRecipeId()));
     }
 }
