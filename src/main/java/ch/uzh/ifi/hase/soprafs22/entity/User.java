@@ -50,6 +50,9 @@ public class User implements Serializable {
     @Column(nullable = true, length = 120)
     private String intro;
 
+    @Column
+    private String profilepictureLocation;
+
     @Column(nullable = true)
     private Gender gender;
 
@@ -152,6 +155,14 @@ public class User implements Serializable {
 
     public void setJoinParties(Set<Long> joinParties) {
         this.joinParties = joinParties;
+    }
+
+    public String getProfilepicturelocation(){
+        return profilepictureLocation;
+    }
+
+    public void setProfilepicturelocation(String profilepictureLocation){
+        this.profilepictureLocation=profilepictureLocation;
     }
 
 
