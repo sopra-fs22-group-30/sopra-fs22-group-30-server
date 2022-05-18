@@ -30,7 +30,7 @@ public class User implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 20)
     private String username;
 
     @Column(nullable = false, unique = false)
@@ -47,7 +47,7 @@ public class User implements Serializable {
     @Column(nullable = true)
     private Date creationDate;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 120)
     private String intro;
 
     @Column(nullable = true)

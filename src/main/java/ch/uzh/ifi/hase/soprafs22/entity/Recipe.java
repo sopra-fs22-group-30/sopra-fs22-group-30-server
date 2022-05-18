@@ -24,7 +24,7 @@ public class Recipe implements Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
     private Long recipeId;
 
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = false, length = 50)
     private String recipeName;
 
     @Column(nullable = false, unique = false)
@@ -48,7 +48,7 @@ public class Recipe implements Serializable {
     @Column
     private  String pictureLocation;
 
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = false, length = 200000)
     private String content;
 
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
