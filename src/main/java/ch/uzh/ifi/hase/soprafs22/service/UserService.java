@@ -127,11 +127,13 @@ public class UserService {
             userToBeUpdated.setBirthday(userInput.getBirthday());
             user.setGender(userInput.getGender());
             user.setIntro(userInput.getIntro());
+            user.setProfilepictureLocation(userInput.getProfilepictureLocation());
         } else if (userRepository.findByUsername(userInput.getUsername()) == null) {
             userToBeUpdated.setUsername(userInput.getUsername());
             userToBeUpdated.setBirthday(userInput.getBirthday());
             user.setGender(userInput.getGender());
             user.setIntro(userInput.getIntro());
+            user.setProfilepictureLocation(userInput.getProfilepictureLocation());
         } else {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "new username already exists");
         }

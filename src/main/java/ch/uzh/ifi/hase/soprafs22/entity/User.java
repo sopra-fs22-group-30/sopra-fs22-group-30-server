@@ -157,11 +157,11 @@ public class User implements Serializable {
         this.joinParties = joinParties;
     }
 
-    public String getProfilepicturelocation(){
+    public String getProfilepictureLocation(){
         return profilepictureLocation;
     }
 
-    public void setProfilepicturelocation(String profilepictureLocation){
+    public void setProfilepictureLocation(String profilepictureLocation){
         this.profilepictureLocation=profilepictureLocation;
     }
 

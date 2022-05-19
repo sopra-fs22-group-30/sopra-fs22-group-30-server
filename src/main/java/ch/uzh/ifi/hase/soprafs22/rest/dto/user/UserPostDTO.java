@@ -16,6 +16,8 @@ public class UserPostDTO {
     @JsonFormat(pattern="dd.MM.yyyy", locale = "de_CH")
     private Date birthday;
 
+    private String profilepictureLocation;
+
     public UserPostDTO() {
     }
 
@@ -50,4 +52,8 @@ public class UserPostDTO {
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
+
+    public String getProfilepictureLocation(){return profilepictureLocation;}
+
+    public void setProfilepictureLocation(String profilepictureLocation){this.profilepictureLocation=profilepictureLocation;}
 }

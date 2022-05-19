@@ -23,6 +23,7 @@ public class PartyPostDTO {
 
     private Long recipeUsedId;
 
+
     private List<String> partyAttendantsList;
 
     public String getPartyName() {

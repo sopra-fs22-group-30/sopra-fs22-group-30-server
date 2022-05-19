@@ -52,6 +52,7 @@ public interface DTOMapper {
   @Mapping(source = "gender", target = "gender")
   @Mapping(source = "hostParties", target = "hostParties")
   @Mapping(source = "joinParties", target = "joinParties")
+  @Mapping(source = "profilepictureLocation",target = "profilepictureLocation")
   UserGetDTO convertEntityToUserGetDTO(User user);
 
   @Mapping(source = "id", target = "id")
@@ -62,6 +63,7 @@ public interface DTOMapper {
   @Mapping(target = "creationDate", ignore = true)
   @Mapping(source = "intro", target = "intro")
   @Mapping(source = "gender", target = "gender")
+  @Mapping(source = "profilepictureLocation",target="profilepictureLocation")
   User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
 
   // recipes
