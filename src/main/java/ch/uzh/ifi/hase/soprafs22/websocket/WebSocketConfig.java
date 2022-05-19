@@ -12,7 +12,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
-		config.enableSimpleBroker("/checklist","/invitation");
+		config.enableSimpleBroker("/checklist","/invitation","/recipeUpdating");
 		config.setApplicationDestinationPrefixes("/app");
 	}
 
