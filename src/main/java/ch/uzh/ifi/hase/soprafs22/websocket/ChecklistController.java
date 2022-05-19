@@ -6,7 +6,6 @@ import ch.uzh.ifi.hase.soprafs22.websocket.dtoWS.ChecklistMessageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -28,9 +27,9 @@ public class ChecklistController {
 
     @MessageMapping("/checklist/{partyId}/fetch")
     @SendTo("/checklist/{partyId}/fetch")
-    public String storeAndRedirectMessage(@DestinationVariable("partyId") Long partyId, Message<ChecklistMessageDTO> message) {
+    public String storeAndRedirectMessage(Message<ChecklistMessageDTO> message) {
         ChecklistMessageDTO checklistMessageDTO = message.getPayload();
-        checklistService.storeAndConvert(partyId,checklistMessageDTO);
+        checklistService.storeAndConvert(checklistMessageDTO);
         return "fetch";
     }
 

@@ -1,9 +1,7 @@
 package ch.uzh.ifi.hase.soprafs22.websocket;
 
-import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.PartyRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
-import ch.uzh.ifi.hase.soprafs22.service.UserService;
 import ch.uzh.ifi.hase.soprafs22.websocket.dtoWS.InvitationNameListDTO;
 import ch.uzh.ifi.hase.soprafs22.websocket.dtoWS.InvitationNotificationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +18,11 @@ import java.util.List;
 public class InvitationService {
 
     private final PartyRepository partyRepository;
-    private final IngredientRepository ingredientRepository;
     private final UserRepository userRepository;
 
     @Autowired
-    public InvitationService(@Qualifier("partyRepository") PartyRepository partyRepository, @Qualifier("ingredientRepository") IngredientRepository ingredientRepository, UserService userService, UserRepository userRepository) {
+    public InvitationService(@Qualifier("partyRepository") PartyRepository partyRepository, UserRepository userRepository) {
         this.partyRepository = partyRepository;
-        this.ingredientRepository = ingredientRepository;
         this.userRepository = userRepository;
     }
 
@@ -53,7 +49,4 @@ public class InvitationService {
         return userIdList;
     }
 
-    public Long getHostId(Message<InvitationNameListDTO> message){
-        return partyRepository.findById(message.getPayload().getPartyId()).get().getPartyHostId();
-    }
 }

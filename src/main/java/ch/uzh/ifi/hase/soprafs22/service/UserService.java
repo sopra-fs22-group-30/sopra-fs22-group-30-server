@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
-import ch.uzh.ifi.hase.soprafs22.constant.Gender;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.slf4j.Logger;
@@ -56,16 +55,7 @@ public class UserService {
         return newUser;
     }
 
-    /**
-     * This is a helper method that will check the uniqueness criteria of the
-     * username and the name
-     * defined in the User entity. The method will do nothing if the input is unique
-     * and throw an error otherwise.
-     *
-     * @param userToBeCreated
-     * @throws org.springframework.web.server.ResponseStatusException
-     * @see User
-     */
+
     private void checkIfUserExists(User userToBeCreated) {
         User userByUsername = userRepository.findByUsername(userToBeCreated.getUsername());
 
@@ -127,13 +117,13 @@ public class UserService {
             userToBeUpdated.setBirthday(userInput.getBirthday());
             user.setGender(userInput.getGender());
             user.setIntro(userInput.getIntro());
-            user.setProfilepictureLocation(userInput.getProfilepictureLocation());
+            user.setProfilePictureLocation(userInput.getProfilePictureLocation());
         } else if (userRepository.findByUsername(userInput.getUsername()) == null) {
             userToBeUpdated.setUsername(userInput.getUsername());
             userToBeUpdated.setBirthday(userInput.getBirthday());
             user.setGender(userInput.getGender());
             user.setIntro(userInput.getIntro());
-            user.setProfilepictureLocation(userInput.getProfilepictureLocation());
+            user.setProfilePictureLocation(userInput.getProfilePictureLocation());
         } else {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "new username already exists");
         }

@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto.recipe;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.ingredient.IngredientGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.ingredient.IngredientPutDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 

@@ -3,9 +3,7 @@ package ch.uzh.ifi.hase.soprafs22.websocket;
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.IngredientRepository;
-import ch.uzh.ifi.hase.soprafs22.repository.PartyRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
-import ch.uzh.ifi.hase.soprafs22.service.UserService;
 import ch.uzh.ifi.hase.soprafs22.websocket.dtoWS.ChecklistGetDTO;
 import ch.uzh.ifi.hase.soprafs22.websocket.dtoWS.ChecklistMessageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +21,16 @@ import java.util.Optional;
 @Transactional
 public class ChecklistService {
 
-    private final PartyRepository partyRepository;
     private final IngredientRepository ingredientRepository;
     private final UserRepository userRepository;
 
     @Autowired
-    public ChecklistService(@Qualifier("partyRepository") PartyRepository partyRepository, @Qualifier("ingredientRepository") IngredientRepository ingredientRepository, UserService userService, UserRepository userRepository) {
-        this.partyRepository = partyRepository;
+    public ChecklistService(@Qualifier("ingredientRepository") IngredientRepository ingredientRepository, UserRepository userRepository) {
         this.ingredientRepository = ingredientRepository;
         this.userRepository = userRepository;
     }
 
-    public void storeAndConvert(Long partyId, ChecklistMessageDTO checklistMessageDTO) {
+    public void storeAndConvert(ChecklistMessageDTO checklistMessageDTO) {
         Long takerId = checklistMessageDTO.getTakerId();
         Long ingredientId =  checklistMessageDTO.getIngredientId();
         Optional<User> checkedUser = userRepository.findById(takerId);
@@ -57,7 +53,7 @@ public class ChecklistService {
     }
 
     public List<ChecklistGetDTO> getChecklistInParty(Long partyId) {
-        List<ChecklistGetDTO> checklist = new ArrayList<ChecklistGetDTO>();
+        List<ChecklistGetDTO> checklist = new ArrayList<>();
         List<Ingredient> ingredientsFound =  ingredientRepository.findByPartyId(partyId);
         for (Ingredient ingredient: ingredientsFound){
             ChecklistGetDTO checklistGetDTO = new ChecklistGetDTO();
