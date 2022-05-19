@@ -234,7 +234,7 @@ public class PartyService {
         userRepository.saveAndFlush(userQuitting);
 
         for (Ingredient ingredients : partyChecked.get().getIngredients()) {
-            if (ingredients.getTakerName().equals(userChecked.get().getUsername())) {
+            if (ingredients.getTakerName() != null && ingredients.getTakerName().equals(userChecked.get().getUsername())) {
                 ingredients.setTakerId(null);
                 ingredients.setTakerName(null);
                 ingredientRepository.saveAndFlush(ingredients);
