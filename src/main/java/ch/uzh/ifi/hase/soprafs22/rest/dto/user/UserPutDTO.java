@@ -16,6 +16,7 @@ public class UserPutDTO {
     @JsonFormat(pattern="dd.MM.yyyy", locale = "de_CH")
     private Date creationDate;
     private String gender;
+    private String profilepictureLocation;
 
     public Long getId() {
         return id;
@@ -60,6 +61,14 @@ public class UserPutDTO {
 
     public String getIntro() {
         return intro;
+    }
+
+    public void setProfilepictureLocation(String profilepictureLocation){
+        this.profilepictureLocation=profilepictureLocation;
+    }
+
+    public String getProfilepictureLocation(){
+        return profilepictureLocation;
     }
 
     public void setIntro(String intro) {

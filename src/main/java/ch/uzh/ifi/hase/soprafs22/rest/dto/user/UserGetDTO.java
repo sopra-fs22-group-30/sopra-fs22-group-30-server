@@ -26,6 +26,8 @@ public class UserGetDTO {
     private Gender gender;
     private Set<Recipe> recipes;
 
+    private String profilepictureLocation;
+
     private Set<Party> hostParties;
 
     private Set<Long> joinParties;
@@ -78,6 +80,14 @@ public class UserGetDTO {
 
     public void setIntro(String intro) {
         this.intro = intro;
+    }
+
+    public String getProfilepictureLocation(){
+        return profilepictureLocation;
+    }
+
+    public void setProfilepictureLocation(String profilepictureLocation){
+        this.profilepictureLocation=profilepictureLocation;
     }
 
     public Gender getGender() {

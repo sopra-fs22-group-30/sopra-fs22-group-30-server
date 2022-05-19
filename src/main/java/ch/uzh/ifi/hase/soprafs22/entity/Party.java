@@ -14,7 +14,7 @@ public class Party implements Serializable {
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="seq")
     private Long partyId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 40)
     private String partyName;
 
 

@@ -30,7 +30,7 @@ public class User implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 20)
     private String username;
 
     @Column(nullable = false, unique = false)
@@ -47,8 +47,11 @@ public class User implements Serializable {
     @Column(nullable = true)
     private Date creationDate;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 120)
     private String intro;
+
+    @Column
+    private String profilepictureLocation;
 
     @Column(nullable = true)
     private Gender gender;
@@ -152,6 +155,14 @@ public class User implements Serializable {
 
     public void setJoinParties(Set<Long> joinParties) {
         this.joinParties = joinParties;
+    }
+
+    public String getProfilepicturelocation(){
+        return profilepictureLocation;
+    }
+
+    public void setProfilepicturelocation(String profilepictureLocation){
+        this.profilepictureLocation=profilepictureLocation;
     }
 
 

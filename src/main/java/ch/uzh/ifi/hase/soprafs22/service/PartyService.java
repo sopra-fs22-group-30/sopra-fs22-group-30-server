@@ -232,6 +232,14 @@ public class PartyService {
         joinedParties.remove(partyToQuit.getPartyId());
         userQuitting.setJoinParties(joinedParties);
         userRepository.saveAndFlush(userQuitting);
+
+        for (Ingredient ingredients : partyChecked.get().getIngredients()) {
+            if (ingredients.getTakerName() == userChecked.get().getUsername()) {
+                ingredients.setTakerId(null);
+                ingredients.setTakerName(null);
+                ingredientRepository.saveAndFlush(ingredients);
+            }
+        }
     }
 
     public InvitationNotificationDTO prepareNotification (Long userId,Long partyId,Party partyToUpdate){
