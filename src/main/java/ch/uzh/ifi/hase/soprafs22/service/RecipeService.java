@@ -60,7 +60,7 @@ public class RecipeService {
             ingredientRepository.flush();
         }
 
-        User author = userService.getUserById(newRecipe.getRecipeId());
+        User author = userService.getUserById(newRecipe.getAuthorId());
         List<String> likedUser = new ArrayList<>();
         likedUser.add(author.getUsername());
         newRecipe.setLikedUser(likedUser);
