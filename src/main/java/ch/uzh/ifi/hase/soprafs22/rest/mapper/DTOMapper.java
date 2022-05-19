@@ -49,10 +49,10 @@ public interface DTOMapper {
   @Mapping(source = "token", target = "token")
   @Mapping(source = "creationDate", target = "creationDate")
   @Mapping(source = "intro", target = "intro")
+  @Mapping(source = "profilepictureLocation",target = "profilepictureLocation")
   @Mapping(source = "gender", target = "gender")
   @Mapping(source = "hostParties", target = "hostParties")
   @Mapping(source = "joinParties", target = "joinParties")
-  @Mapping(source = "profilepictureLocation",target = "profilepictureLocation")
   UserGetDTO convertEntityToUserGetDTO(User user);
 
   @Mapping(source = "id", target = "id")
