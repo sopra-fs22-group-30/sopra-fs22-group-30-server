@@ -1,18 +1,11 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
-import ch.uzh.ifi.hase.soprafs22.constant.Gender;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
-import java.beans.ConstructorProperties;
 import java.io.Serializable;
-import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 
 @Entity
 @Table(name = "RECIPE")
@@ -24,16 +17,16 @@ public class Recipe implements Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
     private Long recipeId;
 
-    @Column(nullable = false, unique = false, length = 50)
+    @Column(nullable = false, length = 50)
     private String recipeName;
 
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false)
     private Long authorId;
 
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false)
     private Cuisine cuisine;
 
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false)
     private Long cost;
 
     @OneToMany(mappedBy = "recipeId", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
@@ -48,17 +41,17 @@ public class Recipe implements Serializable {
     @Column
     private  String pictureLocation;
 
-    @Column(nullable = false, unique = false, length = 200000)
+    @Column(nullable = false, length = 200000)
     private String content;
 
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
-    @Column(nullable = true)
+    @Column
     private Date creationDate;
 
     @Column(nullable = false)
     private Long likesNum;
 
-    @Column(insertable = true, updatable = true)
+    @Column
     @ElementCollection
     private List<String> likedUser;
 

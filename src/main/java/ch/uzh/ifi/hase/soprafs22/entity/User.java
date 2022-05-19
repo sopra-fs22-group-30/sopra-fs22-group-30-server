@@ -1,10 +1,10 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Gender;
-import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -17,13 +17,14 @@ import java.util.Set;
  * Every variable will be mapped into a database field with the @Column
  * annotation
  * - nullable = false -> this cannot be left empty
- * - unique = true -> this value must be unqiue across the database -> composes
+ * - unique = true -> this value must be unique across the database -> composes
  * the primary key
  */
 @Entity
 @Table(name = "USER")
 public class User implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -33,27 +34,27 @@ public class User implements Serializable {
     @Column(nullable = false, unique = true, length = 20)
     private String username;
 
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false, unique = true)
     private String token;
 
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
-    @Column(nullable = true)
+    @Column
     private Date birthday;
 
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
-    @Column(nullable = true)
+    @Column
     private Date creationDate;
 
-    @Column(nullable = true, length = 120)
+    @Column(length = 120)
     private String intro;
 
     @Column
-    private String profilepictureLocation;
+    private String profilePictureLocation;
 
-    @Column(nullable = true)
+    @Column
     private Gender gender;
 
     @OneToMany(mappedBy = "authorId", cascade = CascadeType.MERGE)
@@ -137,10 +138,6 @@ public class User implements Serializable {
         return recipes;
     }
 
-    public void setRecipes(Set<Recipe> recipes) {
-        this.recipes = recipes;
-    }
-
     public Set<Party> getHostParties() {
         return hostParties;
     }
@@ -157,12 +154,12 @@ public class User implements Serializable {
         this.joinParties = joinParties;
     }
 
-    public String getProfilepictureLocation(){
-        return profilepictureLocation;
+    public String getProfilePictureLocation(){
+        return profilePictureLocation;
     }
 
-    public void setProfilepictureLocation(String profilepictureLocation){
-        this.profilepictureLocation=profilepictureLocation;
+    public void setProfilePictureLocation(String profilePictureLocation){
+        this.profilePictureLocation =profilePictureLocation;
     }
 
 

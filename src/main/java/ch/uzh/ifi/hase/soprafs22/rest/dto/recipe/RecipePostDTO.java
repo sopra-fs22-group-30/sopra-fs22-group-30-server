@@ -3,9 +3,6 @@ package ch.uzh.ifi.hase.soprafs22.rest.dto.recipe;
 import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

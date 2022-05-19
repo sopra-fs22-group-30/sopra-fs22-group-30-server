@@ -99,7 +99,7 @@ public class PartyController {
             }
         }
         //really change the partyRepository:
-        partyService.editParty(userId, partyId, partyToUpdate);
+        partyService.editParty(partyId, partyToUpdate);
 
     }
 

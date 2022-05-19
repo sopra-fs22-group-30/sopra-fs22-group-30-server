@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Party;
-import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.repository.PartyRepository;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyPostDTO;
@@ -24,7 +23,6 @@ import org.springframework.web.server.ResponseStatusException;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -166,7 +164,7 @@ public class PartyControllerTest {
         Mockito.when(partyService.findNewAttendantsAdded(Mockito.any(),Mockito.any())).thenReturn(testList);
         Mockito.when(partyRepository.findById(Mockito.any())).thenReturn(java.util.Optional.of(oldParty));
 
-        Mockito.when(partyService.editParty(Mockito.any(),Mockito.any(),Mockito.any())).thenReturn(oldParty);
+        Mockito.when(partyService.editParty(Mockito.any(),Mockito.any())).thenReturn(oldParty);
 
         MockHttpServletRequestBuilder putRequest = put("/users/1/parties/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -182,7 +180,7 @@ public class PartyControllerTest {
         }
         catch (JsonProcessingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    String.format("The request body could not be created.%s", e.toString()));
+                    String.format("The request body could not be created.%s", e));
         }
     }
 

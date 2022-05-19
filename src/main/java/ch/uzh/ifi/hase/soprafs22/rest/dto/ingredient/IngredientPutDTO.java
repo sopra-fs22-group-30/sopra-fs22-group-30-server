@@ -6,6 +6,7 @@ public class IngredientPutDTO {
     private String name;
     private Integer amount;
     private Long partyId;
+
     private Long takerId;
     private String takerName;
 
@@ -52,14 +53,6 @@ public class IngredientPutDTO {
         this.partyId = partyId;
     }
 
-    public Long getTakerId() {
-        return takerId;
-    }
-
-    public void setTakerId(Long takerId) {
-        this.ingredientId = takerId;
-    }
-
     public String getTakerName() {
         return takerName;
     }
@@ -68,4 +61,11 @@ public class IngredientPutDTO {
         this.takerName = takerName;
     }
 
+    public Long getTakerId() {
+        return takerId;
+    }
+
+    public void setTakerId(Long takerId) {
+        this.takerId = takerId;
+    }
 }

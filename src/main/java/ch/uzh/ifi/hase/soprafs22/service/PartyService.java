@@ -72,7 +72,7 @@ public class PartyService {
         }
 
         //set party ingredient list equal to recipe ingredient list
-        List<Ingredient> ingredientList = new ArrayList<Ingredient>();
+        List<Ingredient> ingredientList = new ArrayList<>();
         for (Ingredient ingredient: recipeToCheck.get().getIngredients()){
             Ingredient ingredientCopied = new Ingredient();
             ingredientCopied.setName(ingredient.getName());
@@ -125,18 +125,18 @@ public class PartyService {
     // get one party detail
     public Party getPartyById(Long userId, Long partyId) {
         Optional<Party> partyToGet = partyRepository.findById(partyId);
-        if (!partyToGet.isPresent()) {
+        if (partyToGet.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party may not exist!!");
         }
         Optional<User> userToCheck = userRepository.findById(userId);
-        if (userId != partyToGet.get().getPartyHostId() && !userToCheck.get().getJoinParties().contains(partyToGet.get().getPartyId()) ){
+        if (!userId.equals(partyToGet.get().getPartyHostId()) && !userToCheck.get().getJoinParties().contains(partyToGet.get().getPartyId()) ){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not in this party");
         }
         return partyToGet.get();
     }
 
     // edit party
-    public Party editParty(Long userId, Long partyId, Party newParty) {
+    public Party editParty(Long partyId, Party newParty) {
         Optional<Party> partyToUpdate = partyRepository.findById(partyId);
         partyToUpdate.get().setPartyIntro(newParty.getPartyIntro());
         partyToUpdate.get().setPlace(newParty.getPlace());
@@ -151,7 +151,7 @@ public class PartyService {
                     attendant.deleteJoinParties(partyToUpdate.get().getPartyId());
                     userRepository.saveAndFlush(attendant);
                     for (Ingredient ingredients : partyToUpdate.get().getIngredients()) {
-                        if (ingredients.getTakerName() == username) {
+                        if (ingredients.getTakerName().equals(username)) {
                             ingredients.setTakerId(null);
                             ingredients.setTakerName(null);
                             ingredientRepository.saveAndFlush(ingredients);
@@ -179,10 +179,10 @@ public class PartyService {
     public void checkEditPartyConditions(Long userId, Long partyId, Party newParty) {
         //special cases:
         Optional<Party> partyToUpdate = partyRepository.findById(partyId);
-        if (!partyToUpdate.isPresent()) {
+        if (partyToUpdate.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party may not exist!!");
         }
-        else if (partyToUpdate.get().getPartyHostId() != userId) {
+        else if (!partyToUpdate.get().getPartyHostId().equals(userId)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You cannot edit party");
         }
         for (String username : newParty.getPartyAttendantsList()) {
@@ -195,10 +195,10 @@ public class PartyService {
 
     public void deleteParty(Long userId, Long partyId){
         Optional<Party> partyToDelete = partyRepository.findById(partyId);
-        if (!partyToDelete.isPresent()) {
+        if (partyToDelete.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party may not exist!!");
         }
-        else if (partyToDelete.get().getPartyHostId() != userId) {
+        else if (!partyToDelete.get().getPartyHostId().equals(userId)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You cannot delete party");
         }
         List<Ingredient> partyIngredients = ingredientRepository.findByPartyId(partyId);
@@ -210,11 +210,11 @@ public class PartyService {
     public void quitParty(Long userId, Long partyId){
         Optional<Party> partyChecked= partyRepository.findById(partyId);
         Optional<User> userChecked = userRepository.findById(userId);
-        if (!partyChecked.isPresent()) {
+        if (partyChecked.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party may not exist!!");
         }
         List<String> AttendantsList = partyChecked.get().getPartyAttendantsList();
-        if (!userChecked.isPresent()) {
+        if (userChecked.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This user does not exist!!");
         }
         String quittingUserName = userChecked.get().getUsername();
@@ -234,12 +234,16 @@ public class PartyService {
         userRepository.saveAndFlush(userQuitting);
 
         for (Ingredient ingredients : partyChecked.get().getIngredients()) {
-            if (ingredients.getTakerName() == userChecked.get().getUsername()) {
+            if (ingredients.getTakerName().equals(userChecked.get().getUsername())) {
                 ingredients.setTakerId(null);
                 ingredients.setTakerName(null);
                 ingredientRepository.saveAndFlush(ingredients);
             }
         }
+
+
+
+
     }
 
     public InvitationNotificationDTO prepareNotification (Long userId,Long partyId,Party partyToUpdate){

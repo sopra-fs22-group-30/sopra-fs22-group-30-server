@@ -2,11 +2,9 @@ package ch.uzh.ifi.hase.soprafs22.controller;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
-import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePutDTO;
-import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserPutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs22.service.RecipeService;
 import org.springframework.http.HttpStatus;
@@ -93,11 +91,8 @@ public class RecipeController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public boolean likeAndUnlike(@PathVariable("userId") Long userId, @PathVariable("recipeId") Long recipeId) {
-        // create recipe
-        boolean result = recipeService.likeAndUnlike(userId, recipeId);
 
-        // convert internal representation of user back to API
-        return result;
+        return recipeService.likeAndUnlike(userId, recipeId);
     }
 
     // like and unlike a recipe
@@ -105,11 +100,8 @@ public class RecipeController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public boolean likeOrUnlike(@PathVariable("userId") Long userId, @PathVariable("recipeId") Long recipeId) {
-        // create recipe
-        boolean result = recipeService.likeOrUnlike(userId, recipeId);
 
-        // convert internal representation of user back to API
-        return result;
+        return recipeService.likeOrUnlike(userId, recipeId);
     }
 
     @GetMapping("/recipes/filter/{filter}")

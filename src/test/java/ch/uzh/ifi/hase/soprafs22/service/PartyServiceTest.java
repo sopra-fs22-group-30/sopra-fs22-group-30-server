@@ -14,13 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
 public class PartyServiceTest {
     @Mock
@@ -42,8 +39,6 @@ public class PartyServiceTest {
     private Recipe testRecipe;
     private User testUser;
 
-    @InjectMocks
-    private RecipeService recipeService;
 
     @BeforeEach
     public void setup() {
@@ -148,7 +143,7 @@ public class PartyServiceTest {
         newParty.setPlace("Zurich");
         newParty.setTime(new Date());
 
-        partyService.editParty(1L, 1L, newParty);
+        partyService.editParty(1L, newParty);
 
         assertEquals(testParty.getPartyName(), newParty.getPartyName());
     }

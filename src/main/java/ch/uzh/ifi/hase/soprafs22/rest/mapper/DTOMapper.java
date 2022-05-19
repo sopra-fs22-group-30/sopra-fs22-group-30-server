@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.rest.mapper;
 
-import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import ch.uzh.ifi.hase.soprafs22.entity.Party;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
@@ -16,13 +15,8 @@ import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserPutDTO;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-
-import javax.servlet.http.Part;
-import java.util.Date;
-import java.util.List;
 
 /**
  * DTOMapper
@@ -49,7 +43,7 @@ public interface DTOMapper {
   @Mapping(source = "token", target = "token")
   @Mapping(source = "creationDate", target = "creationDate")
   @Mapping(source = "intro", target = "intro")
-  @Mapping(source = "profilepictureLocation",target = "profilepictureLocation")
+  @Mapping(source = "profilePictureLocation",target = "profilePictureLocation")
   @Mapping(source = "gender", target = "gender")
   @Mapping(source = "hostParties", target = "hostParties")
   @Mapping(source = "joinParties", target = "joinParties")
@@ -63,7 +57,7 @@ public interface DTOMapper {
   @Mapping(target = "creationDate", ignore = true)
   @Mapping(source = "intro", target = "intro")
   @Mapping(source = "gender", target = "gender")
-  @Mapping(source = "profilepictureLocation",target="profilepictureLocation")
+  @Mapping(source = "profilePictureLocation",target="profilePictureLocation")
   User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
 
   // recipes

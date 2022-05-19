@@ -1,13 +1,9 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto.user;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Gender;
-import ch.uzh.ifi.hase.soprafs22.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs22.entity.Party;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +22,7 @@ public class UserGetDTO {
     private Gender gender;
     private Set<Recipe> recipes;
 
-    private String profilepictureLocation;
+    private String profilePictureLocation;
 
     private Set<Party> hostParties;
 
@@ -82,12 +78,12 @@ public class UserGetDTO {
         this.intro = intro;
     }
 
-    public String getProfilepictureLocation(){
-        return profilepictureLocation;
+    public String getProfilePictureLocation(){
+        return profilePictureLocation;
     }
 
-    public void setProfilepictureLocation(String profilepictureLocation){
-        this.profilepictureLocation=profilepictureLocation;
+    public void setProfilePictureLocation(String profilePictureLocation){
+        this.profilePictureLocation=profilePictureLocation;
     }
 
     public Gender getGender() {
