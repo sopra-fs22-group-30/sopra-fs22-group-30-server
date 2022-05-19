@@ -1,10 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto.party;
 
-import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
-import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.persistence.OneToMany;
 import java.util.Date;
 import java.util.List;
 

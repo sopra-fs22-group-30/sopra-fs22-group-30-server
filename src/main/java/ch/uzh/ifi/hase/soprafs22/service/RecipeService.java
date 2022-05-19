@@ -97,7 +97,7 @@ public class RecipeService {
         Optional<Recipe> checkRecipe = recipeRepository.findById(recipeId);
         if (checkRecipe.isPresent()) {
             Long authorId = checkRecipe.get().getAuthorId();
-            if (userId != authorId) {
+            if (!userId.equals(authorId)) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Fail to delete this recipe because the user is not the author");
             }
             else{
@@ -109,10 +109,13 @@ public class RecipeService {
                 //second delete likes to avoid foreign key problem
                 for (String username : checkRecipe.get().getLikedUser()) {
                     Optional<User> checkUser = Optional.ofNullable(userRepository.findByUsername(username));
-                    User user_ = checkUser.get();
-                    List<Recipe> likeList = user_.getLikeList();
-                    likeList.removeIf(recipe -> (recipe.getRecipeId()==recipeId));
-                    userRepository.saveAndFlush(user_);
+                    if (checkUser.isPresent()) {
+                        User user_ = checkUser.get();
+                        List<Recipe> likeList = user_.getLikeList();
+                        likeList.removeIf(recipe -> (recipe.getRecipeId().equals(recipeId)));
+                        userRepository.saveAndFlush(user_);
+                    }
+
                 }
                 //remove recipe
                 recipeRepository.deleteById(recipeId);
@@ -131,7 +134,7 @@ public class RecipeService {
         // flush() is called
         Optional<Recipe> checkRecipe = recipeRepository.findById(recipeId);
         if (checkRecipe.isPresent()) {
-            if (userId != checkRecipe.get().getAuthorId()) {
+            if (!userId.equals(checkRecipe.get().getAuthorId())) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Fail to delete this recipe because the user is not the author");
             }else{
                 Recipe recipeToBeUpdated = getRecipeById(recipeId);
@@ -214,11 +217,7 @@ public class RecipeService {
             User user_ = user.get();
             List<String> likedUser = recipe_.getLikedUser();
             String username = user_.getUsername();
-            if (likedUser.contains(username)){
-                return true;
-            } else {
-                return false;
-            }
+            return likedUser.contains(username);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User or recipe was not found!");
         }

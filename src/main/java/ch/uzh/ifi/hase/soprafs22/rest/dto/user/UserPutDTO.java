@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto.user;
 
-import ch.uzh.ifi.hase.soprafs22.constant.Gender;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
@@ -16,7 +15,7 @@ public class UserPutDTO {
     @JsonFormat(pattern="dd.MM.yyyy", locale = "de_CH")
     private Date creationDate;
     private String gender;
-    private String profilepictureLocation;
+    private String profilePictureLocation;
 
     public Long getId() {
         return id;
@@ -63,12 +62,12 @@ public class UserPutDTO {
         return intro;
     }
 
-    public void setProfilepictureLocation(String profilepictureLocation){
-        this.profilepictureLocation=profilepictureLocation;
+    public void setProfilePictureLocation(String profilePictureLocation){
+        this.profilePictureLocation=profilePictureLocation;
     }
 
-    public String getProfilepictureLocation(){
-        return profilepictureLocation;
+    public String getProfilePictureLocation(){
+        return profilePictureLocation;
     }
 
     public void setIntro(String intro) {
@@ -79,5 +78,8 @@ public class UserPutDTO {
         return gender;
     }
 
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 }
 

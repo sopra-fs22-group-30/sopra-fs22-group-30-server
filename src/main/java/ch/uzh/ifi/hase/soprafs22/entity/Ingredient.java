@@ -1,7 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -16,19 +14,19 @@ public class Ingredient implements Serializable {
     @Column
     private Long recipeId;
 
-    @Column(nullable = true)
+    @Column
     private String name;
 
-    @Column(nullable = true)
+    @Column
     private Integer amount;
 
-    @Column(nullable = true)
+    @Column
     private Long partyId;
 
-    @Column(nullable = true)
+    @Column
     private Long takerId;
 
-    @Column(nullable = true)
+    @Column
     private String takerName;
 
     public String getName() {

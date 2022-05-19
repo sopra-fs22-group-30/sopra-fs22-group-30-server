@@ -5,7 +5,6 @@ import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import ch.uzh.ifi.hase.soprafs22.entity.Party;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +26,6 @@ public class PartyRepositoryIntegrationTest {
     @Autowired
     private PartyRepository partyRepository;
 
-    @Autowired
-    private RecipeRepository recipeRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     User testUser;
     Recipe testRecipe;

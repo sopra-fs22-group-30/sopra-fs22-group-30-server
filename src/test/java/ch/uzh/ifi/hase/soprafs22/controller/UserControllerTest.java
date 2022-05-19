@@ -246,21 +246,13 @@ public class UserControllerTest {
     }
 
 
-    /**
-     * Helper Method to convert userPostDTO into a JSON string such that the input
-     * can be processed
-     * Input will look like this: {"name": "Test User", "username": "testUsername"}
-     *
-     * @param object
-     * @return string
-     */
     private String asJsonString(final Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
         }
         catch (JsonProcessingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    String.format("The request body could not be created.%s", e.toString()));
+                    String.format("The request body could not be created.%s", e));
         }
     }
 }

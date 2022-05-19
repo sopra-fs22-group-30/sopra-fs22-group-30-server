@@ -19,7 +19,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -140,7 +139,7 @@ public class PartyServiceIntegrationTest {
         newParty.setPartyIntro("New Have fun!");
         newParty.setPlace("Zurich Oerlikon");
 
-        Party editedParty = partyService.editParty(createdUser.getId(), createdParty.getPartyId(), newParty);
+        Party editedParty = partyService.editParty(createdParty.getPartyId(), newParty);
 
         assertEquals(newParty.getPartyIntro(), editedParty.getPartyIntro());
         assertEquals(newParty.getPlace(), editedParty.getPlace());

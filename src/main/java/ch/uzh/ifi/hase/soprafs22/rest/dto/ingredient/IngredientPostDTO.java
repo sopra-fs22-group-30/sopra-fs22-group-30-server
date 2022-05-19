@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.rest.dto.ingredient;
 
-import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 
 public class IngredientPostDTO {
     private Long ingredientId;
@@ -52,19 +51,19 @@ public class IngredientPostDTO {
         this.partyId = partyId;
     }
 
-    public Long getTakerId() {
-        return takerId;
-    }
-
-    public void setTakerId(Long takerId) {
-        this.ingredientId = takerId;
-    }
-
     public String getTakerName() {
         return takerName;
     }
 
     public void setTakerName(String takerName) {
         this.takerName = takerName;
+    }
+
+    public Long getTakerId() {
+        return takerId;
+    }
+
+    public void setTakerId(Long takerId) {
+        this.takerId = takerId;
     }
 }
