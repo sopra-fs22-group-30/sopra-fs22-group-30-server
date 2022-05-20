@@ -146,7 +146,7 @@ public class PartyControllerTest {
     }
 
     @Test
-    public void getPartiesAUserIsIn() throws Exception {
+    public void getPartiesAUserIsIn_success() throws Exception {
         // given
         Party party = new Party();
         party.setPartyId(1L);
@@ -168,7 +168,7 @@ public class PartyControllerTest {
     }
 
     @Test
-    public void editParty() throws Exception {
+    public void editParty_success() throws Exception {
         Party oldParty = new Party();
         oldParty.setPartyId(1L);
         oldParty.setPartyName("old name");
@@ -198,7 +198,7 @@ public class PartyControllerTest {
     }
 
     @Test
-    public void deleteParty() throws Exception {
+    public void deleteParty_success() throws Exception {
         doNothing().when(partyService).deleteParty(Mockito.any(),Mockito.any());
 
         MockHttpServletRequestBuilder deleteRequest = delete("/parties/1/users/1")
@@ -209,7 +209,7 @@ public class PartyControllerTest {
     }
 
     @Test
-    public void quitParty() throws Exception {
+    public void quitParty_success() throws Exception {
         doNothing().when(partyService).quitParty(Mockito.any(), Mockito.any());
 
         MockHttpServletRequestBuilder putRequest = put("/parties/quitting/1/users/1")
