@@ -190,4 +190,5 @@ public class PartyServiceTest {
         partyAttendantsList1.add("testUsername");
         assertEquals(testParty.getPartyAttendantsList(), partyAttendantsList1);
     }
+
 }

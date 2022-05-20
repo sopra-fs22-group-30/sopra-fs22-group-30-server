@@ -1,13 +1,20 @@
 package ch.uzh.ifi.hase.soprafs22.rest.mapper;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
+import ch.uzh.ifi.hase.soprafs22.entity.Party;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.ingredient.IngredientGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.ingredient.IngredientPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyGetDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyPostDTO;
+import ch.uzh.ifi.hase.soprafs22.rest.dto.party.PartyPutDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.user.UserPutDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.TestPropertySource;
+
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -89,6 +96,47 @@ public class DTOMapperTest {
         assertEquals(ingredientPostDTO.getIngredientId(), ingredient.getIngredientId());
         assertEquals(ingredientPostDTO.getName(), ingredient.getName());
         assertEquals(ingredientPostDTO.getAmount(), ingredient.getAmount());
+    }
+
+    @Test
+    public void test_convertPartyPostDTOtoEntity() {
+
+        PartyPostDTO partyPostDTO = new PartyPostDTO();
+        partyPostDTO.setPartyName("test party");
+        partyPostDTO.setPartyIntro("have fun");
+
+        Party party = DTOMapper.INSTANCE.convertPartyPostDTOtoEntity(partyPostDTO);
+
+        assertEquals(partyPostDTO.getPartyName(), party.getPartyName());
+        assertEquals(partyPostDTO.getPartyIntro(), party.getPartyIntro());
+    }
+
+    @Test
+    public void test_convertEntityToPartyGetDTO() {
+
+        Party party = new Party();
+        party.setPartyName("test party");
+        party.setPartyIntro("have fun");
+
+        PartyGetDTO partyGetDTO = DTOMapper.INSTANCE.convertEntityToPartyGetDTO(party);
+
+        assertEquals(partyGetDTO.getPartyName(), party.getPartyName());
+        assertEquals(partyGetDTO.getPartyIntro(), party.getPartyIntro());
+    }
+
+    @Test
+    public void test_convertPartyPutDTOtoEntity() {
+
+        PartyPutDTO partyPutDTO = new PartyPutDTO();
+        partyPutDTO.setPartyIntro("have fun");
+        partyPutDTO.setPlace("zurich");
+        partyPutDTO.setTime(new Date());
+
+        Party party = DTOMapper.INSTANCE.convertPartyPutDTOtoEntity(partyPutDTO);
+
+        assertEquals(party.getPartyIntro(), partyPutDTO.getPartyIntro());
+        assertEquals(party.getPlace(), partyPutDTO.getPlace());
+        assertEquals(party.getTime(), partyPutDTO.getTime());
     }
 }
 
