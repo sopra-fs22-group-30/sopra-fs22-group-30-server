@@ -60,16 +60,21 @@ public class RecipeService {
             ingredientRepository.flush();
         }
 
-        User author = userService.getUserById(newRecipe.getAuthorId());
-        List<String> likedUser = new ArrayList<>();
-        likedUser.add(author.getUsername());
-        newRecipe.setLikedUser(likedUser);
-        //add recipe from userLikeList
-        List<Recipe> likedRecipe = new ArrayList<>();
-        likedRecipe.add(newRecipe);
-        author.setLikeList(likedRecipe);
+        Optional<User> author = userRepository.findById(newRecipe.getAuthorId());
+//        User author = userService.getUserById(newRecipe.getAuthorId());
+        if (author.isPresent()) {
+            List<String> likedUser = new ArrayList<>();
+            likedUser.add(author.get().getUsername());
+            newRecipe.setLikedUser(likedUser);
 
-        userRepository.saveAndFlush(author);
+            List<Recipe> likedRecipe = author.get().getLikeList();
+            likedRecipe.add(newRecipe);
+            author.get().setLikeList(likedRecipe);
+
+            userRepository.saveAndFlush(author.get());
+        }
+
+
         recipeRepository.saveAndFlush(newRecipe);
 
 
