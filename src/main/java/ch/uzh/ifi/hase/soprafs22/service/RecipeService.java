@@ -228,15 +228,4 @@ public class RecipeService {
         }
     }
 
-    // find recipes by filter
-    public List<Recipe> getRecipesByFilter(Cuisine filter) {
-        List<Recipe> recipesByFilter = new ArrayList<>();
-        for (Recipe recipe : recipeRepository.findAll()) {
-            if (recipe.getCuisine().equals(filter)) {
-                recipesByFilter.add(recipe);
-            }
-        }
-        return recipesByFilter;
-    }
-
 }

@@ -23,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -145,6 +146,28 @@ public class PartyControllerTest {
     }
 
     @Test
+    public void getPartiesAUserIsIn() throws Exception {
+        // given
+        Party party = new Party();
+        party.setPartyId(1L);
+        party.setPartyName("testName");
+
+        List<Party> parties = new ArrayList<>();
+        parties.add(party);
+
+        PartyGetDTO partyGetDTO = new PartyGetDTO();
+
+        Mockito.when(partyService.getPartiesAUserIsIn(Mockito.any())).thenReturn(parties);
+
+        MockHttpServletRequestBuilder getRequest = get("/users/parties/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(partyGetDTO));
+
+        mockMvc.perform(getRequest)
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void editParty() throws Exception {
         Party oldParty = new Party();
         oldParty.setPartyId(1L);
@@ -169,6 +192,28 @@ public class PartyControllerTest {
         MockHttpServletRequestBuilder putRequest = put("/users/1/parties/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(partyPutDTO));
+
+        mockMvc.perform(putRequest)
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void deleteParty() throws Exception {
+        doNothing().when(partyService).deleteParty(Mockito.any(),Mockito.any());
+
+        MockHttpServletRequestBuilder deleteRequest = delete("/parties/1/users/1")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(deleteRequest)
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void quitParty() throws Exception {
+        doNothing().when(partyService).quitParty(Mockito.any(), Mockito.any());
+
+        MockHttpServletRequestBuilder putRequest = put("/parties/quitting/1/users/1")
+                .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(putRequest)
                 .andExpect(status().isNoContent());
