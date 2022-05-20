@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -189,6 +190,29 @@ public class PartyServiceTest {
         List<String> partyAttendantsList1 = new ArrayList<>();
         partyAttendantsList1.add("testUsername");
         assertEquals(testParty.getPartyAttendantsList(), partyAttendantsList1);
+    }
+
+    @Test
+    public void findNewAttendantsAdded() {
+        User newUser = new User();
+        newUser.setId(2L);
+        newUser.setUsername("newUser");
+        newUser.setPassword("111");
+
+        Party testParty1 = new Party();
+        testParty1.setPartyId(1L);
+        testParty1.setPartyName("testPartyName");
+        List<String> partyAttendantsList1 = new ArrayList<>();
+        partyAttendantsList1.add("newUser");
+        testParty1.setPartyAttendantsList(partyAttendantsList1);
+
+        Mockito.when(partyRepository.findById(Mockito.any())).thenReturn(Optional.ofNullable(testParty));
+        Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(newUser);
+
+        List<Long> testList;
+        testList = partyService.findNewAttendantsAdded(testParty.getPartyId(), testParty1);
+
+        assertEquals(testList.get(0), 2L);
     }
 
 }
