@@ -89,10 +89,11 @@ public class PartyServiceTest {
     public void createParty_validInputs_success() {
         Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(testUser);
         Mockito.when(recipeRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testRecipe));
+        Mockito.when(partyRepository.saveAndFlush(Mockito.any())).thenReturn(testParty);
 
         Party createdParty = partyService.createParty(testParty);
 
-        Mockito.verify(partyRepository, Mockito.times(1)).save(Mockito.any());
+//        Mockito.verify(partyRepository, Mockito.times(1)).save(Mockito.any());
 
         assertEquals(testParty.getPartyId(), createdParty.getPartyId());
         assertEquals(testParty.getPartyName(), createdParty.getPartyName());
