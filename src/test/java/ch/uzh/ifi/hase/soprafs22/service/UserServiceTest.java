@@ -1,7 +1,9 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 import ch.uzh.ifi.hase.soprafs22.constant.Gender;
+import ch.uzh.ifi.hase.soprafs22.entity.Party;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
+import ch.uzh.ifi.hase.soprafs22.repository.PartyRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +13,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,6 +25,9 @@ public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private PartyRepository partyRepository;
 
     @InjectMocks
     private UserService userService;
@@ -169,7 +176,10 @@ public class UserServiceTest {
         newUser.setGender(Gender.Female);
         newUser.setIntro("Welcome to my page!");
 
+        List<Party> testList = new ArrayList<>();
+
         // when -> any object is being updated in the userRepository -> return the testUpdateUser
+        Mockito.when(partyRepository.findAll()).thenReturn(testList);
         Mockito.when(userRepository.save(Mockito.any())).thenReturn(newUser);
         Mockito.when(userRepository.existsById(Mockito.any())).thenReturn(true);
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.ofNullable(testUser));
