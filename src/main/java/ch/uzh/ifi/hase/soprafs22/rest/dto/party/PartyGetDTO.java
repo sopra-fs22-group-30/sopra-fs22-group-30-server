@@ -2,6 +2,8 @@ package ch.uzh.ifi.hase.soprafs22.rest.dto.party;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.persistence.Column;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +17,8 @@ public class PartyGetDTO {
     private String partyIntro;
 
     private String place;
+
+    private String recipeUsedName;
 
     @JsonFormat(pattern = "dd.MM.yyyy", locale = "de_CH")
     private Date time;
@@ -96,6 +100,13 @@ public class PartyGetDTO {
         this.recipeUsedId = recipeUsedId;
     }
 
+    public String getRecipeUsedName() {
+        return recipeUsedName;
+    }
+
+    public void setRecipeUsedName(String recipeUsedId) {
+        this.recipeUsedName = recipeUsedName;
+    }
 
     public List<Ingredient> getIngredients() {
         return ingredients;

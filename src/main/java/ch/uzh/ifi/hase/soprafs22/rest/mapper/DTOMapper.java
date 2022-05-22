@@ -130,6 +130,7 @@ public interface DTOMapper {
   @Mapping(source = "creationDate", target = "creationDate")
   @Mapping(source = "ingredients", target = "ingredients")
   @Mapping(source = "recipeUsedId", target = "recipeUsedId")
+  @Mapping(source = "recipeUsedName", target = "recipeUsedName")
   @Mapping(source = "partyAttendantsList", target = "partyAttendantsList")
   @Mapping(source = "partyAttendantsNum", target = "partyAttendantsNum")
   PartyGetDTO convertEntityToPartyGetDTO(Party party);

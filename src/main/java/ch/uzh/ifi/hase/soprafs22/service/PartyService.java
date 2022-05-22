@@ -45,7 +45,11 @@ public class PartyService {
 
     // create new party
     public Party createParty(Party newParty) {
+        //set creationDate
         newParty.setCreationDate(new Date());
+        //set recipeUsedName
+        String recipeUserName = recipeRepository.findById(newParty.getRecipeUsedId()).get().getRecipeName();
+        newParty.setRecipeUsedName(recipeUserName);
         for (String username: newParty.getPartyAttendantsList()) {
             User checkUser = userRepository.findByUsername(username);
             if (checkUser == null) {
@@ -61,9 +65,7 @@ public class PartyService {
         int size = newParty.getPartyAttendantsList().size();
         newParty.setPartyAttendantsNum(size);
 
-
-
-        newParty=partyRepository.save(newParty);
+        newParty=partyRepository.saveAndFlush(newParty);
 
         for(String username: newParty.getPartyAttendantsList()) {
             User attendant = userRepository.findByUsername(username);
@@ -77,7 +79,6 @@ public class PartyService {
             Ingredient ingredientCopied = new Ingredient();
             ingredientCopied.setName(ingredient.getName());
             ingredientCopied.setAmount(ingredient.getAmount());
-            ingredientCopied.setRecipeId(ingredient.getRecipeId());
             ingredientCopied.setPartyId(newParty.getPartyId());
             ingredientCopied.setRecipeId(null);
             ingredientList.add(ingredientCopied);
@@ -142,23 +143,32 @@ public class PartyService {
         partyToUpdate.get().setPlace(newParty.getPlace());
         partyToUpdate.get().setTime(newParty.getTime());
         partyToUpdate.get().setPartyName(newParty.getPartyName());
+        // check whether the attendants list is changed
         if (partyToUpdate.get().getPartyAttendantsList() != newParty.getPartyAttendantsList()) {
             Integer newSize = newParty.getPartyAttendantsList().size();
             partyToUpdate.get().setPartyAttendantsNum(newSize);
+            // for those attendants in the old version
             for (String username : partyToUpdate.get().getPartyAttendantsList()) {
                 User attendant = userRepository.findByUsername(username);
+                // if they are not added to the new version
                 if (!newParty.getPartyAttendantsList().contains(username)) {
-                    attendant.deleteJoinParties(partyToUpdate.get().getPartyId());
+                    attendant.deleteJoinParties(partyId);
                     userRepository.saveAndFlush(attendant);
+                    //if this user is not attending anymore, his/her ingredients will be set to null
                     for (Ingredient ingredients : partyToUpdate.get().getIngredients()) {
-                        if (ingredients.getTakerName().equals(username)) {
-                            ingredients.setTakerId(null);
-                            ingredients.setTakerName(null);
-                            ingredientRepository.saveAndFlush(ingredients);
+                        String originalTaker = ingredients.getTakerName();
+                        if ( originalTaker!= null){
+                            if (originalTaker.equals(username)) {
+                                ingredients.setTakerId(null);
+                                ingredients.setTakerName(null);
+                                ingredientRepository.saveAndFlush(ingredients);
+                            }
                         }
+
                     }
                 }
             }
+            // for those who are newly added to the party
             for (String username : newParty.getPartyAttendantsList()) {
                 User attendant = userRepository.findByUsername(username);
                 if (!attendant.getJoinParties().contains(partyToUpdate.get().getPartyId())) {

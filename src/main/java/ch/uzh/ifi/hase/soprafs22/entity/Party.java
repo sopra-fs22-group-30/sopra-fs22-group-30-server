@@ -38,6 +38,8 @@ public class Party implements Serializable {
     @Column(nullable = false)
     private Long recipeUsedId;
 
+    @Column(nullable = false)
+    private String recipeUsedName;
 
     @Column
     @OneToMany(mappedBy = "partyId", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
@@ -116,6 +118,14 @@ public class Party implements Serializable {
         this.recipeUsedId = recipeUsedId;
     }
 
+
+    public String getRecipeUsedName() {
+        return recipeUsedName;
+    }
+
+    public void setRecipeUsedName(String recipeUsedName) {
+        this.recipeUsedName = recipeUsedName;
+    }
 
 
     public List<Ingredient> getIngredients() {

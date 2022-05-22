@@ -42,7 +42,6 @@ public class ChecklistService {
         if (checkedIngredient.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ingredient not found!");
         }
-        String ingredientName = checkedIngredient.get().getName();
 
         //set the taker of the ingredient in a certain party
         checkedIngredient.get().setTakerId(takerId);
