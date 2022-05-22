@@ -104,7 +104,7 @@ public class PartyGetDTO {
         return recipeUsedName;
     }
 
-    public void setRecipeUsedName(String recipeUsedId) {
+    public void setRecipeUsedName(String recipeUsedName) {
         this.recipeUsedName = recipeUsedName;
     }
 

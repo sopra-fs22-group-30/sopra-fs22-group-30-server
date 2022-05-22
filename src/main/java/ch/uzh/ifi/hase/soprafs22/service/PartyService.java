@@ -48,8 +48,8 @@ public class PartyService {
         //set creationDate
         newParty.setCreationDate(new Date());
         //set recipeUsedName
-        String recipeUserName = recipeRepository.findById(newParty.getRecipeUsedId()).get().getRecipeName();
-        newParty.setRecipeUsedName(recipeUserName);
+        String recipeUsedName = recipeRepository.findById(newParty.getRecipeUsedId()).get().getRecipeName();
+        newParty.setRecipeUsedName(recipeUsedName);
         for (String username: newParty.getPartyAttendantsList()) {
             User checkUser = userRepository.findByUsername(username);
             if (checkUser == null) {

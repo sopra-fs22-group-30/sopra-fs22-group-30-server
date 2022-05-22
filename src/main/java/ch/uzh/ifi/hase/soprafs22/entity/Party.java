@@ -38,7 +38,7 @@ public class Party implements Serializable {
     @Column(nullable = false)
     private Long recipeUsedId;
 
-    @Column(nullable = false)
+    @Column
     private String recipeUsedName;
 
     @Column
