@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
+import ch.uzh.ifi.hase.soprafs22.entity.Party;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
+import ch.uzh.ifi.hase.soprafs22.repository.PartyRepository;
 import ch.uzh.ifi.hase.soprafs22.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +33,12 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final PartyRepository partyRepository;
+
     @Autowired
-    public UserService(@Qualifier("userRepository") UserRepository userRepository) {
+    public UserService(@Qualifier("userRepository") UserRepository userRepository, @Qualifier("partyRepository") PartyRepository partyRepository) {
         this.userRepository = userRepository;
+        this.partyRepository = partyRepository;
     }
 
     public List<User> getUsers() {
@@ -119,11 +124,19 @@ public class UserService {
             user.setIntro(userInput.getIntro());
             user.setProfilePictureLocation(userInput.getProfilePictureLocation());
         } else if (userRepository.findByUsername(userInput.getUsername()) == null) {
+            for (Party party : partyRepository.findAll()) {
+                if (party.getPartyAttendantsList().contains(user.getUsername())) {
+                    party.getPartyAttendantsList().remove(user.getUsername());
+                    party.getPartyAttendantsList().add(userInput.getUsername());
+                    partyRepository.saveAndFlush(party);
+                }
+            }
             userToBeUpdated.setUsername(userInput.getUsername());
             userToBeUpdated.setBirthday(userInput.getBirthday());
             user.setGender(userInput.getGender());
             user.setIntro(userInput.getIntro());
             user.setProfilePictureLocation(userInput.getProfilePictureLocation());
+
         } else {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "new username already exists");
         }
