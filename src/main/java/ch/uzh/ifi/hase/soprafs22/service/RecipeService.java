@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs22.service;
 
 
-import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import ch.uzh.ifi.hase.soprafs22.entity.User;
@@ -12,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,14 +28,11 @@ public class RecipeService {
 
     private final UserRepository userRepository;
 
-    private final UserService userService;
-
     @Autowired
-    public RecipeService(@Qualifier("recipeRepository") RecipeRepository recipeRepository, @Qualifier("ingredientRepository") IngredientRepository ingredientRepository, @Qualifier("userRepository") UserRepository userRepository, @Lazy UserService userService) {
+    public RecipeService(@Qualifier("recipeRepository") RecipeRepository recipeRepository, @Qualifier("ingredientRepository") IngredientRepository ingredientRepository, @Qualifier("userRepository") UserRepository userRepository) {
         this.recipeRepository = recipeRepository;
         this.ingredientRepository = ingredientRepository;
         this.userRepository = userRepository;
-        this.userService = userService;
     }
 
     public List<Recipe> getRecipes() {

@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.websocket.dtoWS;
 
-import java.util.List;
 
 public class InvitationNotificationDTO {
     private Long partyId;

@@ -59,7 +59,8 @@ public class ChecklistService {
             checklistGetDTO.setPartyId(ingredient.getPartyId());
             checklistGetDTO.setIngredientId(ingredient.getIngredientId());
             checklistGetDTO.setIngredientName(ingredient.getName());
-            checklistGetDTO.setTaker(userRepository.findById(ingredient.getTakerId()).get().getUsername());
+            Optional<User> user = userRepository.findById(ingredient.getTakerId());
+            user.ifPresent(value -> checklistGetDTO.setTaker(value.getUsername()));
             checklist.add(checklistGetDTO);
         }
         return checklist;

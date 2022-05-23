@@ -48,8 +48,11 @@ public class PartyService {
         //set creationDate
         newParty.setCreationDate(new Date());
         //set recipeUsedName
-        String recipeUsedName = recipeRepository.findById(newParty.getRecipeUsedId()).get().getRecipeName();
-        newParty.setRecipeUsedName(recipeUsedName);
+        Optional<Recipe> recipeUsed = recipeRepository.findById(newParty.getRecipeUsedId());
+        if (recipeUsed.isPresent()) {
+            newParty.setRecipeUsedName(recipeUsed.get().getRecipeName());
+        }
+
         for (String username: newParty.getPartyAttendantsList()) {
             User checkUser = userRepository.findByUsername(username);
             if (checkUser == null) {
@@ -110,15 +113,18 @@ public class PartyService {
         //initialize object
         List<Long> newAttendants = new ArrayList<>();
         //find old list of attendants
-        List<String> oldPartyAttendantsList = partyRepository.findById(partyId).get().getPartyAttendantsList();
-        //check new list of attendants
-        List<String> newPartyAttendantsList = partyToUpdate.getPartyAttendantsList();
-        //if user is newly added. find his or her userId and add it to the list
-        for (String username: newPartyAttendantsList){
-            if (!oldPartyAttendantsList.contains(username)){
-                newAttendants.add(userRepository.findByUsername(username).getId());
+        Optional<Party> party = partyRepository.findById(partyId);
+        if (party.isPresent()) {
+            List<String> oldPartyAttendantsList = party.get().getPartyAttendantsList();
+            List<String> newPartyAttendantsList = partyToUpdate.getPartyAttendantsList();
+            //if user is newly added. find his or her userId and add it to the list
+            for (String username: newPartyAttendantsList){
+                if (!oldPartyAttendantsList.contains(username)){
+                    newAttendants.add(userRepository.findByUsername(username).getId());
+                }
             }
         }
+
         return newAttendants;
     }
 
@@ -130,8 +136,10 @@ public class PartyService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party may not exist!!");
         }
         Optional<User> userToCheck = userRepository.findById(userId);
-        if (!userId.equals(partyToGet.get().getPartyHostId()) && !userToCheck.get().getJoinParties().contains(partyToGet.get().getPartyId()) ){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not in this party");
+        if (userToCheck.isPresent()) {
+            if (!userId.equals(partyToGet.get().getPartyHostId()) && !userToCheck.get().getJoinParties().contains(partyToGet.get().getPartyId()) ) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not in this party");
+            }
         }
         return partyToGet.get();
     }
@@ -139,50 +147,57 @@ public class PartyService {
     // edit party
     public Party editParty(Long partyId, Party newParty) {
         Optional<Party> partyToUpdate = partyRepository.findById(partyId);
-        partyToUpdate.get().setPartyIntro(newParty.getPartyIntro());
-        partyToUpdate.get().setPlace(newParty.getPlace());
-        partyToUpdate.get().setTime(newParty.getTime());
-        partyToUpdate.get().setPartyName(newParty.getPartyName());
-        // check whether the attendants list is changed
-        if (partyToUpdate.get().getPartyAttendantsList() != newParty.getPartyAttendantsList()) {
-            Integer newSize = newParty.getPartyAttendantsList().size();
-            partyToUpdate.get().setPartyAttendantsNum(newSize);
-            // for those attendants in the old version
-            for (String username : partyToUpdate.get().getPartyAttendantsList()) {
-                User attendant = userRepository.findByUsername(username);
-                // if they are not added to the new version
-                if (!newParty.getPartyAttendantsList().contains(username)) {
-                    attendant.deleteJoinParties(partyId);
-                    userRepository.saveAndFlush(attendant);
-                    //if this user is not attending anymore, his/her ingredients will be set to null
-                    for (Ingredient ingredients : partyToUpdate.get().getIngredients()) {
-                        String originalTaker = ingredients.getTakerName();
-                        if ( originalTaker!= null){
-                            if (originalTaker.equals(username)) {
-                                ingredients.setTakerId(null);
-                                ingredients.setTakerName(null);
-                                ingredientRepository.saveAndFlush(ingredients);
-                            }
-                        }
+        if (partyToUpdate.isPresent()) {
+            partyToUpdate.get().setPartyIntro(newParty.getPartyIntro());
+            partyToUpdate.get().setPlace(newParty.getPlace());
+            partyToUpdate.get().setTime(newParty.getTime());
+            partyToUpdate.get().setPartyName(newParty.getPartyName());
 
+            // check whether the attendants list is changed
+            if (partyToUpdate.get().getPartyAttendantsList() != newParty.getPartyAttendantsList()) {
+                Integer newSize = newParty.getPartyAttendantsList().size();
+                partyToUpdate.get().setPartyAttendantsNum(newSize);
+                // for those attendants in the old version
+                for (String username : partyToUpdate.get().getPartyAttendantsList()) {
+                    User attendant = userRepository.findByUsername(username);
+                    // if they are not added to the new version
+                    if (!newParty.getPartyAttendantsList().contains(username)) {
+                        attendant.deleteJoinParties(partyId);
+                        userRepository.saveAndFlush(attendant);
+                        //if this user is not attending anymore, his/her ingredients will be set to null
+                        for (Ingredient ingredients : partyToUpdate.get().getIngredients()) {
+                            String originalTaker = ingredients.getTakerName();
+                            if ( originalTaker!= null){
+                                if (originalTaker.equals(username)) {
+                                    ingredients.setTakerId(null);
+                                    ingredients.setTakerName(null);
+                                    ingredientRepository.saveAndFlush(ingredients);
+                                }
+                            }
+
+                        }
                     }
                 }
-            }
-            // for those who are newly added to the party
-            for (String username : newParty.getPartyAttendantsList()) {
-                User attendant = userRepository.findByUsername(username);
-                if (!attendant.getJoinParties().contains(partyToUpdate.get().getPartyId())) {
-                    attendant.addJoinParties(partyToUpdate.get().getPartyId());
-                    userRepository.saveAndFlush(attendant);
+                // for those who are newly added to the party
+                for (String username : newParty.getPartyAttendantsList()) {
+                    User attendant = userRepository.findByUsername(username);
+                    if (!attendant.getJoinParties().contains(partyToUpdate.get().getPartyId())) {
+                        attendant.addJoinParties(partyToUpdate.get().getPartyId());
+                        userRepository.saveAndFlush(attendant);
+                    }
                 }
+                partyToUpdate.get().setPartyAttendantsList(newParty.getPartyAttendantsList());
+
+
+
+                partyRepository.saveAndFlush(partyToUpdate.get());
+
             }
-            partyToUpdate.get().setPartyAttendantsList(newParty.getPartyAttendantsList());
-
-
-
-            partyRepository.saveAndFlush(partyToUpdate.get());
 
         }
+
+
+
         return newParty;
     }
 

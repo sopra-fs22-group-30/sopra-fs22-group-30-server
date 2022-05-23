@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs22.controller;
 
-import ch.uzh.ifi.hase.soprafs22.constant.Cuisine;
 import ch.uzh.ifi.hase.soprafs22.entity.Recipe;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipeGetDTO;
 import ch.uzh.ifi.hase.soprafs22.rest.dto.recipe.RecipePostDTO;

@@ -2,8 +2,6 @@ package ch.uzh.ifi.hase.soprafs22.rest.dto.party;
 
 import ch.uzh.ifi.hase.soprafs22.entity.Ingredient;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.persistence.Column;
 import java.util.Date;
 import java.util.List;
 
