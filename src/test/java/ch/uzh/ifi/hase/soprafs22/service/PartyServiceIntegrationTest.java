@@ -152,4 +152,6 @@ public class PartyServiceIntegrationTest {
 
         assertThrows(ResponseStatusException.class, () -> partyService.getPartyById(createdUser.getId(), id));
     }
+
+    //complete all the test
 }
