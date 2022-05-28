@@ -1,7 +1,7 @@
 # SoPra FS22 - Group 30 - Cookever (Server)
 
 ## Introduction
-
+Our project is a website which enables users to share the recipes they created and organize parties. To utilize our website, users need to register first. A registered user can browse all the recipes on the home page, and create their own recipes. And the other major function of our website is party organisation. Users can create parties and invite other users to join their parties, moreover, the host of the party can import one recipe into the party, and every participant of the party can use our real-time ingredients checklist on the party page to manage who is going to bring what ingredients.
 ## Technologies
 * React
 * MUI
