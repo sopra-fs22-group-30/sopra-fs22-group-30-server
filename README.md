@@ -88,6 +88,28 @@ Change to the deployment settings of the server [here](.github/workflows/deploy.
 
 ## Illustrations
 
+Based on the three major entities in our application: users, recipes, and parties, we designed
+a backend server with three controllers and three services. These three controllers use their
+corresponding services to handle the requests from clients concerning the three entities
+respectively and each of the services has its own repository that implements the
+JpaRepository. There is coordination among the three services as well. For example, when
+we create a new post of a recipe, we would call both the UserService(to add a recipeId to
+the author’s user data) and RecipeService(to add a new entry).
+
+![cookever_class_diagram drawio](https://user-images.githubusercontent.com/49683560/170866733-c75acb38-7ab2-4a64-8b19-8f2bb2be0a84.png)
+
+
+The following component diagram shows the relationships among the three major components and
+some important (sub)components inside them. In the client component, it is shown that what
+changes in the frontend are sent to which controller in the backend. In the server
+component, it is shown how the three sets of controller, service, and repository coordinate
+with each other. Notably, we planned to use to external API, one is the google drive API to
+store the pictures in the application and the WebSocket Asynic API to upgrade the HTTP
+request to WebSocket to enable real-time editing.
+
+![cookever_component drawio](https://user-images.githubusercontent.com/49683560/170866609-34d75ef7-ad67-4e67-a9b1-b017d6020989.png)
+
+
 ## Roadmap
 - Add comments on recipes:<br/>
   Users can comment on a recipe, posting their thoughts on the recipe.
