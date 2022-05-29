@@ -88,7 +88,7 @@ JpaRepository. There is coordination among the three services as well. For examp
 we create a new post of a recipe, we would call both the UserService(to add a recipeId to
 the author’s user data) and RecipeService(to add a new entry).
 
-![cookever_class_diagram drawio](https://user-images.githubusercontent.com/49683560/170866733-c75acb38-7ab2-4a64-8b19-8f2bb2be0a84.png
+![cookever_class_diagram drawio](https://user-images.githubusercontent.com/49683560/170866733-c75acb38-7ab2-4a64-8b19-8f2bb2be0a84.png)
 
 
 The following component diagram shows the relationships among the three major components and
